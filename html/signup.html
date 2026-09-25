@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stackly — Open a Client Account</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<link rel="stylesheet" href="../css/signup.css">
+<script>
+  /* hide the animated parts before first paint; released by the load timeline */
+  document.documentElement.classList.add('pre');
+  setTimeout(function(){
+    if(typeof gsap === 'undefined'){ document.documentElement.classList.remove('pre'); }
+  }, 1500);
+</script>
+</head>
+<body>
+
+<!-- ============ PORTAL (single centred column) ============ -->
+<main class="portal">
+
+  <!-- background layers -->
+  <div class="chamber" aria-hidden="true">
+    <div class="chamber-glow"></div>
+    <div class="chamber-rows"></div>
+    <svg class="chamber-net" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+      <g class="net-links">
+        <path d="M80 720 C300 600 420 760 640 640"/>
+        <path d="M640 640 C820 540 900 300 1120 260"/>
+        <path d="M1120 260 C1250 230 1330 120 1440 90"/>
+        <path d="M0 260 C180 220 260 360 460 300"/>
+        <path d="M460 300 C620 250 700 120 900 110"/>
+        <path d="M900 110 C1040 100 1100 180 1300 150"/>
+        <path d="M640 640 C820 760 900 840 1040 820"/>
+        <path d="M1040 820 C1180 790 1260 700 1440 640"/>
+      </g>
+      <g class="net-pulses">
+        <path pathLength="100" d="M80 720 C300 600 420 760 640 640" style="animation-delay:-1s"/>
+        <path pathLength="100" d="M640 640 C820 540 900 300 1120 260" style="animation-delay:-3s;animation-duration:9s"/>
+        <path pathLength="100" class="alt" d="M0 260 C180 220 260 360 460 300" style="animation-delay:-5s"/>
+        <path pathLength="100" d="M460 300 C620 250 700 120 900 110" style="animation-delay:-2s;animation-duration:10s"/>
+        <path pathLength="100" class="alt" d="M1040 820 C1180 790 1260 700 1440 640" style="animation-delay:-6s"/>
+        <path pathLength="100" d="M900 110 C1040 100 1100 180 1300 150" style="animation-delay:-4s"/>
+      </g>
+      <g class="net-nodes">
+        <circle cx="80" cy="720" r="3.5"/><circle cx="640" cy="640" r="3.5"/><circle cx="1120" cy="260" r="3.5"/>
+        <circle cx="460" cy="300" r="3.5"/><circle cx="900" cy="110" r="3.5"/><circle cx="1300" cy="150" r="3.5"/>
+        <circle cx="1040" cy="820" r="3.5"/>
+      </g>
+    </svg>
+    <div class="chamber-vignette"></div>
+  </div>
+
+  <!-- document frame rules -->
+  <div class="rule rule-t" id="ruleT" aria-hidden="true"></div>
+  <div class="rule rule-b" id="ruleB" aria-hidden="true"></div>
+  <div class="rule rule-l" id="ruleL" aria-hidden="true"></div>
+  <div class="rule rule-r" id="ruleR" aria-hidden="true"></div>
+
+  <!-- back to home -->
+  <a href="index.html" class="back-home" id="backHome">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M11 18l-6-6 6-6"/></svg>
+    <span>Back to home</span>
+  </a>
+
+  <div class="portal-col">
+
+    <!-- brand, above the document -->
+    <a href="index.html#hero" class="portal-logo" id="portalLogo">
+      <img src="../assets/Logo.webp" alt="Stackly" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'">
+      <span class="portal-word" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 4.5-9 4.5-9-4.5Z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/></svg>
+        STACKLY
+      </span>
+    </a>
+
+    <div class="deed-shell">
+
+      <div class="deed" id="deed">
+
+        <span class="deed-progress" aria-hidden="true"><span class="deed-progress-fill" id="deedProgress"></span></span>
+
+        <p class="kicker" id="kicker">New client account</p>
+
+        <h1 class="deed-head" id="deedHead">
+          <span class="l"><i>Open your account</i></span>
+          <span class="l l-hl"><i>with Stackly.</i></span>
+        </h1>
+
+        <p class="deed-sub" id="deedSub">Set up your first workspace and your live operations dashboard is ready before the onboarding call. Already registered? <a href="login.html">Sign in</a>.</p>
+
+        <div class="role-toggle" id="roleToggle" data-role="user">
+          <span class="role-ind" id="roleInd"></span>
+          <button type="button" class="role-btn active" data-role-value="user">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c1.5-4 5-6 7.5-6s6 2 7.5 6"/></svg>
+            User sign up
+          </button>
+          <button type="button" class="role-btn" data-role-value="admin">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/></svg>
+            Admin sign up
+          </button>
+        </div>
+
+        <p class="role-note" id="roleNote">A user account holds your own tickets, queues and reports.</p>
+
+        <form class="deed-form" id="signupPageForm" novalidate>
+
+          <div class="form-row">
+            <div class="field">
+              <label class="field-label" for="su-first-name">First name</label>
+              <div class="field-input-wrap" id="su-first-name-wrap">
+                <input type="text" id="su-first-name" placeholder="Jordan" autocomplete="given-name">
+                <span class="field-rule"></span>
+              </div>
+              <span class="field-error" id="su-first-name-error">Letters only, please.</span>
+            </div>
+            <div class="field">
+              <label class="field-label" for="su-last-name">Last name</label>
+              <div class="field-input-wrap" id="su-last-name-wrap">
+                <input type="text" id="su-last-name" placeholder="Reyes" autocomplete="family-name">
+                <span class="field-rule"></span>
+              </div>
+              <span class="field-error" id="su-last-name-error">Letters only, please.</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="su-work-email">Work email</label>
+            <div class="field-input-wrap" id="su-email-wrap">
+              <input type="email" id="su-work-email" placeholder="name@company.com" autocomplete="email">
+              <span class="field-rule"></span>
+            </div>
+            <span class="field-error" id="su-email-error">Enter a valid work email address.</span>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="su-company">Company</label>
+            <div class="field-input-wrap" id="su-company-wrap">
+              <input type="text" id="su-company" placeholder="Company name" autocomplete="organization">
+              <span class="field-rule"></span>
+            </div>
+            <span class="field-error" id="su-company-error">Tell us where you work.</span>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="su-password">Password</label>
+            <div class="field-input-wrap" id="su-password-wrap">
+              <input type="password" id="su-password" placeholder="Minimum 10 characters" autocomplete="new-password">
+              <button type="button" class="field-toggle" id="suPwToggle" aria-label="Show password">
+                <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="eye-off" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0112 19c-7 0-11-7-11-7a21.6 21.6 0 015.06-6.06M9.9 4.24A10.94 10.94 0 0112 4c7 0 11 7 11 7a21.6 21.6 0 01-2.66 3.79"/><path d="M14.12 14.12a3 3 0 11-4.24-4.24"/><path d="M1 1l22 22"/></svg>
+              </button>
+              <span class="field-rule"></span>
+            </div>
+            <span class="field-error" id="su-password-error">Password must be at least 10 characters.</span>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="su-confirm-password">Confirm password</label>
+            <div class="field-input-wrap" id="su-confirm-password-wrap">
+              <input type="password" id="su-confirm-password" placeholder="Re-enter your password" autocomplete="new-password">
+              <button type="button" class="field-toggle" id="suConfirmPwToggle" aria-label="Show password">
+                <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="eye-off" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0112 19c-7 0-11-7-11-7a21.6 21.6 0 015.06-6.06M9.9 4.24A10.94 10.94 0 0112 4c7 0 11 7 11 7a21.6 21.6 0 01-2.66 3.79"/><path d="M14.12 14.12a3 3 0 11-4.24-4.24"/><path d="M1 1l22 22"/></svg>
+              </button>
+              <span class="field-rule"></span>
+            </div>
+            <span class="field-error" id="su-confirm-password-error">Passwords do not match.</span>
+          </div>
+
+          <!-- only shown for an admin account -->
+          <div class="field admin-only" id="adminCodeField" hidden>
+            <label class="field-label" for="su-admin-code">Admin authorisation code</label>
+            <div class="field-input-wrap" id="su-admin-code-wrap">
+              <input type="text" id="su-admin-code" placeholder="Issued by your account manager" autocomplete="off">
+              <span class="field-rule"></span>
+            </div>
+            <span class="field-error" id="su-admin-code-error">An authorisation code is required for an admin account.</span>
+          </div>
+
+          <div class="signup-terms-row">
+            <label class="tick tick-accept">
+              <input type="checkbox" id="su-terms">
+              <span class="tick-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+              <span>I accept the <a href="404.html">terms of service</a> and the <a href="404.html">privacy policy</a>.</span>
+            </label>
+            <span class="field-error" id="su-terms-error">Accept the terms before creating your account.</span>
+          </div>
+
+          <button type="submit" class="btn btn-primary login-submit" id="signupSubmitBtn">
+            <span class="submit-wipe" id="submitWipe"></span>
+            <span class="login-submit-label" id="signupSubmitLabel">Create my account</span>
+            <svg class="login-submit-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V6a2 2 0 0 1 2-2h7l5 5v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M13 4v5h5"/><path d="M9 14h6"/></svg>
+          </button>
+        </form>
+
+
+      </div><!-- /.deed -->
+    </div><!-- /.deed-shell -->
+  </div><!-- /.portal-col -->
+</main>
+
+<script>
+  var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* =========================================================
+     FAILSAFE — if the GSAP CDN is unreachable, stand in a tiny
+     shim that applies end states straight away, so the form,
+     the role toggle and validation all still work.
+     ========================================================= */
+  if(typeof gsap === 'undefined'){
+    (function(){
+      function each(t, fn){
+        if(!t) return;
+        if(typeof t === 'string'){ Array.prototype.forEach.call(document.querySelectorAll(t), fn); return; }
+        if(t.nodeType){ fn(t); return; }
+        if(t.length !== undefined){ Array.prototype.forEach.call(t, function(x){ each(x, fn); }); }
+      }
+      function apply(el, v){
+        if(!el || !el.style) return;
+        if(v.opacity  !== undefined) el.style.opacity = v.opacity;
+        if(v.width    !== undefined) el.style.width = (typeof v.width === 'number' ? v.width + 'px' : v.width);
+        if(v.clipPath !== undefined) el.style.clipPath = v.clipPath;
+        if(v.filter   !== undefined) el.style.filter = v.filter;
+        var tf = '';
+        if(v.x !== undefined || v.y !== undefined){ tf += ' translate(' + (v.x || 0) + 'px,' + (v.y || 0) + 'px)'; }
+        if(v.scaleX !== undefined){ tf += ' scaleX(' + v.scaleX + ')'; }
+        if(v.scaleY !== undefined){ tf += ' scaleY(' + v.scaleY + ')'; }
+        if(v.scale  !== undefined){ tf += ' scale('  + v.scale  + ')'; }
+        if(tf){ el.style.transform = tf.trim(); }
+      }
+      var stub = {
+        set:    function(t, v){ each(t, function(el){ apply(el, v); }); return stub; },
+        to:     function(t, v){
+          /* plain counter objects jump straight to their end value */
+          if(t && typeof t === 'object' && !t.nodeType && t.length === undefined){
+            for(var k in v){ if(typeof t[k] === 'number'){ t[k] = v[k]; } }
+          }
+          each(t, function(el){ apply(el, v); });
+          if(v && v.onUpdate) v.onUpdate();
+          return { kill: function(){} };
+        },
+        fromTo: function(t, f, v){ each(t, function(el){ apply(el, v); }); return { kill: function(){} }; },
+        quickTo: function(){ return function(){}; },
+        timeline: function(){
+          var o = {
+            to:     function(t, v){ stub.to(t, v); return o; },
+            fromTo: function(t, f, v){ stub.fromTo(t, f, v); return o; }
+          };
+          return o;
+        }
+      };
+      window.gsap = stub;
+    })();
+  }
+
+  /* =========================================================
+     THE ENTRANCE — one orchestrated sequence:
+     frame rules draw, the logo settles, the record unrolls,
+     then the headline is written line by line.
+     ========================================================= */
+  (function(){
+    document.documentElement.classList.remove('pre');
+    const d = REDUCED ? 0.01 : 1;
+
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    tl.fromTo(['#ruleT', '#ruleB'], { scaleX: 0 }, { scaleX: 1, duration: 1.1 * d, ease: 'expo.inOut' }, 0)
+      .fromTo(['#ruleL', '#ruleR'], { scaleY: 0 }, { scaleY: 1, duration: 1.1 * d, ease: 'expo.inOut' }, 0.1)
+      .fromTo('#backHome', { opacity: 0, x: -12 }, { opacity: 1, x: 0, duration: 0.7 * d }, 0.35)
+      .fromTo('#portalLogo', { opacity: 0, y: -14, filter: 'blur(6px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.8 * d }, 0.25)
+      .fromTo('#deed', { clipPath: 'inset(0% 0% 100% 0%)', y: -8 }, { clipPath: 'inset(0% 0% 0% 0%)', y: 0, duration: 1.05 * d, ease: 'expo.out' }, 0.45)
+      .fromTo('#kicker', { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.5 * d }, 0.9)
+      // headline is "written" left to right, one line at a time
+      .fromTo('.deed-head .l i', { clipPath: 'inset(0% 100% 0% 0%)' },
+                                 { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.85 * d, stagger: 0.16, ease: 'power2.inOut' }, 0.95)
+      .fromTo('#deedSub', { opacity: 0 }, { opacity: 1, duration: 0.6 * d }, 1.45)
+      .fromTo(['#roleToggle', '#roleNote'], { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.55 * d, stagger: 0.06 }, 1.5)
+      .fromTo('.deed-form .field:not(.admin-only), .signup-terms-row, #signupSubmitBtn',
+              { opacity: 0, y: 14, filter: 'blur(6px)' },
+              { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.55 * d, stagger: 0.06 }, 1.62);
+  })();
+
+  /* =========================================================
+     ROLE TOGGLE — User sign up / Admin sign up
+     The teal marker slides across, the note under it changes,
+     and an admin account asks for an authorisation code.
+     ========================================================= */
+  window.signupRole = 'user';
+  window.stacklySignupRole = 'user';   /* kept so existing pages still read it */
+  var setRoleForValidation = function(){};
+  (function(){
+    const toggle = document.getElementById('roleToggle');
+    const ind = document.getElementById('roleInd');
+    const note = document.getElementById('roleNote');
+    const label = document.getElementById('signupSubmitLabel');
+    const adminField = document.getElementById('adminCodeField');
+    if(!toggle) return;
+    const buttons = toggle.querySelectorAll('.role-btn');
+
+    const COPY = {
+      user:  'A user account holds your own tickets, queues and reports.',
+      admin: 'An admin account manages agents, permissions and every workspace in the organisation.'
+    };
+
+    function placeMarker(btn, animate){
+      gsap.to(ind, {
+        x: btn.offsetLeft,
+        width: btn.offsetWidth,
+        duration: animate ? 0.5 : 0,
+        ease: 'power3.out'
+      });
+    }
+    placeMarker(toggle.querySelector('.role-btn.active'), false);
+    window.addEventListener('resize', function(){
+      placeMarker(toggle.querySelector('.role-btn.active'), false);
+    });
+
+    buttons.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        if(btn.classList.contains('active')) return;
+        const role = btn.dataset.roleValue;
+        window.signupRole = role;
+        window.stacklySignupRole = role;
+        toggle.setAttribute('data-role', role);
+        buttons.forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        placeMarker(btn, !REDUCED);
+
+        note.textContent = COPY[role];
+        label.textContent = role === 'admin' ? 'Create admin account' : 'Create my account';
+
+        // the authorisation code only applies to an admin account
+        if(role === 'admin'){
+          adminField.hidden = false;
+          if(!REDUCED){
+            gsap.fromTo(adminField, { opacity: 0, y: -8 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' });
+          }
+        } else {
+          adminField.hidden = true;
+          document.getElementById('su-admin-code').value = '';
+          document.getElementById('su-admin-code-wrap').classList.remove('has-error');
+          document.getElementById('su-admin-code-error').classList.remove('is-visible');
+        }
+        setRoleForValidation(role);
+
+        if(!REDUCED){
+          gsap.fromTo([note, label], { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.35 });
+        }
+      });
+    });
+  })();
+
+  /* =========================================================
+     FIELD FOCUS — the rule under the field draws out from
+     the left while it holds focus
+     ========================================================= */
+  (function(){
+    document.querySelectorAll('.field-input-wrap input').forEach(function(input){
+      const rule = input.parentElement.querySelector('.field-rule');
+      if(!rule) return;
+      input.addEventListener('focus', function(){ gsap.to(rule, { scaleX: 1, duration: 0.45, ease: 'power3.out' }); });
+      input.addEventListener('blur', function(){ gsap.to(rule, { scaleX: 0, duration: 0.3, ease: 'power2.in' }); });
+    });
+  })();
+
+  /* =========================================================
+     PASSWORD SHOW/HIDE (Password + Confirm Password)
+     ========================================================= */
+  (function(){
+    function wireToggle(toggleId, inputId){
+      const toggle = document.getElementById(toggleId);
+      const input = document.getElementById(inputId);
+      if(!toggle || !input) return;
+      const eye = toggle.querySelector('.eye');
+      const eyeOff = toggle.querySelector('.eye-off');
+      toggle.addEventListener('click', function(){
+        const showing = input.type === 'password';
+        input.type = showing ? 'text' : 'password';
+        eye.style.display = showing ? 'none' : 'block';
+        eyeOff.style.display = showing ? 'block' : 'none';
+        toggle.setAttribute('aria-label', showing ? 'Hide password' : 'Show password');
+        gsap.fromTo(toggle, { scale: 0.82 }, { scale: 1, duration: 0.35, ease: 'back.out(2.6)' });
+      });
+    }
+    wireToggle('suPwToggle', 'su-password');
+    wireToggle('suConfirmPwToggle', 'su-confirm-password');
+  })();
+
+  /* =========================================================
+     SUBMIT BUTTON — presses in under the pointer
+     ========================================================= */
+  (function(){
+    const btn = document.getElementById('signupSubmitBtn');
+    if(!btn || REDUCED) return;
+    btn.addEventListener('pointerdown', function(){ gsap.to(btn, { scale: 0.978, duration: 0.12 }); });
+    ['pointerup','pointerleave'].forEach(function(ev){
+      btn.addEventListener(ev, function(){ gsap.to(btn, { scale: 1, duration: 0.45, ease: 'elastic.out(1,0.6)' }); });
+    });
+  })();
+
+  /* =========================================================
+     CHECKBOX POP ON CHECK
+     ========================================================= */
+  (function(){
+    const terms = document.getElementById('su-terms');
+    if(!terms) return;
+    terms.addEventListener('change', function(){
+      if(terms.checked && !REDUCED){
+        gsap.fromTo('.signup-terms-row .tick-box', { scale: .6 }, { scale: 1, duration: 0.35, ease: 'back.out(3)' });
+      }
+    });
+  })();
+
+  /* =========================================================
+     FORM VALIDATION + DEMO SUBMIT SEQUENCE
+     Names, email, company, 10-character password, matching
+     confirmation, accepted terms — plus the authorisation code
+     when an admin account is being opened. The teal bar along
+     the top of the panel tracks how much is done.
+     ========================================================= */
+  (function(){
+    const form = document.getElementById('signupPageForm');
+    if(!form) return;
+
+    const fields = {
+      'su-first-name': { wrap: 'su-first-name-wrap', error: 'su-first-name-error', type: 'name' },
+      'su-last-name': { wrap: 'su-last-name-wrap', error: 'su-last-name-error', type: 'name' },
+      'su-work-email': { wrap: 'su-email-wrap', error: 'su-email-error', type: 'email' },
+      'su-company': { wrap: 'su-company-wrap', error: 'su-company-error', type: 'required' },
+      'su-password': { wrap: 'su-password-wrap', error: 'su-password-error', type: 'password' },
+      'su-confirm-password': { wrap: 'su-confirm-password-wrap', error: 'su-confirm-password-error', type: 'confirm' },
+      'su-admin-code': { wrap: 'su-admin-code-wrap', error: 'su-admin-code-error', type: 'adminCode' }
+    };
+
+    const termsCheckbox = document.getElementById('su-terms');
+    const termsRow = document.querySelector('.signup-terms-row');
+    const termsError = document.getElementById('su-terms-error');
+    const progress = document.getElementById('deedProgress');
+    const submitBtn = document.getElementById('signupSubmitBtn');
+    const submitLabel = document.getElementById('signupSubmitLabel');
+    const wipe = document.getElementById('submitWipe');
+
+    let role = 'user';
+    setRoleForValidation = function(next){ role = next; updateProgress(); };
+
+    function activeFieldIds(){
+      return Object.keys(fields).filter(function(id){
+        return id !== 'su-admin-code' || role === 'admin';
+      });
+    }
+    function isValidEmail(v){
+      v = v.trim();
+      return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/.test(v);
+    }
+    function isValidName(v){
+      return /^[A-Za-z\s'-]{2,}$/.test(v.trim());
+    }
+    function checkValue(id, cfg){
+      const val = document.getElementById(id).value;
+      if(cfg.type === 'name') return isValidName(val);
+      if(cfg.type === 'email') return isValidEmail(val);
+      if(cfg.type === 'password') return val.length >= 10;
+      if(cfg.type === 'confirm') return val.length > 0 && val === document.getElementById('su-password').value;
+      if(cfg.type === 'adminCode') return role !== 'admin' || val.trim().length >= 4;
+      return val.trim().length > 0;
+    }
+    function nudge(el){
+      gsap.fromTo(el, { x: -4 }, { x: 0, duration: 0.5, ease: 'elastic.out(1,0.35)' });
+    }
+    function setInvalid(wrapId, errorId, show){
+      document.getElementById(wrapId).classList.toggle('has-error', show);
+      const err = document.getElementById(errorId);
+      err.classList.toggle('is-visible', show);
+      if(show) gsap.fromTo(err, { opacity: 0, y: -4 }, { opacity: 1, y: 0, duration: 0.3 });
+    }
+    function validateOne(id, cfg){
+      const ok = checkValue(id, cfg);
+      setInvalid(cfg.wrap, cfg.error, !ok);
+      return ok;
+    }
+    function updateProgress(){
+      const ids = activeFieldIds();
+      let done = 0;
+      ids.forEach(function(id){ if(checkValue(id, fields[id])) done++; });
+      if(termsCheckbox.checked) done++;
+      gsap.to(progress, { width: (done / (ids.length + 1) * 100) + '%', duration: 0.5, ease: 'power2.out' });
+    }
+
+    Object.keys(fields).forEach(function(id){
+      document.getElementById(id).addEventListener('input', function(){
+        setInvalid(fields[id].wrap, fields[id].error, false);
+        // Re-check confirm-password live if the main password changes after a confirm attempt
+        if(id === 'su-password'){
+          const confirmInput = document.getElementById('su-confirm-password');
+          if(confirmInput.value.length > 0){
+            setInvalid(fields['su-confirm-password'].wrap, fields['su-confirm-password'].error, false);
+          }
+        }
+        updateProgress();
+      });
+    });
+
+    termsCheckbox.addEventListener('change', function(){
+      if(termsCheckbox.checked) termsError.classList.remove('is-visible');
+      updateProgress();
+    });
+    updateProgress();
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      let valid = true;
+
+      activeFieldIds().forEach(function(id){
+        const cfg = fields[id];
+        if(!validateOne(id, cfg)){ nudge(document.getElementById(cfg.wrap)); valid = false; }
+      });
+      if(!termsCheckbox.checked){
+        termsError.classList.add('is-visible');
+        nudge(termsRow);
+        valid = false;
+      }
+      if(!valid) return;
+
+      submitBtn.classList.add('loading');
+      submitBtn.setAttribute('disabled', 'true');
+      submitLabel.textContent = role === 'admin' ? 'Creating your admin account…' : 'Creating your account…';
+      gsap.fromTo(wipe, { scaleX: 0 }, { scaleX: 1, duration: 1.1, ease: 'power1.inOut' });
+
+      // Demo-only: remember which kind of account was opened so the
+      // sign-in page can preselect the matching role.
+      try{
+        localStorage.setItem('signupRole', role);
+      }catch(err){}
+
+      setTimeout(function(){
+        submitLabel.textContent = 'Taking you to sign in…';
+        window.location.href = 'login.html?role=' + role;
+      }, 1200);
+    });
+  })();
+
+</script>
+</body>
+</html>

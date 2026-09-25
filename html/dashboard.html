@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Stackly — Operations Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/dashboard.css" />
+</head>
+<body>
+
+<!-- ============ HEADER (bar + tab strip) ============ -->
+<header class="head" id="topbar">
+  <div class="head-bar">
+    <div class="head-left">
+      <!-- hamburger: only below 1100px, opens the side drawer -->
+      <button class="burger" id="hamburger-btn" aria-label="Open menu" aria-expanded="false" aria-controls="sidebar">
+        <span class="burger-box">
+          <span class="burger-line l1"></span>
+          <span class="burger-line l2"></span>
+          <span class="burger-line l3"></span>
+        </span>
+      </button>
+      <button class="brand" id="brand-home-btn" aria-label="Go to overview">
+        <img class="brand-img" src="../assets/Logo.webp" alt="Stackly" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'">
+        <span class="brand-word" style="display:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 4.5-9 4.5-9-4.5Z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/></svg>
+          <b>STACKLY</b>
+        </span>
+      </button>
+      <span class="shift-badge"><span class="shift-dot"></span>Day shift · 08:00–16:00</span>
+    </div>
+
+    <div class="head-right">
+      <form class="finder" id="topbar-search" autocomplete="off" role="search">
+        <button type="submit" class="finder-go" id="finder-go" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.2-4.2"/></svg>
+        </button>
+        <input id="topbar-search-input" placeholder="Search tickets, clients, agents…">
+        <kbd class="finder-key">/</kbd>
+      </form>
+      <button class="icon-btn" id="notif-btn" aria-label="Alerts">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M18 9a6 6 0 1 0-12 0c0 5-2 6-2 6h16s-2-1-2-6"/><path d="M10.5 20a2 2 0 0 0 3 0"/></svg>
+        <span class="icon-dot"></span>
+      </button>
+      <div class="whoami" id="topbar-user">
+        <button class="whoami-btn" id="topbar-user-btn" aria-haspopup="true">
+          <span class="avatar sm" id="topbar-user-avatar">–</span>
+          <span class="whoami-text">
+            <span class="whoami-name" id="topbar-user-name">Signed out</span>
+            <span class="whoami-role" id="topbar-user-role">Operations</span>
+          </span>
+          <svg class="whoami-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="whoami-menu" id="topbar-user-menu">
+          <div class="whoami-menu-head">
+            <span>Signed in as</span>
+            <span class="whoami-menu-email" id="topbar-user-email">—</span>
+          </div>
+          <button class="whoami-item" data-nav="settings">Settings</button>
+          <button class="whoami-item danger" id="topbar-logout-btn">Sign out</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- tab strip: desktop navigation -->
+  <nav class="tabs" id="nav-tabs" aria-label="Sections"></nav>
+</header>
+
+<!-- ============ SIDE DRAWER (tablet & phone) ============ -->
+<div class="dock-scrim" id="sidebar-overlay"></div>
+<aside class="dock" id="sidebar" aria-label="Main menu" aria-hidden="true">
+  <div class="dock-head">
+    <button class="brand" data-nav="dashboard" aria-label="Go to overview">
+      <img class="brand-img" src="../assets/Logo.webp" alt="Stackly" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'">
+      <span class="brand-word" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 4.5-9 4.5-9-4.5Z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/></svg>
+        <b>STACKLY</b>
+      </span>
+    </button>
+  </div>
+
+  <div class="dock-shift">
+    <span class="shift-dot"></span>
+    <div>
+      <span class="shift-title">Day shift</span>
+      <span class="shift-sub">08:00–16:00 · 42 agents</span>
+    </div>
+  </div>
+
+  <div class="dock-scroll" id="nav-drawer"></div>
+
+  <div class="dock-foot">
+    <div class="dock-user">
+      <span class="avatar" id="sidebar-user-avatar">–</span>
+      <div class="dock-user-info">
+        <span class="dock-user-name" id="sidebar-user-name">Signed out</span>
+        <span class="dock-user-email" id="sidebar-user-email">—</span>
+      </div>
+    </div>
+    <button class="dock-signout" id="logout-btn" aria-label="Sign out">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5M15 12H3"/></svg>
+    </button>
+  </div>
+</aside>
+
+<!-- ============ PAGE ============ -->
+<main class="page">
+  <div class="page-head">
+    <div>
+      <p class="page-kicker" id="page-kicker">Operations desk</p>
+      <h1 id="page-title-text">Overview</h1>
+      <p class="page-sub" id="page-sub-text"></p>
+    </div>
+    <div class="page-actions" id="page-actions"></div>
+  </div>
+  <div class="content" id="content-area"></div>
+</main>
+
+<div class="chart-tip" id="chart-tip" role="status"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+window.scrollTo(0, 0);
+
+/* =========================================================
+   ICONS
+   ========================================================= */
+const ICONS = {
+  grid:    'M4 4h7v7H4zM13 4h7v4h-7zM13 12h7v8h-7zM4 15h7v5H4z',
+  queue:   'M4 6h16M4 12h10M4 18h7M18 14v6M15 17h6',
+  headset: 'M4 14v-2a8 8 0 0 1 16 0v2M3 13h4v6H3zM17 13h4v6h-4zM19 19c0 1.5-2 2.5-5 2.5',
+  ticket:  'M4 7a2 2 0 0 0 2-2h12a2 2 0 0 0 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 0-2 2H6a2 2 0 0 0-2-2v-3a2 2 0 0 0 0-4zM10 8v8',
+  building:'M4 21V5l8-2v18M12 8h8v13M8 8h.01M8 12h.01M8 16h.01M16 12h.01M16 16h.01M2 21h20',
+  star:    'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z',
+  cal:     'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4',
+  doc:     'M6 3h8l4 4v14H6zM14 3v4h4M9 12h6M9 16h5',
+  gear:    'M12 9.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1',
+  phone:   'M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2',
+  clock:   'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18M12 7v5l3 2',
+  gauge:   'M4 16a8 8 0 1 1 16 0M12 16l4-5M12 16h.01',
+  smile:   'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18M8.5 14.5s1.2 2 3.5 2 3.5-2 3.5-2M9 9.5h.01M15 9.5h.01',
+  alert:   'M12 4l9 16H3zM12 10v4.2M12 17.4v.4',
+  pulse:   'M3 12h4l2-6 4 12 2-6h6',
+  plus:    'M12 5v14M5 12h14',
+  download:'M12 4v11M7 10l5 5 5-5M5 20h14',
+  more:    'M5 12h.01M12 12h.01M19 12h.01',
+  chat:    'M4 5h16v11H9l-5 4z',
+  mail:    'M3 6h18v12H3zM3 7l9 6 9-6'
+};
+function ico(name, cls) {
+  return `<svg class="${cls || 'ico'}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="${ICONS[name] || ICONS.grid}"/></svg>`;
+}
+
+/* =========================================================
+   DEMO DATA — a BPO operations floor
+   ========================================================= */
+const channelMeta = {
+  "Voice":       { color: "#2ee6c8", icon: "phone" },
+  "Chat":        { color: "#5ad0ff", icon: "chat" },
+  "Email":       { color: "#a79bff", icon: "mail" },
+  "Back office": { color: "#ffb547", icon: "doc" }
+};
+
+/* ---------- Client accounts ---------- */
+const clients = [
+  { code: "NWT", name: "Northwind Telecom",   service: "Customer care & billing",  channel: "Voice",       sla: 94, target: 90, hours: 1840, used: 1512, seats: 48, manager: "Aisha Rahman" },
+  { code: "BPI", name: "Brightpath Insurance", service: "Claims processing",        channel: "Back office", sla: 88, target: 92, hours: 1200, used: 1104, seats: 26, manager: "Leo Martins" },
+  { code: "HRT", name: "Halcyon Retail",      service: "Order support",             channel: "Chat",        sla: 96, target: 90, hours: 960,  used: 612,  seats: 22, manager: "Nina Kowalski" },
+  { code: "VDH", name: "Veda Health",         service: "Patient scheduling",        channel: "Voice",       sla: 91, target: 90, hours: 1320, used: 980,  seats: 30, manager: "Samuel Osei" },
+  { code: "ORB", name: "Orbit Bank",          service: "KYC & onboarding checks",   channel: "Back office", sla: 97, target: 95, hours: 880,  used: 402,  seats: 18, manager: "Aisha Rahman" },
+  { code: "LUM", name: "Lumen Energy",        service: "Billing enquiries",         channel: "Email",       sla: 86, target: 90, hours: 720,  used: 688,  seats: 14, manager: "Leo Martins" }
+];
+
+/* ---------- Live queues ---------- */
+const queues = [
+  { id: "Q-101", name: "Billing line",        client: "Northwind Telecom",   channel: "Voice",       waiting: 14, agents: 22, longest: "3m 40s", aht: "5m 12s", sla: 91, state: "Healthy" },
+  { id: "Q-102", name: "Technical support",   client: "Northwind Telecom",   channel: "Voice",       waiting: 27, agents: 18, longest: "7m 05s", aht: "8m 31s", sla: 82, state: "At risk" },
+  { id: "Q-204", name: "Order status chat",   client: "Halcyon Retail",      channel: "Chat",        waiting: 6,  agents: 12, longest: "0m 48s", aht: "3m 20s", sla: 97, state: "Healthy" },
+  { id: "Q-310", name: "Appointment booking", client: "Veda Health",         channel: "Voice",       waiting: 9,  agents: 14, longest: "2m 12s", aht: "4m 02s", sla: 93, state: "Healthy" },
+  { id: "Q-415", name: "New claims intake",   client: "Brightpath Insurance",channel: "Back office", waiting: 63, agents: 16, longest: "4h 10m", aht: "18m",    sla: 79, state: "Breached" },
+  { id: "Q-520", name: "Account verification",client: "Orbit Bank",          channel: "Back office", waiting: 21, agents: 10, longest: "1h 25m", aht: "12m",    sla: 96, state: "Healthy" },
+  { id: "Q-612", name: "Billing inbox",       client: "Lumen Energy",        channel: "Email",       waiting: 48, agents: 8,  longest: "6h 30m", aht: "9m 45s", sla: 84, state: "At risk" }
+];
+
+/* ---------- Agents ---------- */
+const agents = [
+  { name: "Priya Menon",    initials: "PM", role: "Senior Agent", team: "Northwind · Voice",     status: "on-call",   handled: 46, csat: 4.8, aht: "4m 58s", since: 2021 },
+  { name: "Daniel Brooks",  initials: "DB", role: "Agent",        team: "Northwind · Voice",     status: "available", handled: 39, csat: 4.5, aht: "5m 20s", since: 2023 },
+  { name: "Fatima Zahra",   initials: "FZ", role: "Team Lead",    team: "Halcyon · Chat",        status: "on-call",   handled: 28, csat: 4.9, aht: "3m 05s", since: 2019 },
+  { name: "Marco Silva",    initials: "MS", role: "Agent",        team: "Veda · Voice",          status: "break",     handled: 31, csat: 4.6, aht: "4m 11s", since: 2022 },
+  { name: "Grace Liu",      initials: "GL", role: "Claims Analyst", team: "Brightpath · Back office", status: "on-call", handled: 19, csat: 4.7, aht: "17m",  since: 2020 },
+  { name: "Omar Haddad",    initials: "OH", role: "Agent",        team: "Lumen · Email",         status: "available", handled: 52, csat: 4.4, aht: "8m 50s", since: 2024 },
+  { name: "Hannah Weber",   initials: "HW", role: "QA Analyst",   team: "Quality",               status: "offline",   handled: 0,  csat: 0,   aht: "—",      since: 2018 },
+  { name: "Kwame Asante",   initials: "KA", role: "KYC Specialist", team: "Orbit · Back office", status: "on-call",   handled: 24, csat: 4.8, aht: "11m",    since: 2021 }
+];
+const statusMeta = {
+  "on-call":   { label: "On a call", color: "#2ee6c8" },
+  "available": { label: "Available", color: "#5ad0ff" },
+  "break":     { label: "On break",  color: "#ffb547" },
+  "offline":   { label: "Offline",   color: "#6b7699" }
+};
+
+/* ---------- Tickets ---------- */
+const tickets = [
+  { id: "TCK-4821", subject: "Refund not received after plan downgrade", client: "Northwind Telecom",    channel: "Voice",       priority: "High",   due: "1h 20m",  status: "In progress", owner: "Priya Menon" },
+  { id: "TCK-4826", subject: "Claim documents missing signature page",    client: "Brightpath Insurance", channel: "Back office", priority: "Urgent", due: "Overdue", status: "Escalated",   owner: "Grace Liu" },
+  { id: "TCK-4830", subject: "Parcel marked delivered but not received",  client: "Halcyon Retail",       channel: "Chat",        priority: "Medium", due: "3h 05m",  status: "Open",        owner: "Fatima Zahra" },
+  { id: "TCK-4834", subject: "Reschedule follow-up appointment",          client: "Veda Health",          channel: "Voice",       priority: "Low",    due: "6h",      status: "Open",        owner: "Marco Silva" },
+  { id: "TCK-4839", subject: "Duplicate direct debit on March invoice",   client: "Lumen Energy",         channel: "Email",       priority: "High",   due: "45m",     status: "In progress", owner: "Omar Haddad" },
+  { id: "TCK-4842", subject: "ID document rejected — image blurred",      client: "Orbit Bank",           channel: "Back office", priority: "Medium", due: "2h 30m",  status: "Open",        owner: "Kwame Asante" },
+  { id: "TCK-4847", subject: "Roaming charges disputed by customer",      client: "Northwind Telecom",    channel: "Voice",       priority: "Medium", due: "4h",      status: "Resolved",    owner: "Daniel Brooks" },
+  { id: "TCK-4851", subject: "Store credit applied to wrong account",     client: "Halcyon Retail",       channel: "Chat",        priority: "High",   due: "Overdue", status: "Escalated",   owner: "Fatima Zahra" }
+];
+const priorityColor = { "Low": "#8fa0cc", "Medium": "#5ad0ff", "High": "#ffb547", "Urgent": "#ff6b81" };
+const ticketStatusClass = { "Open": "st-open", "In progress": "st-progress", "Escalated": "st-escalated", "Resolved": "st-done" };
+
+/* ---------- Quality audits ---------- */
+const audits = [
+  { agent: "Priya Menon",   client: "Northwind Telecom",    type: "Call audit",   score: 96, date: "23 Sep", auditor: "Hannah Weber" },
+  { agent: "Daniel Brooks", client: "Northwind Telecom",    type: "Call audit",   score: 84, date: "23 Sep", auditor: "Hannah Weber" },
+  { agent: "Fatima Zahra",  client: "Halcyon Retail",       type: "Chat audit",   score: 98, date: "22 Sep", auditor: "Hannah Weber" },
+  { agent: "Omar Haddad",   client: "Lumen Energy",         type: "Email audit",  score: 72, date: "22 Sep", auditor: "Hannah Weber" },
+  { agent: "Grace Liu",     client: "Brightpath Insurance", type: "Case review",  score: 91, date: "21 Sep", auditor: "Hannah Weber" },
+  { agent: "Kwame Asante",  client: "Orbit Bank",           type: "Case review",  score: 94, date: "20 Sep", auditor: "Hannah Weber" }
+];
+
+/* ---------- Shift roster ---------- */
+const shifts = [
+  { team: "Northwind · Voice",        start: 8,  end: 16, planned: 24, actual: 22 },
+  { team: "Northwind · Late",         start: 14, end: 22, planned: 18, actual: 18 },
+  { team: "Halcyon · Chat",           start: 9,  end: 17, planned: 12, actual: 12 },
+  { team: "Veda · Voice",             start: 7,  end: 15, planned: 14, actual: 13 },
+  { team: "Brightpath · Back office", start: 8,  end: 16, planned: 16, actual: 14 },
+  { team: "Orbit · Back office",      start: 10, end: 18, planned: 10, actual: 10 },
+  { team: "Lumen · Email",            start: 12, end: 20, planned: 8,  actual: 6 }
+];
+
+/* ---------- Reports ---------- */
+const reports = [
+  { title: "Daily service level summary",    owner: "Ops team",     cadence: "Daily",   last: "Today 07:00",  status: "Ready" },
+  { title: "Weekly client performance pack", owner: "Aisha Rahman", cadence: "Weekly",  last: "Mon 09:00",    status: "Ready" },
+  { title: "QA calibration results",         owner: "Hannah Weber", cadence: "Weekly",  last: "Fri 16:30",    status: "In review" },
+  { title: "Monthly billing hours by client",owner: "Finance",      cadence: "Monthly", last: "1 Sep",        status: "Ready" },
+  { title: "Attrition and hiring tracker",   owner: "People team",  cadence: "Monthly", last: "Draft",        status: "Draft" },
+  { title: "Brightpath SLA recovery plan",   owner: "Leo Martins",  cadence: "One-off", last: "Yesterday",    status: "In review" }
+];
+const reportStatusColor = { "Ready": "#2ee6c8", "In review": "#ffb547", "Draft": "#8fa0cc" };
+
+/* ---------- Hourly contact volume (today) ---------- */
+const hourly = [
+  { h: "08", v: 212 }, { h: "09", v: 388 }, { h: "10", v: 461 }, { h: "11", v: 437 },
+  { h: "12", v: 352 }, { h: "13", v: 329 }, { h: "14", v: 406 }, { h: "15", v: 378 },
+  { h: "16", v: 301 }, { h: "17", v: 218 }
+];
+
+/* ---------- Escalations & activity ---------- */
+const escalations = [
+  { text: "Brightpath claims backlog above 60 items", owner: "Leo Martins", level: "critical", time: "12m ago" },
+  { text: "Northwind tech line wait above 7 minutes", owner: "Aisha Rahman", level: "warning", time: "25m ago" },
+  { text: "Lumen inbox SLA dropping below target", owner: "Leo Martins", level: "warning", time: "1h ago" }
+];
+const activity = [
+  { text: "6 agents moved from Veda to Northwind tech line", time: "8m ago" },
+  { text: "QA audit filed for Fatima Zahra — 98%", time: "40m ago" },
+  { text: "Halcyon chat queue cleared its morning peak", time: "1h ago" },
+  { text: "New client workspace created for Lumen Energy", time: "Yesterday" },
+  { text: "Weekly performance pack sent to Northwind", time: "Mon" }
+];
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+const navGroups = {
+  live:      [ { label: "Overview", id: "dashboard", icon: "grid" },
+               { label: "Queues",   id: "queues",    icon: "queue",   badge: () => queues.filter(q => q.state !== "Healthy").length },
+               { label: "Agents",   id: "agents",    icon: "headset" },
+               { label: "Tickets",  id: "tickets",   icon: "ticket",  badge: () => tickets.filter(t => t.status === "Escalated").length } ],
+  accounts:  [ { label: "Clients",  id: "clients",   icon: "building" },
+               { label: "Quality",  id: "quality",   icon: "star" },
+               { label: "Shifts",   id: "shifts",    icon: "cal" } ],
+  workspace: [ { label: "Reports",  id: "reports",   icon: "doc" },
+               { label: "Settings", id: "settings",  icon: "gear" } ]
+};
+const groupLabels = { live: "Live floor", accounts: "Accounts", workspace: "Workspace" };
+
+const pageMap = {
+  dashboard: { title: "Overview", sub: "Where the floor stands right now" },
+  queues:    { title: "Queues",   sub: "Every live queue, its wait and its service level" },
+  agents:    { title: "Agents",   sub: "Who is on a call, available, on break or offline" },
+  tickets:   { title: "Tickets",  sub: "Open work across every client and channel" },
+  clients:   { title: "Clients",  sub: "Service level and contract hours by account" },
+  quality:   { title: "Quality",  sub: "QA audits and coaching flags" },
+  shifts:    { title: "Shifts",   sub: "Today's roster against planned headcount" },
+  reports:   { title: "Reports",  sub: "Client packs, QA and finance reports" },
+  settings:  { title: "Settings", sub: "Your profile and preferences" }
+};
+const pageActions = {
+  queues:  `<button class="btn btn-ghost" onclick="go404()">${ico('download')}Export queues</button>`,
+  agents:  `<button class="btn btn-solid" onclick="go404()">${ico('plus')}Add agent</button>`,
+  tickets: `<button class="btn btn-solid" onclick="go404()">${ico('plus')}New ticket</button>`,
+  shifts:  `<button class="btn btn-ghost" onclick="go404()">${ico('cal')}Edit roster</button>`,
+  reports: `<button class="btn btn-solid" onclick="go404()">${ico('plus')}Schedule report</button>`
+};
+function allNav() { return navGroups.live.concat(navGroups.accounts, navGroups.workspace); }
+
+/* =========================================================
+   SIGNED-IN USER LOOKUP
+   Same behaviour as before: checks the usual key names across
+   localStorage then sessionStorage, accepts a JSON object or a
+   bare address, digs into nested objects, and finally sweeps
+   every key for something that looks like an address.
+   ========================================================= */
+const EMAIL_RE = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+const USER_KEY_CANDIDATES = [
+  'user', 'currentUser', 'loggedInUser', 'authUser', 'stacklyUser',
+  'userData', 'profile', 'account', 'auth', 'session',
+  'userEmail', 'email', 'username'
+];
+const EMAIL_FIELDS = ['email', 'mail', 'useremail', 'emailaddress', 'e-mail', 'username', 'login', 'user'];
+const NAME_FIELDS = ['name', 'fullname', 'displayname', 'firstname', 'givenname'];
+let foundUserKey = null;
+
+function asEmail(v) {
+  if (typeof v !== 'string') return null;
+  const s = v.trim();
+  return EMAIL_RE.test(s) ? s : null;
+}
+function objToUser(obj, depth) {
+  depth = depth || 0;
+  if (!obj || depth > 4) return null;
+  if (typeof obj === 'string') {
+    const direct = asEmail(obj);
+    if (direct) return { email: direct };
+    return rawToUser(obj, depth + 1);
+  }
+  if (Array.isArray(obj)) {
+    for (let i = 0; i < obj.length; i++) {
+      const hit = objToUser(obj[i], depth + 1);
+      if (hit) return hit;
+    }
+    return null;
+  }
+  if (typeof obj !== 'object') return null;
+  for (const k in obj) {
+    if (EMAIL_FIELDS.indexOf(String(k).toLowerCase()) === -1) continue;
+    const hit = asEmail(obj[k]);
+    if (hit) return Object.assign({}, obj, { email: hit });
+  }
+  for (const k in obj) {
+    const hit = asEmail(obj[k]);
+    if (hit) return Object.assign({}, obj, { email: hit });
+  }
+  for (const k in obj) {
+    const v = obj[k];
+    if (v && typeof v === 'object') {
+      const nested = objToUser(v, depth + 1);
+      if (nested) return nested;
+    } else if (typeof v === 'string' && (v.trim().charAt(0) === '{' || v.trim().charAt(0) === '[')) {
+      const nested = rawToUser(v, depth + 1);
+      if (nested) return nested;
+    }
+  }
+  return null;
+}
+function rawToUser(raw, depth) {
+  depth = depth || 0;
+  if (!raw || depth > 4) return null;
+  const trimmed = String(raw).trim();
+  if (!trimmed) return null;
+  const first = trimmed.charAt(0);
+  if (first === '{' || first === '[' || first === '"') {
+    try { return objToUser(JSON.parse(trimmed), depth); } catch (e) {}
+  }
+  const direct = asEmail(trimmed);
+  if (direct) return { email: direct };
+  try { return objToUser(JSON.parse(trimmed), depth); } catch (e) { return null; }
+}
+function pickName(obj) {
+  if (!obj || typeof obj !== 'object') return '';
+  for (const k in obj) {
+    if (NAME_FIELDS.indexOf(String(k).toLowerCase()) === -1) continue;
+    const v = obj[k];
+    if (typeof v === 'string' && v.trim() && !asEmail(v)) return v.trim();
+  }
+  return '';
+}
+function getCurrentUser() {
+  const stores = [];
+  try { if (window.localStorage) stores.push(localStorage); } catch (e) {}
+  try { if (window.sessionStorage) stores.push(sessionStorage); } catch (e) {}
+  for (let s = 0; s < stores.length; s++) {
+    try { if (stores[s].getItem('isAuthenticated') === 'false') return null; } catch (e) {}
+  }
+  for (let s = 0; s < stores.length; s++) {
+    for (let i = 0; i < USER_KEY_CANDIDATES.length; i++) {
+      const key = USER_KEY_CANDIDATES[i];
+      let hit = null;
+      try { hit = rawToUser(stores[s].getItem(key)); } catch (e) {}
+      if (hit) { foundUserKey = key; return hit; }
+    }
+  }
+  for (let s = 0; s < stores.length; s++) {
+    let len = 0;
+    try { len = stores[s].length; } catch (e) {}
+    for (let i = 0; i < len; i++) {
+      let key = null, hit = null;
+      try { key = stores[s].key(i); hit = rawToUser(stores[s].getItem(key)); } catch (e) {}
+      if (hit) { foundUserKey = key; return hit; }
+    }
+  }
+  return null;
+}
+function usernameFromEmail(email) { if (!email) return ''; return email.includes('@') ? email.split('@')[0] : email; }
+
+const currentUser = getCurrentUser();
+const currentEmail = currentUser ? (asEmail(currentUser.email) || '') : '';
+const storedName = currentUser ? pickName(currentUser) : '';
+const currentUsername = currentEmail || storedName ? (storedName || usernameFromEmail(currentEmail)) : '';
+const currentInitial = ((currentEmail || currentUsername || '?').trim().charAt(0) || '?').toUpperCase();
+
+function paintUserChrome() {
+  const nameToShow = currentUsername || currentEmail || 'Signed out';
+  const emailToShow = currentEmail || '—';
+  document.getElementById('sidebar-user-avatar').textContent = currentInitial;
+  document.getElementById('sidebar-user-name').textContent = nameToShow;
+  document.getElementById('sidebar-user-name').setAttribute('title', nameToShow);
+  document.getElementById('sidebar-user-email').textContent = emailToShow;
+  document.getElementById('sidebar-user-email').setAttribute('title', emailToShow);
+  document.getElementById('topbar-user-avatar').textContent = currentInitial;
+  document.getElementById('topbar-user-name').textContent = nameToShow;
+  document.getElementById('topbar-user-email').textContent = emailToShow;
+  document.getElementById('topbar-user-role').textContent = currentUser ? (currentUser.role === 'admin' ? 'Administrator' : 'Operations') : 'Not signed in';
+}
+
+function logout() {
+  const keys = ['user', 'isAuthenticated', 'activeNav', 'settings', 'dockCollapsed'].concat(USER_KEY_CANDIDATES);
+  if (foundUserKey && keys.indexOf(foundUserKey) === -1) keys.push(foundUserKey);
+  keys.forEach(function (k) {
+    try { localStorage.removeItem(k); } catch (e) {}
+    try { sessionStorage.removeItem(k); } catch (e) {}
+  });
+  window.location.href = 'login.html';
+}
+
+/* =========================================================
+   STATE
+   ========================================================= */
+function readStore(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
+function writeStore(key, val) { try { localStorage.setItem(key, val); } catch (e) {} }
+
+function getSavedNav() {
+  const saved = readStore('activeNav');
+  return saved && pageMap[saved] ? saved : 'dashboard';
+}
+function loadSettings() {
+  const defaults = { slaAlerts: true, dailyDigest: false, compactRows: false, language: "English" };
+  try { const raw = readStore('settings'); if (raw) return Object.assign(defaults, JSON.parse(raw)); } catch (e) {}
+  return defaults;
+}
+function saveSettings() { writeStore('settings', JSON.stringify(state.settings)); }
+
+let state = {
+  activeNav: getSavedNav(),
+  queueChannel: "All",
+  agentStatus: "all",
+  ticketSearch: "",
+  settings: loadSettings()
+};
+
+function go404() { window.location.href = "404.html"; }
+function channelTag(ch) {
+  const m = channelMeta[ch] || channelMeta.Voice;
+  return `<span class="tag" style="--c:${m.color}">${ico(m.icon, 'tag-ico')}${ch}</span>`;
+}
+function slaClass(sla, target) { target = target || 90; return sla >= target ? 'good' : sla >= target - 5 ? 'warn' : 'bad'; }
+
+/* =========================================================
+   SHARED PIECES
+   ========================================================= */
+function kpiRow(items) {
+  return `<section class="kpis">${items.map(function (k) {
+    const trendCls = k.trend ? (k.trend.dir === 'up' ? (k.trend.good === false ? 'trend-bad' : 'trend-good') : (k.trend.good === false ? 'trend-bad' : 'trend-good')) : '';
+    return `<article class="kpi" onclick="go404()" style="--c:${k.color || '#2ee6c8'}">
+      <div class="kpi-top">
+        <span class="kpi-ico">${ico(k.icon || 'pulse')}</span>
+        ${k.trend ? `<span class="kpi-trend ${trendCls}">${k.trend.dir === 'up' ? '▲' : '▼'} ${k.trend.text}</span>` : ''}
+      </div>
+      <span class="kpi-value">${k.value}</span>
+      <span class="kpi-label">${k.label}</span>
+      ${k.bar !== undefined ? `<span class="kpi-track"><span class="kpi-fill" data-w="${k.bar}"></span></span>` : ''}
+      ${k.note ? `<span class="kpi-note">${k.note}</span>` : ''}
+    </article>`;
+  }).join("")}</section>`;
+}
+function card(opts, body) {
+  return `<section class="card ${opts.cls || ''}">
+    <header class="card-head">
+      <div><h2>${ico(opts.icon || 'grid', 'head-ico')}${opts.title}</h2>${opts.sub ? `<p>${opts.sub}</p>` : ''}</div>
+      ${opts.aside || ''}
+    </header>
+    ${body}
+  </section>`;
+}
+function fillBars() {
+  requestAnimationFrame(function () {
+    document.querySelectorAll('[data-w]').forEach(function (el) { el.style.width = el.getAttribute('data-w') + '%'; });
+    document.querySelectorAll('[data-h]').forEach(function (el) { el.style.height = el.getAttribute('data-h') + '%'; });
+  });
+}
+function entrance() {
+  if (typeof gsap === 'undefined') return;
+  gsap.killTweensOf('.kpi, .card, .row-anim');
+  gsap.fromTo('.page-head', { opacity: 0, y: -8 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' });
+  gsap.fromTo('.hello', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' });
+  gsap.fromTo('.kpi', { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', stagger: 0.06 });
+  gsap.fromTo('.card', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.55, ease: 'power3.out', stagger: 0.06, delay: 0.08 });
+  gsap.fromTo('.row-anim', { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.4, ease: 'power2.out', stagger: 0.025, delay: 0.18 });
+
+  document.querySelectorAll('.kpi-value').forEach(function (el) {
+    const raw = el.textContent.trim();
+    const match = raw.match(/^([^\d]*)([\d,]+\.?\d*)(.*)$/);
+    if (!match) return;
+    const prefix = match[1], numStr = match[2].replace(/,/g, ''), suffix = match[3];
+    const num = parseFloat(numStr);
+    if (isNaN(num)) return;
+    const decimals = numStr.indexOf('.') > -1 ? numStr.split('.')[1].length : 0;
+    const counter = { val: 0 };
+    gsap.to(counter, {
+      val: num, duration: 1.1, ease: 'power2.out', delay: 0.1,
+      onUpdate: function () {
+        const shown = decimals ? counter.val.toFixed(decimals) : Math.round(counter.val).toLocaleString();
+        el.textContent = prefix + shown + suffix;
+      },
+      onComplete: function () { el.textContent = raw; }
+    });
+  });
+}
+
+/* =========================================================
+   OVERVIEW
+   ========================================================= */
+function greeting() {
+  const h = new Date().getHours();
+  return h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening';
+}
+function volumeChart() {
+  const max = Math.max.apply(null, hourly.map(function (d) { return d.v; }));
+  const top = Math.ceil(max / 100) * 100;
+  const total = hourly.reduce(function (a, d) { return a + d.v; }, 0);
+  const peak = hourly.reduce(function (a, d) { return d.v > a.v ? d : a; });
+  const grid = [0, 0.5, 1].map(function (f) {
+    return `<span class="vc-grid" style="bottom:${f * 100}%"><em>${Math.round(top * f)}</em></span>`;
+  }).join("");
+  const bars = hourly.map(function (d) {
+    const isPeak = d === peak;
+    return `<div class="vc-col" tabindex="0" data-tip="${d.h}:00 – ${d.h}:59 · ${d.v.toLocaleString()} contacts">
+      <div class="vc-bar-wrap"><span class="vc-bar ${isPeak ? 'peak' : ''}" data-h="${(d.v / top * 100).toFixed(1)}">${isPeak ? `<b class="vc-peak">${d.v}</b>` : ''}</span></div>
+      <span class="vc-x">${d.h}</span>
+    </div>`;
+  }).join("");
+  return `<div class="vc" role="img" aria-label="Contacts per hour today, peaking at ${peak.v} at ${peak.h}:00">
+      <div class="vc-plot">${grid}<div class="vc-cols">${bars}</div></div>
+    </div>
+    <div class="vc-foot"><span><b>${total.toLocaleString()}</b> contacts so far today</span><span>Peak <b>${peak.h}:00</b></span></div>`;
+}
+function renderDashboard() {
+  const name = currentUsername || 'there';
+  const onCall = agents.filter(function (a) { return a.status === 'on-call'; }).length;
+  const risky = queues.filter(function (q) { return q.state !== 'Healthy'; }).length;
+
+  const hello = `<section class="hello">
+      <div>
+        <p class="hello-kicker">${greeting()}, ${name}</p>
+        <h2 class="hello-title">${risky ? `${risky} queues need a look` : 'Every queue is on target'}, and ${onCall} agents are live right now.</h2>
+      </div>
+      <div class="hello-actions">
+        <button class="btn btn-solid" onclick="go404()">${ico('plus')}New ticket</button>
+        <button class="btn btn-ghost" onclick="go404()">${ico('download')}Export day</button>
+      </div>
+    </section>`;
+
+  const kpis = kpiRow([
+    { label: "Contacts handled today", value: "3,482",  icon: "phone", trend: { dir: "up", text: "8% vs last Thu" }, bar: 72 },
+    { label: "Service level",          value: "92.4%",  icon: "gauge", trend: { dir: "up", text: "target 90%" }, bar: 92, color: "#5ad0ff" },
+    { label: "Average handle time",    value: "4m 51s", icon: "clock", trend: { dir: "down", text: "12s faster" }, bar: 58, color: "#a79bff" },
+    { label: "Customer satisfaction",  value: "4.6/5",  icon: "smile", trend: { dir: "down", text: "0.1 this week", good: false }, bar: 92, color: "#ffb547" }
+  ]);
+
+  const clientSla = clients.slice().sort(function (a, b) { return a.sla - b.sla; }).map(function (c) {
+    const cls = slaClass(c.sla, c.target);
+    return `<li class="sla-row row-anim" onclick="go404()">
+      <span class="sla-code">${c.code}</span>
+      <span class="sla-main">
+        <span class="sla-name">${c.name}</span>
+        <span class="sla-track"><span class="sla-fill ${cls}" data-w="${c.sla}"></span><span class="sla-target" style="left:${c.target}%"></span></span>
+      </span>
+      <span class="sla-val ${cls}">${c.sla}%</span>
+    </li>`;
+  }).join("");
+
+  const queueRows = queues.slice().sort(function (a, b) { return a.sla - b.sla; }).slice(0, 5).map(function (q) {
+    return `<li class="q-row row-anim" onclick="go404()">
+      <span class="q-ch" style="--c:${channelMeta[q.channel].color}">${ico(channelMeta[q.channel].icon)}</span>
+      <span class="q-main"><span class="q-name">${q.name}</span><span class="q-sub">${q.client}</span></span>
+      <span class="q-num"><b>${q.waiting}</b><em>waiting</em></span>
+      <span class="state state-${q.state.replace(/\s/g, '').toLowerCase()}">${q.state}</span>
+    </li>`;
+  }).join("");
+
+  const counts = Object.keys(statusMeta).map(function (k) {
+    const n = agents.filter(function (a) { return a.status === k; }).length;
+    return { key: k, n: n };
+  });
+  const totalAgents = agents.length;
+  const floorBar = counts.map(function (c) {
+    return `<span class="floor-seg" style="flex:${c.n};background:${statusMeta[c.key].color}" title="${statusMeta[c.key].label}: ${c.n}"></span>`;
+  }).join("");
+  const floorLegend = counts.map(function (c) {
+    return `<li><i style="background:${statusMeta[c.key].color}"></i>${statusMeta[c.key].label}<b>${c.n}</b></li>`;
+  }).join("");
+  const liveAgents = agents.filter(function (a) { return a.status !== 'offline'; }).slice(0, 5).map(function (a) {
+    return `<li class="ag-row row-anim" onclick="go404()">
+      <span class="avatar sm" style="--ring:${statusMeta[a.status].color}">${a.initials}</span>
+      <span class="ag-main"><span class="ag-name">${a.name}</span><span class="ag-sub">${a.team}</span></span>
+      <span class="ag-state" style="color:${statusMeta[a.status].color}">${statusMeta[a.status].label}</span>
+    </li>`;
+  }).join("");
+
+  const esc = escalations.map(function (e) {
+    return `<li class="esc esc-${e.level} row-anim" onclick="go404()">
+      <span class="esc-ico">${ico('alert')}</span>
+      <span class="esc-main"><span class="esc-text">${e.text}</span><span class="esc-sub">${e.owner} · ${e.time}</span></span>
+    </li>`;
+  }).join("");
+  const feed = activity.map(function (a) {
+    return `<li class="feed-row row-anim" onclick="go404()"><span class="feed-dot"></span><span class="feed-text">${a.text}</span><span class="feed-time">${a.time}</span></li>`;
+  }).join("");
+
+  return `${hello}${kpis}
+    <div class="grid grid-a">
+      ${card({ title: "Contacts per hour", sub: "All channels, today", icon: "pulse", cls: "span-2" }, volumeChart())}
+      ${card({ title: "Service level by client", sub: "Line marks each client's target", icon: "gauge" }, `<ul class="sla-list">${clientSla}</ul>`)}
+    </div>
+    <div class="grid grid-b">
+      ${card({ title: "Queues to watch", sub: "Lowest service level first", icon: "queue", aside: `<button class="link-btn" data-nav="queues">All queues →</button>` }, `<ul class="q-list">${queueRows}</ul>`)}
+      ${card({ title: "Floor right now", sub: `${totalAgents} agents on today's roster`, icon: "headset", aside: `<button class="link-btn" data-nav="agents">All agents →</button>` },
+        `<div class="floor-bar">${floorBar}</div><ul class="floor-legend">${floorLegend}</ul><ul class="ag-list">${liveAgents}</ul>`)}
+    </div>
+    <div class="grid grid-c">
+      ${card({ title: "Escalations", sub: "Open items raised to managers", icon: "alert" }, `<ul class="esc-list">${esc}</ul>`)}
+      ${card({ title: "Activity", sub: "Latest movement on the floor", icon: "pulse" }, `<ul class="feed">${feed}</ul>`)}
+    </div>`;
+}
+
+/* =========================================================
+   QUEUES
+   ========================================================= */
+function renderQueues() {
+  const chans = ["All"].concat(Object.keys(channelMeta));
+  const list = state.queueChannel === "All" ? queues : queues.filter(function (q) { return q.channel === state.queueChannel; });
+  const waiting = queues.reduce(function (a, q) { return a + q.waiting; }, 0);
+
+  const kpis = kpiRow([
+    { label: "Live queues",        value: String(queues.length), icon: "queue", note: "across 6 clients" },
+    { label: "Contacts waiting",   value: String(waiting),       icon: "clock", note: "all channels", color: "#5ad0ff" },
+    { label: "At risk",            value: String(queues.filter(function(q){return q.state==="At risk";}).length),  icon: "alert", note: "close to breaching", color: "#ffb547" },
+    { label: "Breached",           value: String(queues.filter(function(q){return q.state==="Breached";}).length), icon: "alert", note: "below target now", color: "#ff6b81" }
+  ]);
+  const chips = chans.map(function (c) {
+    return `<button class="chip queue-filter ${state.queueChannel === c ? 'chip-on' : ''}" data-filter="${c}">${c}</button>`;
+  }).join("");
+  const rows = list.map(function (q) {
+    const cls = { "Healthy": "good", "At risk": "warn", "Breached": "bad" }[q.state];
+    return `<tr class="row-anim" onclick="go404()">
+      <td class="mono" data-label="Queue">${q.id}</td>
+      <td class="stack" data-label="Name"><span class="t-name">${q.name}</span><span class="t-sub">${q.client}</span></td>
+      <td data-label="Channel">${channelTag(q.channel)}</td>
+      <td class="num" data-label="Waiting"><b>${q.waiting}</b></td>
+      <td class="num" data-label="Agents">${q.agents}</td>
+      <td data-label="Longest wait">${q.longest}</td>
+      <td data-label="Avg handle">${q.aht}</td>
+      <td data-label="Service level"><div class="mini"><span class="mini-track"><span class="mini-fill ${cls}" data-w="${q.sla}"></span></span><b class="${cls}">${q.sla}%</b></div></td>
+      <td data-label="State"><span class="state state-${q.state.replace(/\s/g, '').toLowerCase()}">${q.state}</span></td>
+    </tr>`;
+  }).join("");
+  return `${kpis}
+    ${card({ title: "Live queues", sub: "Updated as contacts arrive", icon: "queue", cls: "card-table", aside: `<div class="chip-row">${chips}</div>` },
+      `<div class="table-wrap"><table class="table">
+        <thead><tr><th>Queue</th><th>Name</th><th>Channel</th><th>Waiting</th><th>Agents</th><th>Longest wait</th><th>Avg handle</th><th>Service level</th><th>State</th></tr></thead>
+        <tbody>${rows || '<tr><td colspan="9" class="empty">No queues on that channel.</td></tr>'}</tbody></table></div>`)}`;
+}
+
+/* =========================================================
+   AGENTS
+   ========================================================= */
+function renderAgents() {
+  const filters = [{ k: "all", l: "Everyone" }].concat(Object.keys(statusMeta).map(function (k) { return { k: k, l: statusMeta[k].label }; }));
+  const list = state.agentStatus === "all" ? agents : agents.filter(function (a) { return a.status === state.agentStatus; });
+  const active = agents.filter(function (a) { return a.csat > 0; });
+
+  const kpis = kpiRow([
+    { label: "Agents on roster",  value: String(agents.length), icon: "headset" },
+    { label: "Live now",          value: String(agents.filter(function(a){return a.status==="on-call"||a.status==="available";}).length), icon: "phone", color: "#5ad0ff" },
+    { label: "Handled today",     value: String(agents.reduce(function(a,g){return a+g.handled;},0)), icon: "ticket", color: "#a79bff" },
+    { label: "Average CSAT",      value: (active.reduce(function(a,g){return a+g.csat;},0) / active.length).toFixed(1) + "/5", icon: "smile", color: "#ffb547" }
+  ]);
+  const chips = filters.map(function (f) {
+    return `<button class="chip agent-filter ${state.agentStatus === f.k ? 'chip-on' : ''}" data-filter="${f.k}">${f.l}</button>`;
+  }).join("");
+  const cards = list.map(function (a) {
+    const s = statusMeta[a.status];
+    return `<article class="agent row-anim" onclick="go404()">
+      <header>
+        <span class="avatar md" style="--ring:${s.color}">${a.initials}</span>
+        <span class="agent-id"><span class="agent-name">${a.name}</span><span class="agent-role">${a.role}</span></span>
+        <span class="agent-state" style="--c:${s.color}">${s.label}</span>
+      </header>
+      <p class="agent-team">${a.team}</p>
+      <dl class="agent-stats">
+        <div><dt>Handled</dt><dd>${a.handled}</dd></div>
+        <div><dt>CSAT</dt><dd>${a.csat ? a.csat.toFixed(1) : '—'}</dd></div>
+        <div><dt>AHT</dt><dd>${a.aht}</dd></div>
+      </dl>
+    </article>`;
+  }).join("");
+  return `${kpis}
+    ${card({ title: "Agent board", sub: "Status, output and quality today", icon: "headset", aside: `<div class="chip-row">${chips}</div>` },
+      `<div class="agent-grid">${cards || '<p class="empty">Nobody in that state right now.</p>'}</div>`)}`;
+}
+
+/* =========================================================
+   TICKETS
+   Every word typed has to match somewhere in the row, so
+   "urgent brightpath" narrows rather than widens.
+   ========================================================= */
+function ticketMatches(t, terms) {
+  if (!terms.length) return true;
+  const hay = [t.id, t.subject, t.client, t.channel, t.priority, t.due, t.status, t.owner].join(" ").toLowerCase();
+  return terms.every(function (w) { return hay.indexOf(w) > -1; });
+}
+function renderTickets() {
+  const terms = state.ticketSearch.toLowerCase().split(/\s+/).filter(Boolean);
+  const list = tickets.filter(function (t) { return ticketMatches(t, terms); });
+
+  const kpis = kpiRow([
+    { label: "Open tickets",      value: "286", icon: "ticket", note: "all clients" },
+    { label: "Due in next hour",  value: "17",  icon: "clock",  note: "needs attention", color: "#ffb547" },
+    { label: "Escalated",         value: String(tickets.filter(function(t){return t.status==="Escalated";}).length), icon: "alert", note: "with team leads", color: "#ff6b81" },
+    { label: "Resolved today",    value: "412", icon: "smile",  note: "first contact 78%", color: "#5ad0ff" }
+  ]);
+  const sub = terms.length ? `Showing ${list.length} of ${tickets.length} tickets` : "Sorted by time left on the SLA";
+  const rows = list.map(function (t) {
+    return `<tr class="row-anim" onclick="go404()">
+      <td class="mono" data-label="Ticket">${t.id}</td>
+      <td class="stack" data-label="Subject"><span class="t-name">${t.subject}</span><span class="t-sub">${t.client}</span></td>
+      <td data-label="Channel">${channelTag(t.channel)}</td>
+      <td data-label="Priority"><span class="prio" style="--c:${priorityColor[t.priority]}">${t.priority}</span></td>
+      <td data-label="Time left" class="${t.due === 'Overdue' ? 'overdue' : ''}">${t.due}</td>
+      <td data-label="Status"><span class="badge ${ticketStatusClass[t.status]}">${t.status}</span></td>
+      <td data-label="Owner">${t.owner}</td>
+    </tr>`;
+  }).join("");
+  return `${kpis}
+    ${card({ title: "Ticket queue", sub: sub, icon: "ticket", cls: "card-table", aside: `<label class="finder finder-inline">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.2-4.2"/></svg>
+          <input id="ticket-search-input" placeholder="Client, priority, owner, status…" value="${state.ticketSearch.replace(/"/g, '&quot;')}">
+        </label>` },
+      `<div class="table-wrap"><table class="table">
+        <thead><tr><th>Ticket</th><th>Subject</th><th>Channel</th><th>Priority</th><th>Time left</th><th>Status</th><th>Owner</th></tr></thead>
+        <tbody>${rows || '<tr><td colspan="7" class="empty">Nothing matches that search.</td></tr>'}</tbody></table></div>`)}`;
+}
+
+/* =========================================================
+   CLIENTS
+   ========================================================= */
+function renderClients() {
+  const hours = clients.reduce(function (a, c) { return a + c.hours; }, 0);
+  const used = clients.reduce(function (a, c) { return a + c.used; }, 0);
+  const kpis = kpiRow([
+    { label: "Client accounts",      value: String(clients.length), icon: "building" },
+    { label: "Seats in service",     value: String(clients.reduce(function(a,c){return a+c.seats;},0)), icon: "headset", color: "#5ad0ff" },
+    { label: "Contract hours used",  value: Math.round(used / hours * 100) + "%", icon: "clock", note: used.toLocaleString() + " of " + hours.toLocaleString() + " hrs", color: "#a79bff" },
+    { label: "Meeting SLA",          value: clients.filter(function(c){return c.sla >= c.target;}).length + "/" + clients.length, icon: "gauge", color: "#ffb547" }
+  ]);
+  const cards = clients.map(function (c) {
+    const pct = Math.round(c.used / c.hours * 100);
+    const cls = slaClass(c.sla, c.target);
+    return `<article class="client row-anim" onclick="go404()">
+      <header>
+        <span class="client-code">${c.code}</span>
+        <span class="client-id"><span class="client-name">${c.name}</span><span class="client-svc">${c.service}</span></span>
+        ${channelTag(c.channel)}
+      </header>
+      <div class="client-sla">
+        <span>Service level</span>
+        <b class="${cls}">${c.sla}%</b>
+        <em>target ${c.target}%</em>
+      </div>
+      <div class="client-hours">
+        <div class="client-hours-top"><span>Contract hours this month</span><span><b>${c.used.toLocaleString()}</b> / ${c.hours.toLocaleString()}</span></div>
+        <span class="mini-track wide"><span class="mini-fill ${pct > 90 ? 'bad' : 'good'}" data-w="${pct}"></span></span>
+      </div>
+      <footer><span>${c.seats} seats</span><span>Manager · ${c.manager}</span></footer>
+    </article>`;
+  }).join("");
+  return `${kpis}${card({ title: "Client accounts", sub: "Service level and contract usage", icon: "building" }, `<div class="client-grid">${cards}</div>`)}`;
+}
+
+/* =========================================================
+   QUALITY
+   ========================================================= */
+function renderQuality() {
+  const avg = Math.round(audits.reduce(function (a, q) { return a + q.score; }, 0) / audits.length);
+  const kpis = kpiRow([
+    { label: "Average QA score", value: avg + "%", icon: "star", bar: avg },
+    { label: "Audits this week", value: String(audits.length * 7), icon: "doc", color: "#5ad0ff" },
+    { label: "Below 80%",        value: String(audits.filter(function(q){return q.score < 80;}).length), icon: "alert", note: "coaching booked", color: "#ff6b81" },
+    { label: "First contact resolution", value: "78%", icon: "smile", color: "#ffb547", bar: 78 }
+  ]);
+  const rows = audits.map(function (q) {
+    const cls = q.score >= 90 ? 'good' : q.score >= 80 ? 'warn' : 'bad';
+    return `<li class="audit row-anim" onclick="go404()">
+      <span class="score score-${cls}">${q.score}</span>
+      <span class="audit-main"><span class="audit-agent">${q.agent}</span><span class="audit-sub">${q.type} · ${q.client}</span></span>
+      <span class="audit-side"><span>${q.date}</span><em>by ${q.auditor}</em></span>
+    </li>`;
+  }).join("");
+  return `${kpis}${card({ title: "Recent audits", sub: "90% and above passes, below 80% goes to coaching", icon: "star" }, `<ul class="audit-list">${rows}</ul>`)}`;
+}
+
+/* =========================================================
+   SHIFTS — a day timeline, 06:00 to 22:00
+   ========================================================= */
+function renderShifts() {
+  const from = 6, to = 22, span = to - from;
+  const planned = shifts.reduce(function (a, s) { return a + s.planned; }, 0);
+  const actual = shifts.reduce(function (a, s) { return a + s.actual; }, 0);
+  const kpis = kpiRow([
+    { label: "Shifts today",     value: String(shifts.length), icon: "cal" },
+    { label: "Planned headcount", value: String(planned), icon: "headset", color: "#5ad0ff" },
+    { label: "Logged in",        value: String(actual), icon: "phone", color: "#a79bff" },
+    { label: "Adherence",        value: Math.round(actual / planned * 100) + "%", icon: "gauge", color: "#ffb547", bar: Math.round(actual / planned * 100) }
+  ]);
+  const hours = [];
+  for (let h = from; h <= to; h += 2) hours.push(`<span style="left:${(h - from) / span * 100}%">${String(h).padStart(2, '0')}:00</span>`);
+  const rows = shifts.map(function (s) {
+    const left = (s.start - from) / span * 100, width = (s.end - s.start) / span * 100;
+    const short = s.actual < s.planned;
+    return `<div class="shift row-anim" onclick="go404()">
+      <div class="shift-name"><b>${s.team}</b><span class="${short ? 'bad' : 'good'}">${s.actual}/${s.planned} in</span></div>
+      <div class="shift-lane"><span class="shift-bar ${short ? 'short' : ''}" style="left:${left}%;width:${width}%">${String(s.start).padStart(2,'0')}:00 – ${String(s.end).padStart(2,'0')}:00</span></div>
+    </div>`;
+  }).join("");
+  return `${kpis}${card({ title: "Today's roster", sub: "Amber bars are running short of planned headcount", icon: "cal" },
+    `<div class="timeline"><div class="timeline-hours">${hours.join("")}</div>${rows}</div>`)}`;
+}
+
+/* =========================================================
+   REPORTS
+   ========================================================= */
+function renderReports() {
+  const kpis = kpiRow([
+    { label: "Reports",        value: String(reports.length), icon: "doc" },
+    { label: "Ready to send",  value: String(reports.filter(function(r){return r.status==="Ready";}).length), icon: "download", color: "#5ad0ff" },
+    { label: "In review",      value: String(reports.filter(function(r){return r.status==="In review";}).length), icon: "star", color: "#ffb547" },
+    { label: "Scheduled runs", value: "24", icon: "cal", note: "each week", color: "#a79bff" }
+  ]);
+  const rows = reports.map(function (r) {
+    const c = reportStatusColor[r.status];
+    return `<article class="report row-anim" onclick="go404()">
+      <span class="report-ico">${ico('doc')}</span>
+      <span class="report-main"><span class="report-title">${r.title}</span><span class="report-sub">${r.owner} · ${r.cadence} · last run ${r.last}</span></span>
+      <span class="badge" style="--c:${c}">${r.status}</span>
+      <button class="chip" onclick="event.stopPropagation();go404()">Open</button>
+    </article>`;
+  }).join("");
+  return `${kpis}${card({ title: "Report library", sub: "Client packs, QA and finance reports", icon: "doc" }, `<div class="report-list">${rows}</div>`)}`;
+}
+
+/* =========================================================
+   SETTINGS
+   ========================================================= */
+function switchHtml(id, value) {
+  return `<span class="switch ${value ? 'on' : ''}" data-toggle="${id}" role="switch" aria-checked="${value}" tabindex="0"><span class="switch-knob"></span></span>`;
+}
+function renderSettings() {
+  const s = state.settings;
+  const displayName = currentUsername || currentEmail || "Signed out";
+  const displayEmail = currentEmail || "No account signed in";
+  return `<div class="grid grid-settings">
+    ${card({ title: "Account", sub: "The profile signed in on this device", icon: "headset" },
+      `<div class="account">
+        <span class="avatar lg">${currentInitial}</span>
+        <div>
+          <span class="account-name">${displayName}</span>
+          <span class="account-email">${displayEmail}</span>
+          <span class="account-role">${currentUser ? (currentUser.role === 'admin' ? 'Administrator' : 'Operations user') : 'Not signed in'}</span>
+        </div>
+      </div>
+      <button class="chip" onclick="go404()">Edit profile</button>`)}
+
+    ${card({ title: "Preferences", sub: "Alerts and how the desk reads", icon: "gear" },
+      `<div class="pref"><div><span class="pref-title">SLA alerts</span><span class="pref-desc">Notify me when a queue is at risk of breaching</span></div>${switchHtml("slaAlerts", s.slaAlerts)}</div>
+      <div class="pref"><div><span class="pref-title">End-of-day digest</span><span class="pref-desc">A summary of volumes and service levels at 18:00</span></div>${switchHtml("dailyDigest", s.dailyDigest)}</div>
+      <div class="pref"><div><span class="pref-title">Compact rows</span><span class="pref-desc">Tighter spacing in the queue and ticket tables</span></div>${switchHtml("compactRows", s.compactRows)}</div>
+      <div class="pref pref-last"><div><span class="pref-title">Language</span><span class="pref-desc">Interface display language</span></div>
+        <select class="pref-select" id="lang-select">${["English","French","Spanish","Hindi","Portuguese"].map(function(l){return `<option ${s.language===l?'selected':''}>${l}</option>`;}).join("")}</select></div>`)}
+
+    ${card({ title: "Session", sub: "Sign out of this account on this device", icon: "clock" },
+      `<div class="session"><p>Signed in as <strong>${displayEmail}</strong>. Signing out clears the session and returns you to the sign-in screen.</p>
+      <button class="chip chip-danger" id="settings-logout-btn">Sign out</button></div>`)}
+
+    ${card({ title: "Account actions", sub: "These cannot be undone", icon: "alert" },
+      `<div class="danger-row"><button class="chip chip-danger" onclick="go404()">Reset password</button><button class="chip chip-danger" onclick="go404()">Close account</button></div>`)}
+  </div>`;
+}
+
+const pageRenderers = {
+  dashboard: renderDashboard, queues: renderQueues, agents: renderAgents, tickets: renderTickets,
+  clients: renderClients, quality: renderQuality, shifts: renderShifts, reports: renderReports, settings: renderSettings
+};
+
+/* =========================================================
+   SHELL
+   ========================================================= */
+function badgeHtml(item) {
+  const n = item.badge ? item.badge() : 0;
+  return n ? `<span class="nav-badge">${n}</span>` : '';
+}
+function renderNav() {
+  document.getElementById("nav-tabs").innerHTML = allNav().map(function (i) {
+    return `<button class="tab ${state.activeNav === i.id ? 'on' : ''}" data-nav="${i.id}">${ico(i.icon, 'tab-ico')}<span>${i.label}</span>${badgeHtml(i)}</button>`;
+  }).join("");
+  document.getElementById("nav-drawer").innerHTML = Object.keys(navGroups).map(function (g) {
+    return `<p class="dock-label">${groupLabels[g]}</p>
+      <nav class="dock-nav">${navGroups[g].map(function (i) {
+        return `<button class="dock-item ${state.activeNav === i.id ? 'on' : ''}" data-nav="${i.id}">${ico(i.icon, 'dock-ico')}<span class="dock-text">${i.label}</span>${badgeHtml(i)}</button>`;
+      }).join("")}</nav>`;
+  }).join("");
+  const on = document.querySelector('.tab.on');
+  if (on && on.scrollIntoView) on.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+}
+
+function renderPage() {
+  const page = pageMap[state.activeNav];
+  document.getElementById("page-title-text").textContent = page.title;
+  const group = Object.keys(navGroups).filter(function (g) { return navGroups[g].some(function (i) { return i.id === state.activeNav; }); })[0];
+  document.getElementById("page-sub-text").textContent = page.sub;
+  document.getElementById("page-kicker").textContent = "Operations desk · " + (groupLabels[group] || "");
+  document.getElementById("page-actions").innerHTML = pageActions[state.activeNav] || "";
+  document.title = "Stackly — " + page.title;
+  document.getElementById("content-area").innerHTML = pageRenderers[state.activeNav]();
+  document.body.classList.toggle('compact', !!state.settings.compactRows);
+  renderNav();
+  const settingsLogoutBtn = document.getElementById("settings-logout-btn");
+  if (settingsLogoutBtn) settingsLogoutBtn.addEventListener("click", logout);
+  window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  fillBars();
+  entrance();
+}
+
+function navigateTo(id) {
+  state.activeNav = id;
+  writeStore('activeNav', id);
+  closeDrawer();
+  closeWhoami();
+  renderPage();
+}
+
+/* ---- hamburger: opens the side drawer below 1100px ---- */
+const MENU_BREAK = 1100;
+const burger = document.getElementById("hamburger-btn");
+let savedScrollY = 0;
+
+function lockScroll() {
+  savedScrollY = window.scrollY || window.pageYOffset || 0;
+  document.documentElement.classList.add("nav-open");
+  document.body.classList.add("nav-open");
+}
+function unlockScroll() {
+  if (!document.body.classList.contains("nav-open")) return;
+  document.documentElement.classList.remove("nav-open");
+  document.body.classList.remove("nav-open");
+  window.scrollTo(0, savedScrollY);
+}
+function openDrawer() {
+  document.getElementById("sidebar").classList.add("open");
+  document.getElementById("sidebar-overlay").classList.add("show");
+  document.getElementById("sidebar").setAttribute("aria-hidden", "false");
+  burger.classList.add("is-open");
+  burger.setAttribute("aria-expanded", "true");
+  burger.setAttribute("aria-label", "Close menu");
+  lockScroll();
+}
+function closeDrawer() {
+  if (!document.getElementById("sidebar").classList.contains("open")) return;
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("sidebar").setAttribute("aria-hidden", "true");
+  document.getElementById("sidebar-overlay").classList.remove("show");
+  burger.classList.remove("is-open");
+  burger.setAttribute("aria-expanded", "false");
+  burger.setAttribute("aria-label", "Open menu");
+  unlockScroll();
+}
+function closeWhoami() { document.getElementById("topbar-user").classList.remove("open"); }
+
+burger.addEventListener("click", function () {
+  if (document.getElementById("sidebar").classList.contains("open")) {
+    closeDrawer();
+  } else {
+    openDrawer();
+  }
+});
+document.getElementById("brand-home-btn").addEventListener("click", function () { navigateTo("dashboard"); });
+document.getElementById("sidebar-overlay").addEventListener("click", closeDrawer);
+document.getElementById("notif-btn").addEventListener("click", go404);
+document.getElementById("logout-btn").addEventListener("click", logout);
+document.getElementById("topbar-logout-btn").addEventListener("click", logout);
+document.getElementById("topbar-user-btn").addEventListener("click", function (e) {
+  e.stopPropagation();
+  document.getElementById("topbar-user").classList.toggle("open");
+});
+document.addEventListener("click", closeWhoami);
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape") { closeDrawer(); closeWhoami(); }
+  const typing = e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName);
+  if (e.key === "/" && !typing) { e.preventDefault(); openFinder(); }
+});
+window.addEventListener("resize", function () { if (window.innerWidth > MENU_BREAK) closeDrawer(); });
+
+/* ---- topbar search: on phones the magnifier opens the field first ---- */
+const finder = document.getElementById("topbar-search");
+const finderInput = document.getElementById("topbar-search-input");
+function openFinder() { finder.classList.add("expanded"); finderInput.focus(); }
+finder.addEventListener("submit", function (e) {
+  e.preventDefault();
+  if (window.innerWidth <= 720 && !finder.classList.contains("expanded")) { openFinder(); return; }
+  if (!finderInput.value.trim()) { finderInput.focus(); return; }
+  go404();
+});
+finderInput.addEventListener("blur", function () { if (!finderInput.value.trim()) finder.classList.remove("expanded"); });
+
+/* ---- chart tooltip ---- */
+const tip = document.getElementById("chart-tip");
+function showTip(el) {
+  tip.textContent = el.getAttribute("data-tip");
+  const r = el.getBoundingClientRect();
+  tip.classList.add("show");
+  const w = tip.offsetWidth;
+  let x = r.left + r.width / 2 - w / 2;
+  x = Math.max(8, Math.min(x, window.innerWidth - w - 8));
+  tip.style.left = x + "px";
+  tip.style.top = (r.top - tip.offsetHeight - 8 + window.scrollY) + "px";
+}
+function hideTip() { tip.classList.remove("show"); }
+document.addEventListener("mouseover", function (e) { const t = e.target.closest("[data-tip]"); if (t) showTip(t); });
+document.addEventListener("mouseout", function (e) { if (e.target.closest("[data-tip]")) hideTip(); });
+document.addEventListener("focusin", function (e) { const t = e.target.closest && e.target.closest("[data-tip]"); if (t) showTip(t); });
+document.addEventListener("focusout", hideTip);
+window.addEventListener("scroll", hideTip, { passive: true });
+
+/* ---- delegated clicks ---- */
+document.addEventListener("click", function (e) {
+  const navBtn = e.target.closest("[data-nav]");
+  if (navBtn) { navigateTo(navBtn.getAttribute("data-nav")); return; }
+  const qf = e.target.closest(".queue-filter");
+  if (qf) { state.queueChannel = qf.getAttribute("data-filter"); renderPage(); return; }
+  const af = e.target.closest(".agent-filter");
+  if (af) { state.agentStatus = af.getAttribute("data-filter"); renderPage(); return; }
+  const toggle = e.target.closest("[data-toggle]");
+  if (toggle) { flipSwitch(toggle); return; }
+});
+document.addEventListener("keydown", function (e) {
+  const toggle = e.target.closest && e.target.closest("[data-toggle]");
+  if (toggle && (e.key === " " || e.key === "Enter")) { e.preventDefault(); flipSwitch(toggle); }
+});
+function flipSwitch(toggle) {
+  const key = toggle.getAttribute("data-toggle");
+  state.settings[key] = !state.settings[key];
+  saveSettings();
+  toggle.classList.toggle("on", state.settings[key]);
+  toggle.setAttribute("aria-checked", String(state.settings[key]));
+  if (key === "compactRows") document.body.classList.toggle("compact", state.settings[key]);
+  // CSS animation rather than GSAP, so no inline transform strands the knob
+  const knob = toggle.querySelector('.switch-knob');
+  if (knob) { knob.classList.remove('pop'); void knob.offsetWidth; knob.classList.add('pop'); }
+}
+
+document.addEventListener("input", function (e) {
+  if (e.target && e.target.id === "ticket-search-input") {
+    state.ticketSearch = e.target.value;
+    const caretPos = e.target.selectionStart;
+    renderPage();
+    const input = document.getElementById("ticket-search-input");
+    if (input) { input.focus(); input.setSelectionRange(caretPos, caretPos); }
+  }
+});
+document.addEventListener("change", function (e) {
+  if (e.target && e.target.id === "lang-select") { state.settings.language = e.target.value; saveSettings(); }
+});
+
+/* ---- boot ---- */
+paintUserChrome();
+if (typeof gsap !== 'undefined') {
+  gsap.from('.head-bar', { y: -14, opacity: 0, duration: 0.5, ease: 'power2.out' });
+  gsap.from('.tabs', { opacity: 0, duration: 0.5, delay: 0.1, ease: 'power2.out' });
+}
+renderPage();
+</script>
+</body>
+</html>

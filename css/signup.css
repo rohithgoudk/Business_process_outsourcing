@@ -1,0 +1,329 @@
+/* =========================================================
+   STACKLY — OPEN A CLIENT ACCOUNT
+   Midnight operations floor, teal signal, amber accents
+   ========================================================= */
+   :root{
+    --bg:#060a18;
+    --bg-2:#0b1330;
+    --ink:#eaf0ff;
+    --ink-2:#b9c3e6;
+    --muted:#7f8bb3;
+    --teal:#2ee6c8;
+    --sky:#5ad0ff;
+    --amber:#ffb547;
+    --violet:#7c6cff;
+    --danger:#ff6b81;
+    --line:rgba(150,170,255,.14);
+    --line-2:rgba(150,170,255,.24);
+    --glass:rgba(12,19,46,.72);
+    --field:rgba(8,13,34,.7);
+    --f-head:'Sora',system-ui,sans-serif;
+    --f-body:'Inter',system-ui,sans-serif;
+    --f-mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{min-height:100%}
+  body{
+    min-height:100vh;
+    background:var(--bg);color:var(--ink);
+    font-family:var(--f-body);-webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit}
+  button,input{font:inherit;color:inherit}
+  button{cursor:pointer;background:none;border:0}
+  
+  /* hidden until the load timeline releases them */
+  .pre .deed,.pre .portal-logo,.pre .back-home,.pre .rule{visibility:hidden}
+  
+  /* =========================================================
+     PORTAL — single centred column
+     ========================================================= */
+  .portal{
+    position:relative;min-height:100vh;
+    display:flex;align-items:center;justify-content:center;
+    padding:88px 16px 48px;
+    overflow:hidden;
+  }
+  .portal-col{
+    position:relative;z-index:3;
+    width:100%;max-width:480px;
+    display:flex;flex-direction:column;align-items:center;gap:22px;
+  }
+  
+  /* =========================================================
+     BACKGROUND — aurora, grid, routed-call network
+     ========================================================= */
+  .chamber{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .chamber-glow{
+    position:absolute;inset:-20%;
+    background:
+      radial-gradient(40% 35% at 78% 28%, rgba(46,230,200,.16), transparent 70%),
+      radial-gradient(45% 40% at 16% 78%, rgba(124,108,255,.22), transparent 70%),
+      radial-gradient(30% 25% at 60% 95%, rgba(255,181,71,.09), transparent 70%),
+      linear-gradient(180deg,#070c1f 0%,#060a18 60%,#050814 100%);
+    filter:blur(10px);
+    animation:drift 22s ease-in-out infinite alternate;
+  }
+  @keyframes drift{to{transform:translate(3%,-2%)}}
+  .chamber-rows{
+    position:absolute;inset:0;opacity:.5;
+    background-image:
+      linear-gradient(var(--line) 1px,transparent 1px),
+      linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(ellipse 70% 65% at 50% 50%,#000 20%,transparent 80%);
+            mask-image:radial-gradient(ellipse 70% 65% at 50% 50%,#000 20%,transparent 80%);
+  }
+  .chamber-net{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
+  .net-links path{fill:none;stroke:rgba(150,170,255,.15);stroke-width:1}
+  .net-pulses path{
+    fill:none;stroke:var(--teal);stroke-width:2;stroke-linecap:round;
+    stroke-dasharray:3 97;animation:packet 8s linear infinite;
+  }
+  .net-pulses path.alt{stroke:var(--amber)}
+  .net-nodes circle{fill:#9fb0ff;opacity:.5}
+  @keyframes packet{to{stroke-dashoffset:-100}}
+  .chamber-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 40%,rgba(3,5,12,.8) 100%)}
+  
+  /* =========================================================
+     FRAME RULES — thin lines that draw in on load
+     ========================================================= */
+  .rule{position:fixed;z-index:1;pointer-events:none;background:var(--line-2)}
+  .rule-t,.rule-b{left:24px;right:24px;height:1px;transform-origin:left center}
+  .rule-t{top:24px}
+  .rule-b{bottom:24px;transform-origin:right center}
+  .rule-l,.rule-r{top:24px;bottom:24px;width:1px;transform-origin:center top}
+  .rule-l{left:24px}
+  .rule-r{right:24px;transform-origin:center bottom}
+  
+  /* =========================================================
+     BACK TO HOME
+     ========================================================= */
+  .back-home{
+    position:absolute;z-index:4;top:44px;left:48px;
+    display:inline-flex;align-items:center;gap:8px;
+    padding:8px 14px;border-radius:999px;
+    border:1px solid var(--line);background:rgba(10,16,40,.55);
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    font-size:13px;font-weight:500;color:var(--ink-2);text-decoration:none;
+    transition:color .25s,border-color .25s,background .25s;
+  }
+  .back-home svg{width:16px;height:16px}
+  .back-home:hover{color:var(--ink);border-color:rgba(46,230,200,.45);background:rgba(16,26,60,.8)}
+  
+  /* =========================================================
+     LOGO
+     ========================================================= */
+  .portal-logo{display:inline-flex;align-items:center;text-decoration:none}
+  .portal-logo img{height:42px;width:auto;display:block}
+  .portal-word{
+    align-items:center;gap:10px;
+    font-family:var(--f-head);font-weight:700;font-size:15px;letter-spacing:.16em;
+  }
+  .portal-word svg{width:24px;height:24px;color:var(--teal)}
+  
+  /* =========================================================
+     THE CARD
+     ========================================================= */
+  .deed-shell{
+    position:relative;width:100%;
+    padding:1px;border-radius:22px;
+    background:linear-gradient(160deg,rgba(46,230,200,.45),rgba(124,108,255,.25) 45%,rgba(150,170,255,.08) 75%,rgba(255,181,71,.3));
+    box-shadow:0 40px 90px -40px rgba(0,0,0,.85),0 0 60px -30px rgba(46,230,200,.35);
+  }
+  .deed{
+    position:relative;border-radius:21px;
+    padding:36px 34px 30px;
+    background:var(--glass);
+    -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
+  }
+  
+  .kicker{
+    display:inline-flex;align-items:center;gap:8px;margin-bottom:16px;
+    font:500 11.5px var(--f-mono);text-transform:uppercase;letter-spacing:.18em;color:var(--teal);
+  }
+  .kicker::before{
+    content:'';width:7px;height:7px;border-radius:50%;background:var(--teal);
+    box-shadow:0 0 0 0 rgba(46,230,200,.55);animation:ping 2.2s infinite;
+  }
+  @keyframes ping{
+    0%{box-shadow:0 0 0 0 rgba(46,230,200,.55)}
+    80%,100%{box-shadow:0 0 0 8px rgba(46,230,200,0)}
+  }
+  
+  .deed-head{
+    font-family:var(--f-head);font-weight:700;
+    font-size:clamp(26px,4.2vw,32px);line-height:1.15;letter-spacing:-.025em;
+  }
+  .deed-head .l{display:block}
+  .deed-head .l i{display:inline-block;font-style:normal}
+  .deed-head .l-hl i{
+    background:linear-gradient(92deg,var(--teal) 0%,var(--sky) 55%,var(--amber) 115%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  
+  .deed-sub{margin:12px 0 24px;font-size:14.5px;line-height:1.6;color:var(--ink-2)}
+  .deed-sub a{color:var(--teal);font-weight:600;text-decoration:none;border-bottom:1px solid rgba(46,230,200,.35)}
+  .deed-sub a:hover{border-bottom-color:var(--teal)}
+  
+  /* =========================================================
+     ROLE TOGGLE — User / Admin
+     ========================================================= */
+  .role-toggle{
+    position:relative;display:grid;grid-template-columns:1fr 1fr;
+    padding:4px;margin-bottom:24px;border-radius:12px;
+    border:1px solid var(--line);background:rgba(6,10,26,.7);
+  }
+  .role-ind{
+    position:absolute;top:4px;bottom:4px;left:0;width:50%;
+    border-radius:9px;
+    background:linear-gradient(135deg,rgba(46,230,200,.22),rgba(90,208,255,.16));
+    border:1px solid rgba(46,230,200,.45);
+    box-shadow:0 6px 20px -8px rgba(46,230,200,.55);
+  }
+  .role-btn{
+    position:relative;z-index:1;
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:10px 12px;border-radius:9px;
+    font-size:14px;font-weight:600;color:var(--muted);
+    transition:color .25s;
+  }
+  .role-btn svg{width:17px;height:17px}
+  .role-btn:hover{color:var(--ink-2)}
+  .role-btn.active{color:var(--ink)}
+  .role-btn.active svg{color:var(--teal)}
+  .role-toggle[data-role="admin"] .role-btn.active svg{color:var(--amber)}
+  
+  /* =========================================================
+     FORM FIELDS
+     ========================================================= */
+  .deed-form{display:flex;flex-direction:column;gap:16px}
+  .field{display:flex;flex-direction:column;gap:7px}
+  .field-label{font-size:13px;font-weight:600;color:var(--ink-2)}
+  .field-input-wrap{
+    position:relative;display:flex;align-items:center;
+    border-radius:11px;border:1px solid var(--line-2);background:var(--field);
+    overflow:hidden;transition:border-color .25s,box-shadow .25s;
+  }
+  .field-input-wrap:focus-within{border-color:rgba(46,230,200,.55);box-shadow:0 0 0 3px rgba(46,230,200,.12)}
+  .field-input-wrap input{
+    flex:1;min-width:0;padding:13px 14px;
+    background:transparent;border:0;outline:0;font-size:15px;color:var(--ink);
+  }
+  .field-input-wrap input::placeholder{color:#5c6891}
+  .field-input-wrap input:-webkit-autofill{
+    -webkit-text-fill-color:var(--ink);
+    -webkit-box-shadow:0 0 0 100px #0b1330 inset;
+  }
+  .field-rule{
+    position:absolute;left:0;right:0;bottom:0;height:2px;
+    background:linear-gradient(90deg,var(--teal),var(--sky));
+    transform:scaleX(0);transform-origin:left center;
+  }
+  .field-toggle{
+    display:flex;align-items:center;justify-content:center;
+    width:44px;align-self:stretch;color:var(--muted);transition:color .2s;
+  }
+  .field-toggle:hover{color:var(--teal)}
+  .field-toggle svg{width:18px;height:18px}
+  
+  .field-input-wrap.has-error{border-color:rgba(255,107,129,.7);box-shadow:0 0 0 3px rgba(255,107,129,.12)}
+  .field-error{display:none;font-size:12.5px;color:var(--danger)}
+  .field-error.is-visible{display:block}
+  
+  /* ---- terms checkbox ---- */
+  .tick{position:relative;display:inline-flex;align-items:flex-start;gap:10px;font-size:13.5px;color:var(--ink-2);cursor:pointer;line-height:1.45}
+  .tick input{position:absolute;opacity:0;width:1px;height:1px}
+  .tick-box{
+    flex:none;display:inline-flex;align-items:center;justify-content:center;
+    width:18px;height:18px;margin-top:1px;border-radius:5px;
+    border:1px solid var(--line-2);background:var(--field);
+    transition:background .2s,border-color .2s;
+  }
+  .tick-box svg{width:12px;height:12px;color:#04121a;opacity:0;transform:scale(.6);transition:opacity .2s,transform .2s}
+  .tick input:checked + .tick-box{background:linear-gradient(135deg,var(--teal),var(--sky));border-color:transparent}
+  .tick input:checked + .tick-box svg{opacity:1;transform:scale(1)}
+  .tick input:focus-visible + .tick-box{outline:2px solid var(--amber);outline-offset:2px}
+  .tick a{color:var(--teal);text-decoration:none}
+  .tick a:hover{text-decoration:underline}
+  
+  /* =========================================================
+     SUBMIT
+     ========================================================= */
+  .btn{
+    position:relative;overflow:hidden;
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    padding:15px 22px;border-radius:12px;
+    font-weight:600;font-size:15px;
+  }
+  .btn-primary{
+    width:100%;margin-top:4px;
+    background:linear-gradient(135deg,var(--teal),var(--sky));color:#04121a;
+    box-shadow:0 12px 32px -12px rgba(46,230,200,.65);
+    transition:box-shadow .25s,filter .25s;
+  }
+  .btn-primary:hover{box-shadow:0 16px 44px -12px rgba(46,230,200,.95)}
+  .submit-wipe{
+    position:absolute;inset:0;z-index:0;
+    background:linear-gradient(90deg,rgba(255,255,255,.0),rgba(255,255,255,.35));
+    transform:scaleX(0);transform-origin:left center;
+  }
+  .login-submit-label,.login-submit-arrow{position:relative;z-index:1}
+  .login-submit-arrow{width:18px;height:18px}
+  .login-submit.loading{cursor:progress;filter:saturate(.8)}
+  .login-submit:disabled{cursor:progress}
+  
+  
+  /* focus */
+  .back-home:focus-visible,.portal-logo:focus-visible,.role-btn:focus-visible,
+  .field-toggle:focus-visible,.btn:focus-visible,
+  .deed-sub a:focus-visible,.tick a:focus-visible{
+    outline:2px solid var(--amber);outline-offset:3px;
+  }
+  
+  /* =========================================================
+     RESPONSIVE
+     ========================================================= */
+  @media (max-width:640px){
+    .portal{padding:84px 16px 40px;align-items:flex-start}
+    .rule-t,.rule-b{left:10px;right:10px}
+    .rule-t{top:10px}.rule-b{bottom:10px}
+    .rule-l,.rule-r{top:10px;bottom:10px}
+    .rule-l{left:10px}.rule-r{right:10px}
+    .back-home{top:24px;left:24px}
+    .deed{padding:28px 20px 24px}
+    .deed-head{font-size:25px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .chamber-glow,.net-pulses path,.kicker::before{animation:none}
+  }
+  
+  /* =========================================================
+     SIGN-UP EXTRAS
+     ========================================================= */
+  .portal-col{max-width:540px}
+  .deed{overflow:hidden}
+  
+  /* progress bar along the top of the card */
+  .deed-progress{position:absolute;top:0;left:0;right:0;height:3px;background:rgba(150,170,255,.1)}
+  .deed-progress-fill{
+    display:block;height:100%;width:0;
+    background:linear-gradient(90deg,var(--teal),var(--sky) 60%,var(--amber));
+    box-shadow:0 0 12px rgba(46,230,200,.6);
+  }
+  
+  .role-note{margin:-12px 0 22px;font-size:13px;line-height:1.55;color:var(--muted)}
+  .role-toggle[data-role="admin"] + .role-note{color:var(--ink-2)}
+  
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .field[hidden]{display:none}
+  .admin-only .field-label{color:var(--amber)}
+  
+  .signup-terms-row{display:flex;flex-direction:column;gap:6px;margin-top:2px}
+  
+  @media (max-width:640px){
+    .form-row{grid-template-columns:1fr}
+    .role-btn{font-size:13px;padding:10px 6px;gap:6px;white-space:nowrap}
+    .role-btn svg{width:15px;height:15px}
+  }

@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Stackly — Admin Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/admindashboard.css" />
+</head>
+<body>
+
+<!-- ============ HEADER (two tiers: bar + tab strip) ============ -->
+<header class="head" id="topbar">
+  <div class="head-bar">
+    <div class="head-left">
+      <!-- hamburger: only below 1100px, opens the full-screen menu -->
+      <button class="burger" id="hamburger-btn" aria-label="Open menu" aria-expanded="false" aria-controls="menu-sheet">
+        <span class="burger-box">
+          <span class="burger-line l1"></span>
+          <span class="burger-line l2"></span>
+          <span class="burger-line l3"></span>
+        </span>
+      </button>
+      <button class="brand" id="brand-home-btn" aria-label="Go to overview">
+        <img class="brand-img" src="../assets/Logo.webp" alt="Stackly" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'">
+        <span class="brand-word" style="display:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 4.5-9 4.5-9-4.5Z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/></svg>
+          <b>STACKLY</b>
+        </span>
+      </button>
+      <span class="admin-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/></svg>
+        Admin
+      </span>
+    </div>
+
+    <div class="head-right">
+      <form class="finder" id="topbar-search" autocomplete="off" role="search">
+        <button type="submit" class="finder-go" id="finder-go" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.2-4.2"/></svg>
+        </button>
+        <input id="topbar-search-input" placeholder="Search clients, people, sites…">
+      </form>
+      <button class="icon-btn" id="notif-btn" aria-label="Alerts">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M18 9a6 6 0 1 0-12 0c0 5-2 6-2 6h16s-2-1-2-6"/><path d="M10.5 20a2 2 0 0 0 3 0"/></svg>
+        <span class="icon-dot"></span>
+      </button>
+      <div class="whoami" id="topbar-user">
+        <button class="whoami-btn" id="topbar-user-btn" aria-haspopup="true">
+          <span class="seal sm" id="topbar-user-avatar">–</span>
+          <span class="whoami-text">
+            <span class="whoami-name" id="topbar-user-name">Signed out</span>
+            <span class="whoami-role" id="topbar-user-role">Administrator</span>
+          </span>
+          <svg class="whoami-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="whoami-menu" id="topbar-user-menu">
+          <div class="whoami-menu-head">
+            <span>Signed in as</span>
+            <span class="whoami-menu-email" id="topbar-user-email">—</span>
+          </div>
+          <button class="whoami-item" data-nav="settings">Settings</button>
+          <button class="whoami-item" data-nav="security">Security policy</button>
+          <button class="whoami-item danger" id="topbar-logout-btn">Sign out</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- tab strip: desktop navigation -->
+  <nav class="tabs" id="nav-tabs" aria-label="Admin sections"></nav>
+</header>
+
+<!-- ============ SIDE DRAWER (tablet & phone) ============ -->
+<div class="dock-scrim" id="sidebar-overlay"></div>
+<aside class="dock" id="menu-sheet" aria-label="Admin menu" aria-hidden="true">
+  <div class="dock-head">
+    <button class="brand" data-nav="dashboard" aria-label="Go to overview">
+      <img class="brand-img" src="../assets/Logo.webp" alt="Stackly" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'">
+      <span class="brand-word" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 4.5-9 4.5-9-4.5Z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/></svg>
+        <b>STACKLY</b>
+      </span>
+    </button>
+  </div>
+
+  <div class="dock-shift">
+    <span class="shift-dot"></span>
+    <div>
+      <span class="shift-title">Admin console</span>
+      <span class="shift-sub">4 sites · 1,072 people</span>
+    </div>
+  </div>
+
+  <div class="dock-scroll" id="nav-sheet"></div>
+
+  <div class="dock-foot">
+    <div class="dock-user">
+      <span class="seal" id="sidebar-user-avatar">–</span>
+      <div class="dock-user-info">
+        <span class="dock-user-name" id="sidebar-user-name">Signed out</span>
+        <span class="dock-user-email" id="sidebar-user-email">—</span>
+      </div>
+    </div>
+    <button class="dock-signout" id="logout-btn" aria-label="Sign out">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5M15 12H3"/></svg>
+    </button>
+  </div>
+</aside>
+
+<!-- ============ PAGE ============ -->
+<main class="page">
+  <div class="page-head">
+    <div>
+      <p class="page-kicker" id="page-kicker">Admin console</p>
+      <h1 id="page-title-text">Overview</h1>
+      <p class="page-sub" id="page-sub-text"></p>
+    </div>
+    <div class="page-actions" id="page-actions"></div>
+  </div>
+  <div class="content" id="content-area"></div>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+window.scrollTo(0, 0);
+
+/* =========================================================
+   ICONS
+   ========================================================= */
+const ICONS = {
+  grid:     'M4 4h7v7H4zM13 4h7v4h-7zM13 12h7v8h-7zM4 15h7v5H4z',
+  building: 'M4 21V5l8-2v18M12 8h8v13M8 8h.01M8 12h.01M8 16h.01M16 12h.01M16 16h.01M2 21h20',
+  users:    'M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6M3 20c1-3 3.4-4.6 6-4.6S14 17 15 20M16.5 11.4a2.6 2.6 0 0 0 0-5.2M18.2 20c-.4-1.6-1-2.9-1.9-3.8',
+  pin:      'M12 21s7-6.2 7-11.5a7 7 0 1 0-14 0C5 14.8 12 21 12 21zM12 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5',
+  log:      'M4 5h16M4 10h16M4 15h10M4 20h7',
+  shield:   'M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3zM9 12l2 2 4-4',
+  plug:     'M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0zM12 17v4',
+  invoice:  'M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6M9 16h3',
+  lock:     'M6 11h12v10H6zM8 11V8a4 4 0 0 1 8 0v3',
+  gear:     'M12 9.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1',
+  check:    'M5 12l4 4 10-10',
+  x:        'M6 6l12 12M18 6L6 18',
+  alert:    'M12 4l9 16H3zM12 10v4.2M12 17.4v.4',
+  plus:     'M12 5v14M5 12h14',
+  download: 'M12 4v11M7 10l5 5 5-5M5 20h14',
+  seat:     'M6 4h12v8H6zM4 12h16v3H4zM8 15v5M16 15v5'
+};
+function ico(name, cls) {
+  return `<svg class="${cls || 'ico'}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="${ICONS[name] || ICONS.grid}"/></svg>`;
+}
+
+/* =========================================================
+   DEMO DATA — Stackly as a BPO business
+   ========================================================= */
+const lineAccents = {
+  "Customer care": "#2ee6c8",
+  "Back office":   "#ffb547",
+  "Tech support":  "#5ad0ff",
+  "Collections":   "#ff8fa3",
+  "Healthcare":    "#a79bff"
+};
+
+/* ---------- Client accounts ---------- */
+const clients = [
+  { name: "Northwind Telecom",    line: "Customer care", contract: "3-year MSA",   seats: 48, revenueYtd: 1284000, status: "Active",   since: "Jan 2023", renewal: "Dec 2026" },
+  { name: "Brightpath Insurance", line: "Back office",   contract: "Annual",       seats: 26, revenueYtd: 612000,  status: "Active",   since: "Mar 2024", renewal: "Mar 2027" },
+  { name: "Halcyon Retail",       line: "Customer care", contract: "Annual",       seats: 22, revenueYtd: 498000,  status: "Active",   since: "Jun 2022", renewal: "Nov 2026" },
+  { name: "Veda Health",          line: "Healthcare",    contract: "3-year MSA",   seats: 30, revenueYtd: 744000,  status: "Active",   since: "Nov 2023", renewal: "Nov 2026" },
+  { name: "Orbit Bank",           line: "Back office",   contract: "Pilot",        seats: 18, revenueYtd: 214000,  status: "Pilot",    since: "Jun 2026", renewal: "Dec 2026" },
+  { name: "Lumen Energy",         line: "Collections",   contract: "Annual",       seats: 14, revenueYtd: 302000,  status: "At risk",  since: "Feb 2025", renewal: "Oct 2026" },
+  { name: "Cobalt Cloud",         line: "Tech support",  contract: "Proposal",     seats: 0,  revenueYtd: 0,       status: "Prospect", since: "Sep 2026", renewal: "—" },
+  { name: "Kinetic Motors",       line: "Customer care", contract: "Annual",       seats: 0,  revenueYtd: 96000,   status: "Paused",   since: "Apr 2024", renewal: "—" }
+];
+
+/* ---------- People and access ---------- */
+const people = [
+  { name: "Aisha Rahman",   role: "Account Director",   site: "London",  access: "Full",       lastActive: "12m ago", status: "Active" },
+  { name: "Leo Martins",    role: "Operations Manager", site: "Kraków",  access: "Full",       lastActive: "1h ago",  status: "Active" },
+  { name: "Nina Kowalski",  role: "Team Lead",          site: "Kraków",  access: "Standard",   lastActive: "20m ago", status: "Active" },
+  { name: "Samuel Osei",    role: "Team Lead",          site: "Manila",  access: "Standard",   lastActive: "3h ago",  status: "Active" },
+  { name: "Hannah Weber",   role: "QA Manager",         site: "London",  access: "Standard",   lastActive: "5h ago",  status: "Active" },
+  { name: "Ravi Iyer",      role: "WFM Analyst",        site: "Pune",    access: "Restricted", lastActive: "2d ago",  status: "Suspended" },
+  { name: "Maria Santos",   role: "Trainer",            site: "Manila",  access: "Restricted", lastActive: "—",       status: "Pending" },
+  { name: "Tomás Novak",    role: "IT Administrator",   site: "Kraków",  access: "Full",       lastActive: "8m ago",  status: "Active" }
+];
+
+/* ---------- Delivery sites ---------- */
+const sites = [
+  { city: "Manila",  country: "Philippines", seats: 420, used: 386, shifts: "24/7",        lead: "Samuel Osei",   attrition: 3.1 },
+  { city: "Pune",    country: "India",       seats: 360, used: 298, shifts: "24/7",        lead: "Ravi Iyer",     attrition: 2.4 },
+  { city: "Kraków",  country: "Poland",      seats: 180, used: 171, shifts: "07:00–23:00", lead: "Leo Martins",   attrition: 1.8 },
+  { city: "London",  country: "UK",          seats: 60,  used: 38,  shifts: "08:00–18:00", lead: "Aisha Rahman",  attrition: 1.2 }
+];
+
+/* ---------- Access requests (interactive) ---------- */
+let approvals = [
+  { id: "REQ-311", who: "Maria Santos",  what: "Trainer access to Veda Health workspace",       site: "Manila", when: "Today · 09:02" },
+  { id: "REQ-308", who: "Nina Kowalski", what: "Export rights for Halcyon Retail call records", site: "Kraków", when: "Yesterday" },
+  { id: "REQ-305", who: "Ravi Iyer",     what: "Reinstate WFM analyst login",                    site: "Pune",   when: "2 days ago" }
+];
+
+/* ---------- Audit log ---------- */
+let auditTrail = [
+  { time: "Today · 09:14",     actor: "Tomás Novak",  action: "Rotated the telephony API key",        target: "CCaaS platform",               scope: "Systems" },
+  { time: "Today · 08:00",     actor: "System",       action: "Ran the nightly access review",        target: "1,018 active logins",          scope: "Company-wide" },
+  { time: "Yesterday · 17:40", actor: "Hannah Weber", action: "Published a QA scorecard",             target: "Northwind Telecom",            scope: "Customer care" },
+  { time: "Yesterday · 14:15", actor: "Admin (You)",  action: "Paused a client account",              target: "Kinetic Motors",               scope: "Company-wide" },
+  { time: "Yesterday · 11:30", actor: "Leo Martins",  action: "Moved 12 seats between clients",       target: "Veda Health → Northwind",      scope: "Kraków" },
+  { time: "2 days ago",        actor: "System",       action: "Archived closed tickets",              target: "18,420 tickets older than 13 months", scope: "Company-wide" },
+  { time: "3 days ago",        actor: "Admin (You)",  action: "Changed the overtime rate",            target: "Manila weekend shifts",        scope: "Manila" },
+  { time: "4 days ago",        actor: "Aisha Rahman", action: "Signed a contract renewal",            target: "Brightpath Insurance",         scope: "Back office" }
+];
+
+/* ---------- Compliance ---------- */
+const complianceChecks = [
+  { name: "Information security (ISO 27001)", state: "clear",     detail: "Surveillance audit passed · next review Mar 2027",  metric: "Certified" },
+  { name: "Card data handling (PCI DSS)",     state: "clear",     detail: "Pause-and-resume recording on every payment line",  metric: "Level 2" },
+  { name: "Data protection (GDPR)",           state: "clear",     detail: "All EU client data kept in the Kraków region",      metric: "3 DPAs" },
+  { name: "Health data (HIPAA)",              state: "clear",     detail: "Veda Health agents trained within 12 months",       metric: "30 of 30" },
+  { name: "Clean-desk and device checks",     state: "attention", detail: "14 Pune workstations missed last month's check",    metric: "14 seats" }
+];
+
+/* ---------- Integrations ---------- */
+const systems = [
+  { name: "Cloud contact centre",  type: "Telephony",       status: "Connected", seats: 1018 },
+  { name: "CRM connector",         type: "Customer data",   status: "Connected", seats: 812 },
+  { name: "Workforce management",  type: "Scheduling",      status: "Connected", seats: 1018 },
+  { name: "Quality monitoring",    type: "QA & recording",  status: "Degraded",  seats: 640 },
+  { name: "Payroll and HR",        type: "Finance",         status: "Connected", seats: 1072 },
+  { name: "Single sign-on",        type: "Identity",        status: "Connected", seats: 1072 }
+];
+
+/* ---------- Billing ---------- */
+const invoices = [
+  { client: "Northwind Telecom",    model: "Per seat",      monthly: 128000, next: "1 Oct",  state: "Paid" },
+  { client: "Brightpath Insurance", model: "Per case",      monthly: 64000,  next: "3 Oct",  state: "Paid" },
+  { client: "Halcyon Retail",       model: "Per contact",   monthly: 52000,  next: "5 Oct",  state: "Paid" },
+  { client: "Veda Health",          model: "Per seat",      monthly: 78000,  next: "8 Oct",  state: "Sent" },
+  { client: "Orbit Bank",           model: "Pilot, fixed",  monthly: 36000,  next: "12 Oct", state: "Sent" },
+  { client: "Lumen Energy",         model: "Per contact",   monthly: 31000,  next: "28 Sep", state: "Overdue" },
+  { client: "Kinetic Motors",       model: "Per seat",      monthly: 0,      next: "—",      state: "Paused" }
+];
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+const navGroups = [
+  { label: "Business",   items: [
+    { label: "Overview",     id: "dashboard",  icon: "grid",     desc: "The business this week" },
+    { label: "Clients",      id: "clients",    icon: "building", desc: "Accounts and contracts" },
+    { label: "People",       id: "people",     icon: "users",    desc: "Staff and their access" },
+    { label: "Sites",        id: "sites",      icon: "pin",      desc: "Delivery centres and seats" } ] },
+  { label: "Governance", items: [
+    { label: "Audit log",    id: "audit",      icon: "log",      desc: "Every admin action" },
+    { label: "Compliance",   id: "compliance", icon: "shield",   desc: "Certifications and checks" },
+    { label: "Integrations", id: "systems",    icon: "plug",     desc: "Connected platforms" },
+    { label: "Billing",      id: "billing",    icon: "invoice",  desc: "Invoices and payments" } ] },
+  { label: "Controls",   items: [
+    { label: "Security",     id: "security",   icon: "lock",     desc: "Company-wide access policy" },
+    { label: "Settings",     id: "settings",   icon: "gear",     desc: "Your profile and preferences" } ] }
+];
+function allNav() { return navGroups.reduce(function (a, g) { return a.concat(g.items); }, []); }
+
+const pageMap = {
+  dashboard:  { title: "Overview",     sub: "How Stackly is running across clients, people and sites" },
+  clients:    { title: "Clients",      sub: "Every client account, contract and renewal date" },
+  people:     { title: "People",       sub: "Staff, their site and what they can open" },
+  sites:      { title: "Sites",        sub: "Delivery centres, seat capacity and attrition" },
+  audit:      { title: "Audit log",    sub: "Every administrative and system action, newest first" },
+  compliance: { title: "Compliance",   sub: "Certifications, standards and standing checks" },
+  systems:    { title: "Integrations", sub: "Telephony, CRM, scheduling, QA, payroll and identity" },
+  billing:    { title: "Billing",      sub: "What each client is invoiced and when it falls due" },
+  security:   { title: "Security",     sub: "Access rules applied to everyone with a login" },
+  settings:   { title: "Settings",     sub: "Your profile and preferences" }
+};
+
+const stateClass = {
+  "Active": "is-good", "Pilot": "is-info", "Prospect": "is-info", "At risk": "is-warn", "Paused": "is-quiet",
+  "Suspended": "is-bad", "Pending": "is-info", "Paid": "is-good", "Sent": "is-info", "Overdue": "is-bad",
+  "Connected": "is-good", "Degraded": "is-warn", "Clear": "is-good", "Attention": "is-warn"
+};
+const accessColor = { "Full": "#2ee6c8", "Standard": "#5ad0ff", "Restricted": "#8fa0cc" };
+
+/* =========================================================
+   SIGNED-IN USER LOOKUP
+   Same behaviour as before: the usual key names in
+   localStorage then sessionStorage, a JSON object or a bare
+   address, nested objects, then a sweep of every stored key.
+   ========================================================= */
+const EMAIL_RE = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+const USER_KEY_CANDIDATES = [
+  'user', 'currentUser', 'loggedInUser', 'authUser', 'stacklyUser',
+  'userData', 'profile', 'account', 'auth', 'session',
+  'userEmail', 'email', 'username'
+];
+const EMAIL_FIELDS = ['email', 'mail', 'useremail', 'emailaddress', 'e-mail', 'username', 'login', 'user'];
+const NAME_FIELDS = ['name', 'fullname', 'displayname', 'firstname', 'givenname'];
+const ROLE_FIELDS = ['role', 'userrole', 'accounttype', 'type'];
+let foundUserKey = null;
+
+function asEmail(v) {
+  if (typeof v !== 'string') return null;
+  const s = v.trim();
+  return EMAIL_RE.test(s) ? s : null;
+}
+function objToUser(obj, depth) {
+  depth = depth || 0;
+  if (!obj || depth > 4) return null;
+  if (typeof obj === 'string') {
+    const direct = asEmail(obj);
+    if (direct) return { email: direct };
+    return rawToUser(obj, depth + 1);
+  }
+  if (Array.isArray(obj)) {
+    for (let i = 0; i < obj.length; i++) {
+      const hit = objToUser(obj[i], depth + 1);
+      if (hit) return hit;
+    }
+    return null;
+  }
+  if (typeof obj !== 'object') return null;
+  for (const k in obj) {
+    if (EMAIL_FIELDS.indexOf(String(k).toLowerCase()) === -1) continue;
+    const hit = asEmail(obj[k]);
+    if (hit) return Object.assign({}, obj, { email: hit });
+  }
+  for (const k in obj) {
+    const hit = asEmail(obj[k]);
+    if (hit) return Object.assign({}, obj, { email: hit });
+  }
+  for (const k in obj) {
+    const v = obj[k];
+    if (v && typeof v === 'object') {
+      const nested = objToUser(v, depth + 1);
+      if (nested) return nested;
+    } else if (typeof v === 'string' && (v.trim().charAt(0) === '{' || v.trim().charAt(0) === '[')) {
+      const nested = rawToUser(v, depth + 1);
+      if (nested) return nested;
+    }
+  }
+  return null;
+}
+function rawToUser(raw, depth) {
+  depth = depth || 0;
+  if (!raw || depth > 4) return null;
+  const trimmed = String(raw).trim();
+  if (!trimmed) return null;
+  const first = trimmed.charAt(0);
+  if (first === '{' || first === '[' || first === '"') {
+    try { return objToUser(JSON.parse(trimmed), depth); } catch (e) {}
+  }
+  const direct = asEmail(trimmed);
+  if (direct) return { email: direct };
+  try { return objToUser(JSON.parse(trimmed), depth); } catch (e) { return null; }
+}
+function pickField(obj, fields) {
+  if (!obj || typeof obj !== 'object') return '';
+  for (const k in obj) {
+    if (fields.indexOf(String(k).toLowerCase()) === -1) continue;
+    const v = obj[k];
+    if (typeof v === 'string' && v.trim() && !asEmail(v)) return v.trim();
+  }
+  return '';
+}
+function getCurrentUser() {
+  const stores = [];
+  try { if (window.localStorage) stores.push(localStorage); } catch (e) {}
+  try { if (window.sessionStorage) stores.push(sessionStorage); } catch (e) {}
+  for (let s = 0; s < stores.length; s++) {
+    try { if (stores[s].getItem('isAuthenticated') === 'false') return null; } catch (e) {}
+  }
+  for (let s = 0; s < stores.length; s++) {
+    for (let i = 0; i < USER_KEY_CANDIDATES.length; i++) {
+      const key = USER_KEY_CANDIDATES[i];
+      let hit = null;
+      try { hit = rawToUser(stores[s].getItem(key)); } catch (e) {}
+      if (hit) { foundUserKey = key; return hit; }
+    }
+  }
+  for (let s = 0; s < stores.length; s++) {
+    let len = 0;
+    try { len = stores[s].length; } catch (e) {}
+    for (let i = 0; i < len; i++) {
+      let key = null, hit = null;
+      try { key = stores[s].key(i); hit = rawToUser(stores[s].getItem(key)); } catch (e) {}
+      if (hit) { foundUserKey = key; return hit; }
+    }
+  }
+  return null;
+}
+function usernameFromEmail(email) { if (!email) return ''; return email.includes('@') ? email.split('@')[0] : email; }
+
+const currentUser = getCurrentUser();
+const currentEmail = currentUser ? (asEmail(currentUser.email) || '') : '';
+const storedName = currentUser ? pickField(currentUser, NAME_FIELDS) : '';
+const currentRole = currentUser ? pickField(currentUser, ROLE_FIELDS).toLowerCase() : '';
+const currentUsername = (currentEmail || storedName) ? (storedName || usernameFromEmail(currentEmail)) : '';
+const currentInitial = ((currentEmail || currentUsername || '?').trim().charAt(0) || '?').toUpperCase();
+
+function paintUserChrome() {
+  const nameToShow = currentUsername || currentEmail || 'Signed out';
+  const emailToShow = currentEmail || '—';
+  document.getElementById('sidebar-user-avatar').textContent = currentInitial;
+  document.getElementById('sidebar-user-name').textContent = nameToShow;
+  document.getElementById('sidebar-user-email').textContent = emailToShow;
+  document.getElementById('topbar-user-avatar').textContent = currentInitial;
+  document.getElementById('topbar-user-name').textContent = nameToShow;
+  document.getElementById('topbar-user-role').textContent = currentUser ? (currentRole === 'admin' ? 'Administrator' : 'Operations user') : 'Not signed in';
+  document.getElementById('topbar-user-email').textContent = emailToShow;
+}
+
+function logout() {
+  const keys = ['user', 'isAuthenticated', 'activeNav', 'settings'].concat(USER_KEY_CANDIDATES);
+  if (foundUserKey && keys.indexOf(foundUserKey) === -1) keys.push(foundUserKey);
+  keys.forEach(function (k) {
+    try { localStorage.removeItem(k); } catch (e) {}
+    try { sessionStorage.removeItem(k); } catch (e) {}
+  });
+  window.location.href = 'login.html';
+}
+
+/* =========================================================
+   STATE
+   ========================================================= */
+function getSavedNav() {
+  try { const saved = localStorage.getItem('activeNav'); if (saved && pageMap[saved]) return saved; } catch (e) {}
+  return 'dashboard';
+}
+function loadSettings() {
+  const defaults = {
+    slaAlerts: true, weeklyDigest: false, compactRows: false, language: "English",
+    twoFactor: true, ssoRequired: true, ipAllowlist: false, clientWalls: true, sessionTimeout: "30 minutes"
+  };
+  try { const raw = localStorage.getItem('settings'); if (raw) return Object.assign(defaults, JSON.parse(raw)); } catch (e) {}
+  return defaults;
+}
+function saveSettings() { try { localStorage.setItem('settings', JSON.stringify(state.settings)); } catch (e) {} }
+
+let state = { activeNav: getSavedNav(), clientFilter: "All", peopleSearch: "", settings: loadSettings() };
+
+function money(n) { return "$" + n.toLocaleString(); }
+function moneyShort(n) { return n >= 1000000 ? "$" + (n / 1000000).toFixed(2) + "m" : "$" + Math.round(n / 1000) + "k"; }
+function go404() { window.location.href = "404.html"; }
+function lineTag(l) { const c = lineAccents[l] || "#2ee6c8"; return `<span class="line-tag" style="--c:${c}">${l}</span>`; }
+function pill(text) { return `<span class="pill ${stateClass[text] || 'is-quiet'}">${text}</span>`; }
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+/* ---- sticky header height, measured whenever it can re-wrap ---- */
+function syncTopbarHeight() {
+  const tb = document.getElementById('topbar');
+  if (!tb) return;
+  const h = tb.offsetHeight;
+  if (h) document.documentElement.style.setProperty('--head-h', h + 'px');
+}
+
+function fillBars() {
+  requestAnimationFrame(function () {
+    document.querySelectorAll('[data-w]').forEach(function (el) { el.style.width = el.getAttribute('data-w') + '%'; });
+    document.querySelectorAll('[data-dash]').forEach(function (el) { el.style.strokeDashoffset = el.getAttribute('data-dash'); });
+  });
+}
+function entrance() {
+  if (typeof gsap === 'undefined') return;
+  gsap.killTweensOf('.stat, .panel, .anim');
+  gsap.fromTo('.page-head', { opacity: 0, y: -8 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' });
+  gsap.fromTo('.stat', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', stagger: 0.05 });
+  gsap.fromTo('.panel', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', stagger: 0.06, delay: 0.06 });
+  gsap.fromTo('.anim', { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.4, ease: 'power2.out', stagger: 0.03, delay: 0.14 });
+
+  document.querySelectorAll('.count').forEach(function (el) {
+    const raw = el.textContent.trim();
+    const match = raw.match(/^([^\d]*)([\d,]+\.?\d*)(.*)$/);
+    if (!match) return;
+    const prefix = match[1], numStr = match[2].replace(/,/g, ''), suffix = match[3];
+    const num = parseFloat(numStr);
+    if (isNaN(num)) return;
+    const decimals = numStr.indexOf('.') > -1 ? numStr.split('.')[1].length : 0;
+    const counter = { val: 0 };
+    gsap.to(counter, {
+      val: num, duration: 1.05, ease: 'power2.out', delay: 0.1,
+      onUpdate: function () { el.textContent = prefix + (decimals ? counter.val.toFixed(decimals) : Math.round(counter.val).toLocaleString()) + suffix; },
+      onComplete: function () { el.textContent = raw; }
+    });
+  });
+}
+let toastTimer = null;
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function () { t.classList.remove('show'); }, 2600);
+}
+
+/* ---------- shared pieces ---------- */
+function statStrip(items) {
+  return `<section class="stats">${items.map(function (s) {
+    return `<div class="stat" onclick="go404()" style="--c:${s.color || '#2ee6c8'}">
+      <span class="stat-label">${s.label}</span>
+      <span class="stat-value count">${s.value}</span>
+      ${s.note ? `<span class="stat-note">${s.note}</span>` : ''}
+    </div>`;
+  }).join("")}</section>`;
+}
+function panel(o, body) {
+  return `<section class="panel ${o.cls || ''}">
+    <header class="panel-head">
+      <div>
+        ${o.kicker ? `<span class="panel-kicker">${o.kicker}</span>` : ''}
+        <h2>${o.title}</h2>
+        ${o.sub ? `<p${o.subId ? ` id="${o.subId}"` : ''}>${o.sub}</p>` : ''}
+      </div>
+      ${o.aside || ''}
+    </header>
+    ${body}
+  </section>`;
+}
+function ring(pct, color, label) {
+  const r = 34, c = 2 * Math.PI * r;
+  return `<div class="ring">
+    <svg viewBox="0 0 80 80" aria-hidden="true">
+      <circle cx="40" cy="40" r="${r}" class="ring-bg"/>
+      <circle cx="40" cy="40" r="${r}" class="ring-fg" stroke="${color}" stroke-dasharray="${c.toFixed(1)}" style="stroke-dashoffset:${c.toFixed(1)}" data-dash="${(c * (1 - pct / 100)).toFixed(1)}"/>
+    </svg>
+    <span class="ring-val">${pct}%</span>
+    ${label ? `<span class="ring-label">${label}</span>` : ''}
+  </div>`;
+}
+function trailHtml(list) {
+  return list.map(function (a) {
+    return `<li class="trail-item anim" onclick="go404()">
+      <span class="trail-dot ${a.actor === 'System' ? 'auto' : a.actor === 'Admin (You)' ? 'you' : ''}"></span>
+      <span class="trail-body">
+        <span class="trail-line"><b>${esc(a.actor)}</b> ${esc(a.action.toLowerCase())} — ${esc(a.target)}</span>
+        <span class="trail-meta">${a.time} · ${a.scope}</span>
+      </span>
+    </li>`;
+  }).join("");
+}
+
+/* =========================================================
+   OVERVIEW
+   ========================================================= */
+function approvalsHtml() {
+  if (!approvals.length) return `<p class="empty">No requests waiting. Nice.</p>`;
+  return `<ul class="approvals">${approvals.map(function (r) {
+    return `<li class="approval anim" data-req="${r.id}">
+      <span class="seal sm">${r.who.split(' ').map(function (p) { return p[0]; }).join('')}</span>
+      <span class="approval-body">
+        <span class="approval-who">${r.who} <em>${r.site}</em></span>
+        <span class="approval-what">${r.what}</span>
+        <span class="approval-when">${r.id} · ${r.when}</span>
+      </span>
+      <span class="approval-actions">
+        <button class="act act-yes" data-approve="${r.id}" aria-label="Approve ${r.id}">${ico('check')}</button>
+        <button class="act act-no" data-decline="${r.id}" aria-label="Decline ${r.id}">${ico('x')}</button>
+      </span>
+    </li>`;
+  }).join("")}</ul>`;
+}
+function renderDashboard() {
+  const monthly = invoices.reduce(function (a, b) { return a + b.monthly; }, 0);
+  const seats = sites.reduce(function (a, s) { return a + s.seats; }, 0);
+  const used = sites.reduce(function (a, s) { return a + s.used; }, 0);
+  const active = clients.filter(function (c) { return c.status === "Active" || c.status === "Pilot"; }).length;
+
+  const stats = statStrip([
+    { label: "Live client accounts",  value: String(active),        note: "+1 pilot this quarter" },
+    { label: "Headcount",             value: "1,072",               note: "across 4 sites", color: "#5ad0ff" },
+    { label: "Monthly billing",       value: money(monthly),        note: "7 invoices this cycle", color: "#a79bff" },
+    { label: "Seat utilisation",      value: Math.round(used / seats * 100) + "%", note: used + " of " + seats + " seats", color: "#ffb547" }
+  ]);
+
+  const top = clients.filter(function (c) { return c.revenueYtd > 0; }).sort(function (a, b) { return b.revenueYtd - a.revenueYtd; });
+  const max = top[0].revenueYtd;
+  const revenue = top.map(function (c) {
+    return `<div class="rev anim" onclick="go404()">
+      <div class="rev-top"><span class="rev-name">${c.name}</span><span class="rev-val">${moneyShort(c.revenueYtd)}</span></div>
+      <div class="rev-track"><div class="rev-fill" data-w="${(c.revenueYtd / max * 100).toFixed(1)}" style="--c:${lineAccents[c.line]}"></div></div>
+    </div>`;
+  }).join("");
+  const legend = Object.keys(lineAccents).map(function (l) { return `<li><i style="background:${lineAccents[l]}"></i>${l}</li>`; }).join("");
+
+  const siteCards = sites.map(function (s) {
+    const pct = Math.round(s.used / s.seats * 100);
+    const color = pct >= 90 ? '#ffb547' : '#2ee6c8';
+    return `<div class="site-mini anim" onclick="go404()">
+      ${ring(pct, color)}
+      <span class="site-mini-city">${s.city}</span>
+      <span class="site-mini-sub">${s.used} / ${s.seats} seats</span>
+    </div>`;
+  }).join("");
+
+  const checks = complianceChecks.map(function (c) {
+    const ok = c.state === 'clear';
+    return `<li class="check-mini anim" onclick="go404()">
+      <span class="check-ico ${ok ? 'ok' : 'warn'}">${ico(ok ? 'check' : 'alert')}</span>
+      <span class="check-mini-name">${c.name}</span>
+      <span class="check-mini-metric">${c.metric}</span>
+    </li>`;
+  }).join("");
+
+  const renewals = clients.filter(function (c) { return /2026/.test(c.renewal); }).map(function (c) {
+    return `<li class="renew anim" onclick="go404()">
+      <span class="renew-date">${c.renewal.split(' ')[0]}</span>
+      <span class="renew-body"><span class="renew-name">${c.name}</span><span class="renew-sub">${c.contract} · ${c.seats} seats</span></span>
+      ${pill(c.status)}
+    </li>`;
+  }).join("");
+
+  return `${stats}
+    <div class="layout layout-a">
+      ${panel({ kicker: "Revenue", title: "Revenue by client, year to date", sub: "Bar colour shows the service line", aside: `<ul class="legend">${legend}</ul>` }, `<div class="rev-list">${revenue}</div>`)}
+      ${panel({ kicker: "Action", title: "Access requests", sub: "Approve or decline — it's logged either way", aside: `<span class="count-badge" id="approval-count">${approvals.length}</span>` }, `<div id="approvals-box">${approvalsHtml()}</div>`)}
+    </div>
+    <div class="layout layout-b">
+      ${panel({ kicker: "Capacity", title: "Seats by site", sub: "Amber means a site is 90% full or more", aside: `<button class="link-btn" data-nav="sites">All sites →</button>` }, `<div class="site-minis">${siteCards}</div>`)}
+      ${panel({ kicker: "Assurance", title: "Compliance", sub: "Standards Stackly is held to", aside: `<button class="link-btn" data-nav="compliance">Details →</button>` }, `<ul class="check-minis">${checks}</ul>`)}
+    </div>
+    <div class="layout layout-c">
+      ${panel({ kicker: "Contracts", title: "Renewals due this year", sub: "Start conversations 60 days out" }, `<ul class="renew-list">${renewals}</ul>`)}
+      ${panel({ kicker: "Log", title: "Recent activity", sub: "Latest entries on the audit log", aside: `<button class="link-btn" data-nav="audit">Full log →</button>` }, `<ul class="trail" id="overview-trail">${trailHtml(auditTrail.slice(0, 5))}</ul>`)}
+    </div>`;
+}
+
+/* =========================================================
+   CLIENTS
+   ========================================================= */
+function renderClients() {
+  const states = ["All", "Active", "Pilot", "At risk", "Prospect", "Paused"];
+  const list = state.clientFilter === "All" ? clients : clients.filter(function (c) { return c.status === state.clientFilter; });
+  const total = clients.reduce(function (a, c) { return a + c.revenueYtd; }, 0);
+  const max = Math.max.apply(null, clients.map(function (c) { return c.revenueYtd; }));
+
+  const stats = statStrip([
+    { label: "Client accounts", value: String(clients.length) },
+    { label: "Seats sold",      value: String(clients.reduce(function(a,c){return a+c.seats;},0)), color: "#5ad0ff" },
+    { label: "Revenue YTD",     value: money(total), color: "#a79bff" },
+    { label: "At risk",         value: String(clients.filter(function(c){return c.status==="At risk";}).length), color: "#ffb547" }
+  ]);
+  const chips = states.map(function (s) {
+    return `<button class="chip client-filter ${state.clientFilter === s ? 'chip-on' : ''}" data-client-filter="${s}">${s}</button>`;
+  }).join("");
+  const rows = list.map(function (c) {
+    return `<tr class="anim" onclick="go404()">
+      <td class="stack" data-label="Client"><span class="t-name">${c.name}</span><span class="t-sub">Client since ${c.since}</span></td>
+      <td data-label="Service line">${lineTag(c.line)}</td>
+      <td data-label="Contract">${c.contract}</td>
+      <td class="num" data-label="Seats">${c.seats}</td>
+      <td data-label="Revenue YTD"><div class="mini"><span class="mini-track"><span class="mini-fill" data-w="${max ? Math.round(c.revenueYtd / max * 100) : 0}"></span></span><span class="mini-num">${money(c.revenueYtd)}</span></div></td>
+      <td data-label="Renewal">${c.renewal}</td>
+      <td data-label="Status">${pill(c.status)}</td>
+    </tr>`;
+  }).join("");
+  return `${stats}
+    ${panel({ kicker: "Register", title: "Client register", sub: "Contracts, seats and revenue to date", aside: `<div class="chip-row">${chips}</div>`, cls: "panel-table" },
+      `<div class="table-wrap"><table class="ledger">
+        <thead><tr><th>Client</th><th>Service line</th><th>Contract</th><th>Seats</th><th>Revenue YTD</th><th>Renewal</th><th>Status</th></tr></thead>
+        <tbody>${rows || '<tr><td colspan="7" class="empty">No clients in that state.</td></tr>'}</tbody>
+      </table></div>`)}`;
+}
+
+/* =========================================================
+   PEOPLE
+   Every word typed has to match somewhere in the row, so
+   "suspended pune" narrows. Typing swaps only the rows and
+   the count line, so the caret stays put.
+   ========================================================= */
+function peopleTerms() { return state.peopleSearch.toLowerCase().split(/\s+/).filter(Boolean); }
+function peopleList() {
+  const terms = peopleTerms();
+  if (!terms.length) return people.slice();
+  return people.filter(function (p) {
+    const hay = [p.name, p.role, p.site, p.access, p.lastActive, p.status].join(" ").toLowerCase();
+    return terms.every(function (t) { return hay.indexOf(t) > -1; });
+  });
+}
+function peopleRowsHtml(list) {
+  if (!list.length) return '<tr><td colspan="5" class="empty">Nobody matches that search.</td></tr>';
+  return list.map(function (p) {
+    return `<tr onclick="go404()">
+      <td class="stack" data-label="Name"><span class="t-name">${p.name}</span><span class="t-sub">${p.role}</span></td>
+      <td data-label="Site">${p.site}</td>
+      <td data-label="Access"><span class="access" style="--c:${accessColor[p.access]}">${p.access}</span></td>
+      <td data-label="Last active">${p.lastActive}</td>
+      <td data-label="Status">${pill(p.status)}</td>
+    </tr>`;
+  }).join("");
+}
+function peopleSubText(list) {
+  return peopleTerms().length ? `Showing ${list.length} of ${people.length} people` : "Who can open what, and when they were last in";
+}
+function updatePeopleRows() {
+  const body = document.getElementById("people-rows");
+  if (!body) return;
+  const list = peopleList();
+  body.innerHTML = peopleRowsHtml(list);
+  const sub = document.getElementById("people-sub");
+  if (sub) sub.textContent = peopleSubText(list);
+}
+function renderPeople() {
+  const list = peopleList();
+  const stats = statStrip([
+    { label: "People with a login", value: "1,072" },
+    { label: "Full access",         value: String(people.filter(function(p){return p.access==="Full";}).length), color: "#5ad0ff" },
+    { label: "Pending invites",     value: String(people.filter(function(p){return p.status==="Pending";}).length), color: "#a79bff" },
+    { label: "Suspended",           value: String(people.filter(function(p){return p.status==="Suspended";}).length), color: "#ff6b81" }
+  ]);
+  return `${stats}
+    ${panel({ kicker: "Access", title: "People and access", sub: peopleSubText(list), subId: "people-sub", cls: "panel-table",
+      aside: `<label class="finder finder-inline">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.2-4.2"/></svg>
+          <input id="user-search-input" placeholder="Name, site, access, status…" value="${esc(state.peopleSearch)}">
+        </label>` },
+      `<div class="table-wrap"><table class="ledger">
+        <thead><tr><th>Name</th><th>Site</th><th>Access</th><th>Last active</th><th>Status</th></tr></thead>
+        <tbody id="people-rows">${peopleRowsHtml(list)}</tbody>
+      </table></div>`)}`;
+}
+
+/* =========================================================
+   SITES
+   ========================================================= */
+function renderSites() {
+  const seats = sites.reduce(function (a, s) { return a + s.seats; }, 0);
+  const used = sites.reduce(function (a, s) { return a + s.used; }, 0);
+  const stats = statStrip([
+    { label: "Delivery sites",  value: String(sites.length) },
+    { label: "Total seats",     value: seats.toLocaleString(), color: "#5ad0ff" },
+    { label: "Seats in use",    value: used.toLocaleString(), color: "#a79bff" },
+    { label: "Free capacity",   value: String(seats - used), note: "seats ready to sell", color: "#ffb547" }
+  ]);
+  const cards = sites.map(function (s) {
+    const pct = Math.round(s.used / s.seats * 100);
+    const color = pct >= 90 ? '#ffb547' : '#2ee6c8';
+    return `<article class="site anim" onclick="go404()">
+      <header>
+        <span class="site-pin">${ico('pin')}</span>
+        <span><span class="site-city">${s.city}</span><span class="site-country">${s.country}</span></span>
+      </header>
+      <div class="site-body">
+        ${ring(pct, color, 'seats used')}
+        <dl class="site-meta">
+          <div><dt>Seats</dt><dd>${s.used} / ${s.seats}</dd></div>
+          <div><dt>Hours</dt><dd>${s.shifts}</dd></div>
+          <div><dt>Monthly attrition</dt><dd>${s.attrition}%</dd></div>
+          <div><dt>Site lead</dt><dd>${s.lead}</dd></div>
+        </dl>
+      </div>
+    </article>`;
+  }).join("");
+  return `${stats}${panel({ kicker: "Delivery", title: "Delivery centres", sub: "Capacity, hours and people at each site" }, `<div class="site-grid">${cards}</div>`)}`;
+}
+
+/* =========================================================
+   AUDIT LOG
+   ========================================================= */
+function renderAudit() {
+  return panel({ kicker: "Log", title: "Audit log", sub: "Every administrative and system action, most recent first",
+    aside: `<button class="chip" onclick="go404()">${ico('download')}Export CSV</button>` },
+    `<ul class="trail">${trailHtml(auditTrail)}</ul>`);
+}
+
+/* =========================================================
+   COMPLIANCE
+   ========================================================= */
+function renderCompliance() {
+  const clear = complianceChecks.filter(function (c) { return c.state === "clear"; }).length;
+  const stats = statStrip([
+    { label: "Standards tracked", value: String(complianceChecks.length) },
+    { label: "Clear",             value: String(clear), color: "#2ee6c8" },
+    { label: "Need attention",    value: String(complianceChecks.length - clear), color: "#ffb547" },
+    { label: "Next external audit", value: "42 days", color: "#a79bff" }
+  ]);
+  const rows = complianceChecks.map(function (c) {
+    const ok = c.state === 'clear';
+    return `<div class="check anim" onclick="go404()">
+      <span class="check-ico ${ok ? 'ok' : 'warn'}">${ico(ok ? 'shield' : 'alert')}</span>
+      <div class="check-body"><span class="check-name">${c.name}</span><span class="check-detail">${c.detail}</span></div>
+      <span class="check-metric">${c.metric}</span>
+      ${pill(ok ? 'Clear' : 'Attention')}
+    </div>`;
+  }).join("");
+  return `${stats}${panel({ kicker: "Regulatory", title: "Compliance checks", sub: "Security, card data, privacy, health data and site checks" }, `<div class="check-list">${rows}</div>`)}`;
+}
+
+/* =========================================================
+   INTEGRATIONS
+   ========================================================= */
+function renderSystems() {
+  const stats = statStrip([
+    { label: "Integrations", value: String(systems.length) },
+    { label: "Connected",    value: String(systems.filter(function(s){return s.status==="Connected";}).length), color: "#2ee6c8" },
+    { label: "Degraded",     value: String(systems.filter(function(s){return s.status==="Degraded";}).length), color: "#ffb547" },
+    { label: "Uptime, 30 days", value: "99.96%", color: "#5ad0ff" }
+  ]);
+  const rows = systems.map(function (s) {
+    return `<div class="system anim" onclick="go404()">
+      <span class="system-ico ${s.status === 'Degraded' ? 'warn' : ''}">${ico('plug')}</span>
+      <div class="system-body"><span class="system-name">${s.name}</span><span class="system-meta">${s.type} · ${s.seats.toLocaleString()} users connected</span></div>
+      ${pill(s.status)}
+      <button class="chip" onclick="event.stopPropagation();go404()">Manage</button>
+    </div>`;
+  }).join("");
+  return `${stats}${panel({ kicker: "Platforms", title: "Connected systems", sub: "What the contact centre runs on" }, `<div class="system-list">${rows}</div>`)}`;
+}
+
+/* =========================================================
+   BILLING
+   ========================================================= */
+function renderBilling() {
+  const monthly = invoices.reduce(function (a, b) { return a + b.monthly; }, 0);
+  const max = Math.max.apply(null, invoices.map(function (b) { return b.monthly; }));
+  const stats = statStrip([
+    { label: "Invoiced monthly", value: money(monthly) },
+    { label: "Paid",             value: String(invoices.filter(function(b){return b.state==="Paid";}).length), color: "#2ee6c8" },
+    { label: "Awaiting payment", value: String(invoices.filter(function(b){return b.state==="Sent";}).length), color: "#5ad0ff" },
+    { label: "Overdue",          value: String(invoices.filter(function(b){return b.state==="Overdue";}).length), color: "#ff6b81" }
+  ]);
+  const rows = invoices.map(function (b) {
+    return `<tr class="anim" onclick="go404()">
+      <td class="stack" data-label="Client"><span class="t-name">${b.client}</span><span class="t-sub">${b.model}</span></td>
+      <td data-label="Monthly value"><div class="mini"><span class="mini-track"><span class="mini-fill" data-w="${max ? Math.round(b.monthly / max * 100) : 0}"></span></span><span class="mini-num">${money(b.monthly)}</span></div></td>
+      <td data-label="Next invoice">${b.next}</td>
+      <td data-label="Payment">${pill(b.state)}</td>
+    </tr>`;
+  }).join("");
+  return `${stats}${panel({ kicker: "Income", title: "Invoice ledger", sub: "Billing model, value and due date by client", cls: "panel-table" },
+    `<div class="table-wrap"><table class="ledger">
+      <thead><tr><th>Client</th><th>Monthly value</th><th>Next invoice</th><th>Payment</th></tr></thead>
+      <tbody>${rows}</tbody></table></div>`)}`;
+}
+
+/* =========================================================
+   SECURITY
+   ========================================================= */
+function switchHtml(id, value) {
+  return `<span class="switch ${value ? 'on' : ''}" data-toggle="${id}" role="switch" aria-checked="${value}" tabindex="0"><span class="switch-knob"></span></span>`;
+}
+function renderSecurity() {
+  const s = state.settings;
+  return `<div class="layout layout-even">
+    ${panel({ kicker: "Policy", title: "Access policy", sub: "Applied to everyone with a login" },
+      `<div class="pref"><div><span class="pref-title">Two-factor for leads and admins</span><span class="pref-desc">Required at every sign-in, no exceptions</span></div>${switchHtml("twoFactor", s.twoFactor)}</div>
+      <div class="pref"><div><span class="pref-title">Single sign-on only</span><span class="pref-desc">Staff sign in through the company identity provider</span></div>${switchHtml("ssoRequired", s.ssoRequired)}</div>
+      <div class="pref"><div><span class="pref-title">Site IP allowlist</span><span class="pref-desc">Only allow sign-ins from the four delivery centres</span></div>${switchHtml("ipAllowlist", s.ipAllowlist)}</div>
+      <div class="pref pref-last"><div><span class="pref-title">Client data walls</span><span class="pref-desc">Agents only see the clients they are assigned to</span></div>${switchHtml("clientWalls", s.clientWalls)}</div>`)}
+    <div class="stack-col">
+      ${panel({ kicker: "Sessions", title: "Session policy", sub: "How long an idle session stays signed in" },
+        `<div class="pref pref-last"><div><span class="pref-title">Automatic sign-out</span><span class="pref-desc">Applies to every account</span></div>
+        <select class="pref-select" id="timeout-select">${["15 minutes","30 minutes","1 hour","4 hours"].map(function(t){return `<option ${s.sessionTimeout===t?'selected':''}>${t}</option>`;}).join("")}</select></div>`)}
+      ${panel({ kicker: "Danger", title: "Company-wide actions", sub: "These take effect immediately for everyone" },
+        `<div class="danger-row"><button class="chip chip-danger" onclick="go404()">Sign out every session</button><button class="chip chip-danger" onclick="go404()">Rotate system keys</button></div>`)}
+    </div>
+  </div>`;
+}
+
+/* =========================================================
+   SETTINGS
+   ========================================================= */
+function renderSettings() {
+  const s = state.settings;
+  const displayName = currentUsername || currentEmail || "Signed out";
+  const displayEmail = currentEmail || "No account signed in";
+  return `<div class="layout layout-even">
+    ${panel({ kicker: "Profile", title: "Account", sub: "The profile signed in on this device" },
+      `<div class="account">
+        <span class="seal lg">${currentInitial}</span>
+        <div>
+          <span class="account-name">${esc(displayName)}</span>
+          <span class="account-email">${esc(displayEmail)}</span>
+          <span class="account-role">${currentUser ? (currentRole === 'admin' ? 'Administrator' : 'Operations user') : 'Not signed in'}</span>
+        </div>
+      </div>
+      <button class="chip" onclick="go404()">Edit profile</button>`)}
+    ${panel({ kicker: "Preferences", title: "Preferences", sub: "Alerts and how the console reads" },
+      `<div class="pref"><div><span class="pref-title">SLA breach alerts</span><span class="pref-desc">Notify me when any client falls below target</span></div>${switchHtml("slaAlerts", s.slaAlerts)}</div>
+      <div class="pref"><div><span class="pref-title">Monday digest</span><span class="pref-desc">A summary of the week's billing, renewals and access changes</span></div>${switchHtml("weeklyDigest", s.weeklyDigest)}</div>
+      <div class="pref"><div><span class="pref-title">Compact rows</span><span class="pref-desc">Tighter spacing in the register tables</span></div>${switchHtml("compactRows", s.compactRows)}</div>
+      <div class="pref pref-last"><div><span class="pref-title">Language</span><span class="pref-desc">Interface display language</span></div>
+        <select class="pref-select" id="lang-select">${["English","French","Spanish","Hindi","Polish"].map(function(l){return `<option ${s.language===l?'selected':''}>${l}</option>`;}).join("")}</select></div>`)}
+    ${panel({ kicker: "Session", title: "Session", sub: "Sign out of this account on this device" },
+      `<div class="session"><p>Signed in as <strong>${esc(displayEmail)}</strong>. Signing out clears the session and returns you to the sign-in screen.</p>
+      <button class="chip chip-danger" id="settings-logout-btn">Sign out</button></div>`)}
+    ${panel({ kicker: "Danger", title: "Account actions", sub: "These cannot be undone" },
+      `<div class="danger-row"><button class="chip chip-danger" onclick="go404()">Reset password</button><button class="chip chip-danger" onclick="go404()">Close account</button></div>`)}
+  </div>`;
+}
+
+const pageRenderers = {
+  dashboard: renderDashboard, clients: renderClients, people: renderPeople, sites: renderSites,
+  audit: renderAudit, compliance: renderCompliance, systems: renderSystems, billing: renderBilling,
+  security: renderSecurity, settings: renderSettings
+};
+const pageActions = {
+  dashboard: `<button class="btn btn-ghost" onclick="go404()">${ico('download')}Export report</button><button class="btn btn-solid" onclick="go404()">${ico('plus')}Add client</button>`,
+  clients:   `<button class="btn btn-solid" onclick="go404()">${ico('plus')}Add client</button>`,
+  people:    `<button class="btn btn-solid" onclick="go404()">${ico('plus')}Invite person</button>`,
+  sites:     `<button class="btn btn-ghost" onclick="go404()">${ico('download')}Capacity plan</button>`,
+  billing:   `<button class="btn btn-solid" onclick="go404()">${ico('plus')}New invoice</button>`
+};
+
+/* =========================================================
+   SHELL
+   ========================================================= */
+function badgeFor(id) {
+  if (id === "clients") { const n = clients.filter(function (c) { return c.status === "At risk"; }).length; return n ? `<span class="nav-badge">${n}</span>` : ""; }
+  if (id === "compliance") { const n = complianceChecks.filter(function (c) { return c.state !== "clear"; }).length; return n ? `<span class="nav-badge alert">${n}</span>` : ""; }
+  if (id === "dashboard" && approvals.length) return `<span class="nav-badge">${approvals.length}</span>`;
+  return "";
+}
+function renderNav() {
+  document.getElementById("nav-tabs").innerHTML = allNav().map(function (i) {
+    return `<button class="tab ${state.activeNav === i.id ? 'on' : ''}" data-nav="${i.id}">${ico(i.icon, 'tab-ico')}<span>${i.label}</span>${badgeFor(i.id)}</button>`;
+  }).join("");
+  document.getElementById("nav-sheet").innerHTML = navGroups.map(function (g) {
+    return `<p class="dock-label">${g.label}</p>
+      <nav class="dock-nav">${g.items.map(function (i) {
+        return `<button class="dock-item ${state.activeNav === i.id ? 'on' : ''}" data-nav="${i.id}">${ico(i.icon, 'dock-ico')}<span class="dock-text">${i.label}</span>${badgeFor(i.id)}</button>`;
+      }).join("")}</nav>`;
+  }).join("");
+  const on = document.querySelector('.tab.on');
+  if (on && on.scrollIntoView) on.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+}
+
+function renderPage() {
+  const page = pageMap[state.activeNav];
+  const group = navGroups.filter(function (g) { return g.items.some(function (i) { return i.id === state.activeNav; }); })[0];
+  document.getElementById("page-title-text").textContent = page.title;
+  document.getElementById("page-sub-text").textContent = page.sub;
+  document.getElementById("page-kicker").textContent = "Admin console · " + (group ? group.label : "");
+  document.getElementById("page-actions").innerHTML = pageActions[state.activeNav] || "";
+  document.title = "Stackly Admin — " + page.title;
+  document.getElementById("content-area").innerHTML = pageRenderers[state.activeNav]();
+  document.body.classList.toggle('compact', !!state.settings.compactRows);
+  renderNav();
+  const settingsLogoutBtn = document.getElementById("settings-logout-btn");
+  if (settingsLogoutBtn) settingsLogoutBtn.addEventListener("click", logout);
+  window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  syncTopbarHeight();
+  fillBars();
+  entrance();
+}
+
+function navigateTo(id) {
+  state.activeNav = id;
+  try { localStorage.setItem('activeNav', id); } catch (e) {}
+  closeMenu();
+  closeWhoami();
+  renderPage();
+}
+
+/* ---- access requests: approve / decline ---- */
+function resolveRequest(id, approved) {
+  const req = approvals.filter(function (r) { return r.id === id; })[0];
+  if (!req) return;
+  const row = document.querySelector('[data-req="' + id + '"]');
+  function finish() {
+    approvals = approvals.filter(function (r) { return r.id !== id; });
+    auditTrail.unshift({
+      time: "Just now", actor: "Admin (You)",
+      action: approved ? "Approved an access request" : "Declined an access request",
+      target: req.who + " — " + req.what, scope: req.site
+    });
+    document.getElementById("approvals-box").innerHTML = approvalsHtml();
+    document.getElementById("approval-count").textContent = approvals.length;
+    const trail = document.getElementById("overview-trail");
+    if (trail) trail.innerHTML = trailHtml(auditTrail.slice(0, 5));
+    renderNav();
+    toast((approved ? "Approved " : "Declined ") + id + " for " + req.who);
+  }
+  if (row && typeof gsap !== 'undefined') {
+    row.classList.add(approved ? 'is-yes' : 'is-no');
+    gsap.to(row, { opacity: 0, x: approved ? 24 : -24, height: 0, paddingTop: 0, paddingBottom: 0, marginTop: 0, duration: 0.4, ease: 'power2.in', onComplete: finish });
+  } else {
+    finish();
+  }
+}
+
+/* ---- full-screen menu with page-scroll lock ---- */
+const MENU_BREAK = 1100;
+let savedScrollY = 0;
+function lockScroll() {
+  savedScrollY = window.scrollY || window.pageYOffset || 0;
+  document.documentElement.classList.add("nav-open");
+  document.body.classList.add("nav-open");
+}
+function unlockScroll() {
+  if (!document.body.classList.contains("nav-open")) return;
+  document.documentElement.classList.remove("nav-open");
+  document.body.classList.remove("nav-open");
+  window.scrollTo(0, savedScrollY);
+}
+function openMenu() {
+  const sheet = document.getElementById("menu-sheet");
+  sheet.classList.add("open");
+  sheet.setAttribute("aria-hidden", "false");
+  document.getElementById("sidebar-overlay").classList.add("show");
+  const btn = document.getElementById("hamburger-btn");
+  btn.classList.add("is-open");
+  btn.setAttribute("aria-expanded", "true");
+  btn.setAttribute("aria-label", "Close menu");
+  lockScroll();
+}
+function closeMenu() {
+  const sheet = document.getElementById("menu-sheet");
+  if (!sheet.classList.contains("open")) return;
+  sheet.classList.remove("open");
+  sheet.setAttribute("aria-hidden", "true");
+  document.getElementById("sidebar-overlay").classList.remove("show");
+  const btn = document.getElementById("hamburger-btn");
+  btn.classList.remove("is-open");
+  btn.setAttribute("aria-expanded", "false");
+  btn.setAttribute("aria-label", "Open menu");
+  unlockScroll();
+}
+function closeWhoami() { document.getElementById("topbar-user").classList.remove("open"); }
+
+document.getElementById("hamburger-btn").addEventListener("click", function () {
+  if (document.getElementById("menu-sheet").classList.contains("open")) closeMenu(); else openMenu();
+});
+document.getElementById("sidebar-overlay").addEventListener("click", closeMenu);
+document.getElementById("brand-home-btn").addEventListener("click", function () { navigateTo("dashboard"); });
+document.getElementById("notif-btn").addEventListener("click", go404);
+document.getElementById("logout-btn").addEventListener("click", logout);
+document.getElementById("topbar-logout-btn").addEventListener("click", logout);
+document.getElementById("topbar-user-btn").addEventListener("click", function (e) {
+  e.stopPropagation();
+  document.getElementById("topbar-user").classList.toggle("open");
+});
+document.addEventListener("click", closeWhoami);
+document.addEventListener("keydown", function (e) { if (e.key === "Escape") { closeMenu(); closeWhoami(); } });
+window.addEventListener("resize", function () {
+  if (window.innerWidth > MENU_BREAK) closeMenu();
+  syncTopbarHeight();
+});
+window.addEventListener("orientationchange", syncTopbarHeight);
+window.addEventListener("load", syncTopbarHeight);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncTopbarHeight);
+
+/* ---- topbar search: on phones the magnifier opens the field first ---- */
+(function () {
+  const form = document.getElementById("topbar-search");
+  const input = document.getElementById("topbar-search-input");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (window.innerWidth <= 720 && !form.classList.contains("expanded")) { form.classList.add("expanded"); input.focus(); return; }
+    if (!input.value.trim()) { input.focus(); return; }
+    go404();
+  });
+  input.addEventListener("blur", function () { if (!input.value.trim()) form.classList.remove("expanded"); });
+})();
+
+/* ---- delegated clicks ---- */
+document.addEventListener("click", function (e) {
+  const yes = e.target.closest("[data-approve]");
+  if (yes) { resolveRequest(yes.getAttribute("data-approve"), true); return; }
+  const no = e.target.closest("[data-decline]");
+  if (no) { resolveRequest(no.getAttribute("data-decline"), false); return; }
+  const navBtn = e.target.closest("[data-nav]");
+  if (navBtn) { navigateTo(navBtn.getAttribute("data-nav")); return; }
+  const filterBtn = e.target.closest(".client-filter");
+  if (filterBtn) { state.clientFilter = filterBtn.getAttribute("data-client-filter"); renderPage(); return; }
+  const toggle = e.target.closest("[data-toggle]");
+  if (toggle) { flipSwitch(toggle); return; }
+});
+document.addEventListener("keydown", function (e) {
+  const toggle = e.target.closest && e.target.closest("[data-toggle]");
+  if (toggle && (e.key === " " || e.key === "Enter")) { e.preventDefault(); flipSwitch(toggle); }
+});
+function flipSwitch(toggle) {
+  const key = toggle.getAttribute("data-toggle");
+  state.settings[key] = !state.settings[key];
+  saveSettings();
+  toggle.classList.toggle("on", state.settings[key]);
+  toggle.setAttribute("aria-checked", String(state.settings[key]));
+  if (key === "compactRows") document.body.classList.toggle("compact", state.settings[key]);
+  // CSS animation rather than GSAP, so no inline transform strands the knob
+  const knob = toggle.querySelector('.switch-knob');
+  if (knob) { knob.classList.remove('pop'); void knob.offsetWidth; knob.classList.add('pop'); }
+}
+document.addEventListener("input", function (e) {
+  if (e.target && e.target.id === "user-search-input") { state.peopleSearch = e.target.value; updatePeopleRows(); }
+});
+document.addEventListener("change", function (e) {
+  if (e.target && e.target.id === "lang-select") { state.settings.language = e.target.value; saveSettings(); }
+  if (e.target && e.target.id === "timeout-select") { state.settings.sessionTimeout = e.target.value; saveSettings(); }
+});
+
+/* ---- boot ---- */
+paintUserChrome();
+if (typeof gsap !== 'undefined') {
+  gsap.from('.head-bar', { y: -14, opacity: 0, duration: 0.5, ease: 'power2.out' });
+  gsap.from('.tabs', { opacity: 0, duration: 0.5, delay: 0.1, ease: 'power2.out' });
+}
+renderPage();
+syncTopbarHeight();
+</script>
+</body>
+</html>

@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services — Stackly customer operations</title>
+<meta name="description" content="Stackly services: customer support, technical support, back-office processing, collections, healthcare admin and sales &amp; retention — run by named teams and measured live.">
+<script>
+  if('scrollRestoration' in history){ history.scrollRestoration = 'manual'; }
+  if(window.location.hash){
+    try{ history.replaceState(null, '', window.location.pathname + window.location.search); }catch(e){}
+  }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.pexels.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<link rel="stylesheet" href="../css/services.css">
+</head>
+<body>
+
+<!-- ============ PRELOADER ============ -->
+<div class="preloader" id="preloader">
+  <div class="preloader-inner">
+    <svg class="preloader-crest" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <circle class="pc-ring" cx="60" cy="60" r="52" stroke-width="1.2"/>
+      <g stroke-width="2">
+        <path d="M36 66v-6a24 24 0 0 1 48 0v6"/>
+        <rect x="31" y="62" width="11" height="18" rx="4"/>
+        <rect x="78" y="62" width="11" height="18" rx="4"/>
+        <path d="M84 80c0 6-6 9-14 9"/>
+      </g>
+    </svg>
+    <div class="preloader-word">STACKLY</div>
+    <div class="preloader-bar"><div class="preloader-bar-fill" id="preloaderFill"></div></div>
+  </div>
+</div>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- ============ HEADER — contracts into a floating pill on scroll ============ -->
+<header id="siteHeader">
+  <nav class="nav">
+    <a href="index.html" class="logo">
+      <img class="logo-placeholder" src="../assets/Logo.webp" alt="Stackly" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'">
+      <span class="logo-word" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 4.5-9 4.5-9-4.5Z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/></svg>
+        STACKLY
+      </span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html"><span>Home</span></a>
+      <a href="services.html" class="active" aria-current="page"><span>Services</span></a>
+      <a href="about.html"><span>About</span></a>
+      <a href="blog.html"><span>Blog</span></a>
+      <a href="contact.html"><span>Contact</span></a>
+      <span class="nav-glider" id="navGlider" aria-hidden="true"></span>
+    </div>
+    <div class="nav-right">
+      <a href="login.html" class="nav-login">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c1.5-4 5-6 7.5-6s6 2 7.5 6"/></svg>
+        Login
+      </a>
+      <a href="signup.html" class="btn-glow nav-signup" data-magnetic>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="8" r="3.5"/><path d="M3.5 20c1.2-3.4 4.2-5 6.5-5s5.3 1.6 6.5 5"/><path d="M19 8v6M22 11h-6"/></svg>
+        Sign Up
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span class="hb-line l1"></span><span class="hb-line l2"></span><span class="hb-line l3"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<!-- ============ MOBILE MENU — slides in from the right ============ -->
+<div class="menu-scrim" id="menuScrim"></div>
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <div class="mobile-menu-top">
+    <a href="index.html" class="logo">
+      <img class="logo-placeholder" src="../assets/Logo.webp" alt="Stackly" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'">
+      <span class="logo-word" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 4.5-9 4.5-9-4.5Z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/></svg>
+        STACKLY
+      </span>
+    </a>
+    <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="mobile-menu-links">
+    <a href="index.html"><em>01</em>Home</a>
+    <a href="services.html" class="active" aria-current="page"><em>02</em>Services</a>
+    <a href="about.html"><em>03</em>About</a>
+    <a href="blog.html"><em>04</em>Blog</a>
+    <a href="contact.html"><em>05</em>Contact</a>
+  </div>
+  <div class="mobile-menu-actions">
+    <a href="login.html" class="nav-login">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c1.5-4 5-6 7.5-6s6 2 7.5 6"/></svg>
+      Login
+    </a>
+    <a href="signup.html" class="btn-glow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="8" r="3.5"/><path d="M3.5 20c1.2-3.4 4.2-5 6.5-5s5.3 1.6 6.5 5"/><path d="M19 8v6M22 11h-6"/></svg>
+      Sign Up
+    </a>
+  </div>
+  <p class="mobile-menu-note"><span class="live-dot"></span>All four delivery centres live · 24/7</p>
+</div>
+
+<main>
+
+<!-- ============ 1. PAGE HERO ============ -->
+<section class="page-hero" id="top">
+  <div class="ph-media" aria-hidden="true">
+    <img src="https://images.pexels.com/photos/5453859/pexels-photo-5453859.jpeg?auto=compress&cs=tinysrgb&w=1800" alt="" onerror="this.classList.add('is-broken')">
+    <span class="ph-veil"></span>
+    <span class="ph-grid"></span>
+    <span class="ph-glow g1"></span>
+    <span class="ph-glow g2"></span>
+  </div>
+  <div class="wrap ph-inner">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><i>/</i><span>Services</span></nav>
+    <span class="eyebrow"><span class="live-dot"></span>Six service lines · one operations team</span>
+    <h1 class="ph-title">
+      <span class="line"><span class="line-in">Services that sound</span></span>
+      <span class="line"><span class="line-in">like <em>your own team.</em></span></span>
+    </h1>
+    <p class="ph-sub">Customer support, technical help, back-office processing, collections, healthcare admin and sales — each run by a named team, measured live and priced the way the work actually happens.</p>
+    <div class="ph-actions">
+      <a href="contact.html" class="btn btn-primary" data-magnetic>Get a tailored plan
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a href="404.html" class="btn btn-outline">Browse services</a>
+    </div>
+    <div class="ph-facts">
+      <div><b data-count="9">0</b><span>languages</span></div>
+      <div><b data-count="4">0</b><span>delivery centres</span></div>
+      <div><b data-count="6" data-suffix=" wks">0</b><span>to go live</span></div>
+      <div><b data-count="24" data-suffix="/7">0</b><span>cover available</span></div>
+    </div>
+  </div>
+  <a href="404.html" class="scroll-cue" aria-label="Scroll to services"><span></span></a>
+</section>
+
+<!-- the service bar only sticks while the overview and service details are on screen -->
+<div class="svc-zone">
+
+<!-- sticky service switcher -->
+<div class="svc-bar" id="svcBar">
+  <div class="wrap">
+    <div class="svc-bar-track" id="svcBarTrack">
+      <a href="contact.html" data-spy="svc-support">Customer support</a>
+      <a href="contact.html" data-spy="svc-tech">Technical support</a>
+      <a href="contact.html" data-spy="svc-back">Back office</a>
+      <a href="blog.html" data-spy="svc-collections">Collections</a>
+      <a href="contact.html" data-spy="svc-health">Healthcare admin</a>
+      <a href="about.html" data-spy="svc-sales">Sales &amp; retention</a>
+      <span class="svc-bar-ink" id="svcBarInk" aria-hidden="true"></span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 2. OVERVIEW ============ -->
+<section class="overview" id="overview">
+  <div class="wrap">
+    <div class="section-head section-head-row">
+      <div>
+        <span class="eyebrow">Choose a service line</span>
+        <h2 class="section-title">Start with one.<br>Add the rest when you're ready.</h2>
+      </div>
+      <p class="section-lede">Most clients begin with a single line and grow into two or three within a year. Every line runs on the same floor, QA framework and live reporting.</p>
+    </div>
+    <div class="ov-grid">
+      <a href="contact.html" class="ov-card" data-tilt>
+        <figure><img src="https://images.pexels.com/photos/8204385/pexels-photo-8204385.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Support agent wearing a headset" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"></figure>
+        <span class="ov-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><rect x="17" y="13" width="4" height="6" rx="1.5"/><path d="M19 19c0 1.5-2 2.5-5 2.5"/></svg></span>
+        <div class="ov-body"><span class="ov-num">01</span><h3>Customer support</h3><p>Inbound voice, chat and email for billing, orders and accounts.</p><span class="ov-more">See details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a href="contact.html" class="ov-card" data-tilt>
+        <figure><img src="https://images.pexels.com/photos/8192185/pexels-photo-8192185.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Two support specialists wearing headsets" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"></figure>
+        <span class="ov-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4M8 9l2 2-2 2M12 13h4"/></svg></span>
+        <div class="ov-body"><span class="ov-num">02</span><h3>Technical support</h3><p>Tier 1 and 2 troubleshooting with clean hand-offs to engineering.</p><span class="ov-more">See details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a href="contact.html" class="ov-card" data-tilt>
+        <figure><img src="https://images.pexels.com/photos/6694475/pexels-photo-6694475.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Specialist reviewing documents" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"></figure>
+        <span class="ov-ico amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6zM14 3v4h4M9 12h6M9 16h5"/></svg></span>
+        <div class="ov-body"><span class="ov-num">03</span><h3>Back-office processing</h3><p>Claims, KYC, order admin and data work — checked twice.</p><span class="ov-more">See details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a href="blog.html" class="ov-card" data-tilt>
+        <figure><img src="https://images.pexels.com/photos/6694916/pexels-photo-6694916.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Calculator and cash on a statement" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"></figure>
+        <span class="ov-ico amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/></svg></span>
+        <div class="ov-body"><span class="ov-num">04</span><h3>Collections</h3><p>Early-stage arrears handled firmly, fairly and on the record.</p><span class="ov-more">See details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a href="contact.html" class="ov-card" data-tilt>
+        <figure><img src="https://images.pexels.com/photos/6627864/pexels-photo-6627864.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Medical receptionist at a front desk" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"></figure>
+        <span class="ov-ico sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10z"/><path d="M12 10v4M10 12h4"/></svg></span>
+        <div class="ov-body"><span class="ov-num">05</span><h3>Healthcare admin</h3><p>Scheduling, referrals and patient enquiries with privacy built in.</p><span class="ov-more">See details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a href="about.html" class="ov-card" data-tilt>
+        <figure><img src="https://images.pexels.com/photos/7709139/pexels-photo-7709139.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Agents working at their desks" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"></figure>
+        <span class="ov-ico sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M7 16v-4M12 16V8M17 16v-7"/></svg></span>
+        <div class="ov-body"><span class="ov-num">06</span><h3>Sales &amp; retention</h3><p>Renewals, follow-ups and win-back calls that don't sound scripted.</p><span class="ov-more">See details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. SERVICE DETAILS ============ -->
+<section class="details" id="details">
+  <div class="wrap">
+
+    <article class="detail" id="svc-support">
+      <div class="detail-media">
+        <figure><img src="https://images.pexels.com/photos/8204385/pexels-photo-8204385.jpeg?auto=compress&cs=tinysrgb&w=1100" alt="Customer support agent on a call" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"></figure>
+        <div class="detail-chip"><span class="live-dot"></span><span><b>38s</b> average answer time</span></div>
+      </div>
+      <div class="detail-copy">
+        <span class="detail-num">01 — Customer support</span>
+        <h3>Every question answered once, and properly.</h3>
+        <p>Your customers reach a trained agent on the channel they chose, who can actually fix the problem — not pass it on. We build around the real reasons people get in touch, so the common ones are solved in a single contact.</p>
+        <ul class="incl">
+          <li>Inbound voice, live chat and email</li><li>Billing, orders and account changes</li>
+          <li>Complaint handling and escalation</li><li>Social media and messaging replies</li>
+          <li>9 languages, UK and US English</li><li>Seasonal surge teams</li>
+        </ul>
+        <div class="detail-kpis">
+          <div><b>92%</b><span>inside SLA</span></div><div><b>78%</b><span>first-contact fix</span></div><div><b>4.6/5</b><span>CSAT</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="detail flip" id="svc-tech">
+      <div class="detail-media">
+        <figure><img src="https://images.pexels.com/photos/8192185/pexels-photo-8192185.jpeg?auto=compress&cs=tinysrgb&w=1100" alt="Technical support specialists with headsets" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"></figure>
+        <div class="detail-chip"><span class="live-dot"></span><span><b>64%</b> solved at tier 1</span></div>
+      </div>
+      <div class="detail-copy">
+        <span class="detail-num">02 — Technical support</span>
+        <h3>Troubleshooting that saves your engineers' time.</h3>
+        <p>Agents trained on your product work through guided diagnostics, fix what they can and hand the rest to your team with logs, steps tried and customer impact already written up.</p>
+        <ul class="incl">
+          <li>Tier 1 and tier 2 support</li><li>Software, device and connectivity issues</li>
+          <li>Remote session assistance</li><li>Bug triage and ticket write-ups</li>
+          <li>Knowledge-base upkeep</li><li>Out-of-hours on-call cover</li>
+        </ul>
+        <div class="detail-kpis">
+          <div><b>64%</b><span>fixed at tier 1</span></div><div><b>−40%</b><span>engineer escalations</span></div><div><b>24/7</b><span>cover</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="detail" id="svc-back">
+      <div class="detail-media">
+        <figure><img src="https://images.pexels.com/photos/6694475/pexels-photo-6694475.jpeg?auto=compress&cs=tinysrgb&w=1100" alt="Specialist working through case documents" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"></figure>
+        <div class="detail-chip amber"><span class="live-dot"></span><span><b>99.2%</b> accuracy on audit</span></div>
+      </div>
+      <div class="detail-copy">
+        <span class="detail-num">03 — Back-office processing</span>
+        <h3>Case work done to a checklist, then checked again.</h3>
+        <p>Claims, onboarding checks and admin queues are worked in order of risk, with a second specialist reviewing every file before it goes back to you. Backlogs are cleared, then kept clear.</p>
+        <ul class="incl">
+          <li>Insurance claims intake</li><li>KYC and onboarding checks</li>
+          <li>Order and returns administration</li><li>Data entry and data cleansing</li>
+          <li>Document review and indexing</li><li>Two-step quality review</li>
+        </ul>
+        <div class="detail-kpis">
+          <div><b>99.2%</b><span>accuracy</span></div><div><b>48h</b><span>typical turnaround</span></div><div><b>2-step</b><span>review</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="detail flip" id="svc-collections">
+      <div class="detail-media">
+        <figure><img src="https://images.pexels.com/photos/6694916/pexels-photo-6694916.jpeg?auto=compress&cs=tinysrgb&w=1100" alt="Cash and a calculator on a printed statement" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"></figure>
+        <div class="detail-chip amber"><span class="live-dot"></span><span><b>+23%</b> promises kept</span></div>
+      </div>
+      <div class="detail-copy">
+        <span class="detail-num">04 — Collections</span>
+        <h3>Firm on the money. Fair to the person.</h3>
+        <p>Early arrears are handled by agents trained to spot vulnerability and agree plans people can keep. Every call is recorded, every plan written down, and nothing is pushed that shouldn't be.</p>
+        <ul class="incl">
+          <li>Early-stage arrears calls</li><li>Payment plan set-up</li>
+          <li>Vulnerable-customer handling</li><li>Payment reminders by SMS and email</li>
+          <li>Card payments with pause-and-resume recording</li><li>Full call and plan audit trail</li>
+        </ul>
+        <div class="detail-kpis">
+          <div><b>+23%</b><span>plans kept</span></div><div><b>100%</b><span>calls recorded</span></div><div><b>0</b><span>upheld complaints</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="detail" id="svc-health">
+      <div class="detail-media">
+        <figure><img src="https://images.pexels.com/photos/6627864/pexels-photo-6627864.jpeg?auto=compress&cs=tinysrgb&w=1100" alt="Medical receptionist at a front desk" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"></figure>
+        <div class="detail-chip sky"><span class="live-dot"></span><span><b>−31%</b> missed appointments</span></div>
+      </div>
+      <div class="detail-copy">
+        <span class="detail-num">05 — Healthcare admin</span>
+        <h3>Patients reach someone who knows the process.</h3>
+        <p>Booking, rescheduling and referral enquiries handled with patience and care, by agents trained on health-data rules and your clinic's own pathways.</p>
+        <ul class="incl">
+          <li>Appointment booking and changes</li><li>Referral and waiting-list enquiries</li>
+          <li>Reminder and confirmation calls</li><li>Prescription and results queries</li>
+          <li>Health-data trained agents</li><li>Clinical escalation paths</li>
+        </ul>
+        <div class="detail-kpis">
+          <div><b>−31%</b><span>no-shows</span></div><div><b>100%</b><span>agents trained</span></div><div><b>7 days</b><span>a week</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="detail flip" id="svc-sales">
+      <div class="detail-media">
+        <figure><img src="https://images.pexels.com/photos/7709139/pexels-photo-7709139.jpeg?auto=compress&cs=tinysrgb&w=1100" alt="Sales team working at their desks" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"></figure>
+        <div class="detail-chip sky"><span class="live-dot"></span><span><b>18%</b> win-back rate</span></div>
+      </div>
+      <div class="detail-copy">
+        <span class="detail-num">06 — Sales &amp; retention</span>
+        <h3>Conversations, not scripts.</h3>
+        <p>Outbound teams that follow up on leads, handle renewals and call back customers who left — in your tone of voice, with offers you approve and every consent recorded.</p>
+        <ul class="incl">
+          <li>Renewal and upgrade calls</li><li>Win-back campaigns</li>
+          <li>Inbound lead follow-up</li><li>Appointment setting for your sales team</li>
+          <li>Customer surveys and feedback calls</li><li>Consent and do-not-call handling</li>
+        </ul>
+        <div class="detail-kpis">
+          <div><b>18%</b><span>win-back</span></div><div><b>3.1×</b><span>return on spend</span></div><div><b>100%</b><span>consent logged</span></div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+</div><!-- /.svc-zone -->
+
+<!-- ============ 4. ENGAGEMENT MODELS ============ -->
+<section class="models" id="models">
+  <div class="wrap">
+    <div class="section-head section-head-center">
+      <span class="eyebrow">How we work together</span>
+      <h2 class="section-title">Three ways to engage.</h2>
+      <p class="section-lede">Pick the model that fits the work. You can change it at renewal as volumes settle.</p>
+      <div class="toggle" role="tablist" aria-label="Cover">
+        <button class="toggle-btn on" data-cover="std" role="tab" aria-selected="true">Business hours</button>
+        <button class="toggle-btn" data-cover="247" role="tab" aria-selected="false">24/7 cover</button>
+        <span class="toggle-ind" id="toggleInd"></span>
+      </div>
+    </div>
+    <div class="model-grid">
+      <article class="model">
+        <span class="model-tag">Best for steady volume</span>
+        <h3>Dedicated team</h3>
+        <p class="model-bill">Billed <b>per seat</b>, per month</p>
+        <p class="model-line"><span data-std="From 5 seats · 08:00–20:00" data-247="From 10 seats · round the clock">From 5 seats · 08:00–20:00</span></p>
+        <ul>
+          <li>Named agents only on your account</li><li>Operations lead and QA analyst</li><li>Live dashboard and weekly reviews</li><li>Your tools or ours</li>
+        </ul>
+        <a href="contact.html" class="btn btn-outline">Ask about this model</a>
+      </article>
+      <article class="model featured">
+        <span class="model-tag">Most chosen</span>
+        <h3>Shared &amp; flexible</h3>
+        <p class="model-bill">Billed <b>per contact</b> handled</p>
+        <p class="model-line"><span data-std="No minimum · 08:00–20:00" data-247="No minimum · overnight included">No minimum · 08:00–20:00</span></p>
+        <ul>
+          <li>Pooled, product-trained agents</li><li>Scales up for peaks automatically</li><li>Same QA framework and reporting</li><li>Move to dedicated any time</li>
+        </ul>
+        <a href="contact.html" class="btn btn-primary" data-magnetic>Ask about this model</a>
+      </article>
+      <article class="model">
+        <span class="model-tag">Best for case work</span>
+        <h3>Outcome-based</h3>
+        <p class="model-bill">Billed <b>per case</b> completed</p>
+        <p class="model-line"><span data-std="Agreed turnaround · weekdays" data-247="Agreed turnaround · 7 days">Agreed turnaround · weekdays</span></p>
+        <ul>
+          <li>Priced on finished, checked work</li><li>Two-step quality review included</li><li>Backlog sprints available</li><li>Accuracy guarantee in the contract</li>
+        </ul>
+        <a href="contact.html" class="btn btn-outline">Ask about this model</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. DELIVERY PROCESS ============ -->
+<section class="journey" id="journey">
+  <div class="wrap journey-grid">
+    <div class="journey-side">
+      <span class="eyebrow">From first call to full service</span>
+      <h2 class="section-title">How a new service goes live.</h2>
+      <p class="section-lede">Five stages, one lead who stays with you through all of them.</p>
+      <figure class="journey-photo"><img src="https://images.pexels.com/photos/7988208/pexels-photo-7988208.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Trainer coaching a new team" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"></figure>
+    </div>
+    <ol class="timeline" id="timeline">
+      <span class="tl-line"><span class="tl-fill" id="tlFill"></span></span>
+      <li class="tl-item"><span class="tl-dot"></span><span class="tl-when">Week 1</span><h3>Listen</h3><p>We review a sample of your real contacts and map every reason customers get in touch.</p></li>
+      <li class="tl-item"><span class="tl-dot"></span><span class="tl-when">Week 2</span><h3>Design</h3><p>Call flows, knowledge base, QA scorecard and targets agreed with your managers.</p></li>
+      <li class="tl-item"><span class="tl-dot"></span><span class="tl-when">Weeks 2–3</span><h3>Recruit &amp; set up</h3><p>We hire to your profile, connect to your tools and test every integration.</p></li>
+      <li class="tl-item"><span class="tl-dot"></span><span class="tl-when">Weeks 3–5</span><h3>Train &amp; nest</h3><p>Classroom first, then live contacts with a coach beside each agent before going solo.</p></li>
+      <li class="tl-item"><span class="tl-dot"></span><span class="tl-when">Week 6 onward</span><h3>Run &amp; improve</h3><p>Weekly reviews, monthly calibration and a written plan for anything the data shows.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ 6. TOOLS ============ -->
+<section class="tools" id="tools">
+  <div class="wrap">
+    <div class="section-head section-head-center">
+      <span class="eyebrow">Technology</span>
+      <h2 class="section-title">We work in your tools — or bring ours.</h2>
+      <p class="section-lede">Agents log in to the systems you already run, or we set up a complete stack for you. Either way, your data stays yours.</p>
+    </div>
+    <div class="tool-hub">
+      <div class="hub-core"><span class="hub-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 4.5-9 4.5-9-4.5Z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/></svg></span><b>Stackly ops layer</b><span>routing · QA · reporting</span></div>
+      <div class="tool-grid">
+        <div class="tool"><span class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></span><b>Telephony</b><span>Cloud contact centre, IVR, call recording</span></div>
+        <div class="tool"><span class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c1-3 3.5-5 6-5s5 2 6 5M16 11h5M18.5 8.5v5"/></svg></span><b>CRM</b><span>Customer records, history and notes</span></div>
+        <div class="tool"><span class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7a2 2 0 0 0 2-2h12a2 2 0 0 0 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 0-2 2H6a2 2 0 0 0-2-2v-3a2 2 0 0 0 0-4zM10 8v8"/></svg></span><b>Helpdesk</b><span>Tickets, macros and SLAs</span></div>
+        <div class="tool"><span class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v14H4zM4 10h16M8 3v4M16 3v4"/></svg></span><b>Workforce management</b><span>Forecasts, rosters and adherence</span></div>
+        <div class="tool"><span class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg></span><b>Quality &amp; speech analytics</b><span>Scoring, calibration and trends</span></div>
+        <div class="tool"><span class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M7 16v-5M12 16V7M17 16v-8"/></svg></span><b>Reporting</b><span>Live dashboards and exports</span></div>
+        <div class="tool"><span class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h9a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM17 7h2v13"/></svg></span><b>Knowledge base</b><span>Answers kept current every week</span></div>
+        <div class="tool"><span class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 11h12v10H6zM8 11V8a4 4 0 0 1 8 0v3"/></svg></span><b>Identity &amp; access</b><span>Single sign-on, least-privilege roles</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. QUALITY & SECURITY ============ -->
+<section class="assure" id="assure">
+  <div class="wrap assure-grid">
+    <div class="assure-copy">
+      <span class="eyebrow">Quality &amp; security</span>
+      <h2 class="section-title">Measured every week. Locked down every day.</h2>
+      <ul class="assure-list">
+        <li><span class="as-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg></span><div><b>Weekly QA on real contacts</b><span>Analysts score a sample of every agent's calls, chats and cases against your scorecard.</span></div></li>
+        <li><span class="as-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3zM9 12l2 2 4-4"/></svg></span><div><b>Client data walls</b><span>Agents only see the accounts they work on, on managed devices with no local storage.</span></div></li>
+        <li><span class="as-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/></svg></span><div><b>Secure payments</b><span>Card details never reach an agent's screen or a call recording.</span></div></li>
+        <li><span class="as-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16M4 10h16M4 15h10M4 20h7"/></svg></span><div><b>Full audit trail</b><span>Every access, export and change is logged and reviewed nightly.</span></div></li>
+      </ul>
+    </div>
+    <div class="assure-panel">
+      <figure><img src="https://images.pexels.com/photos/7109316/pexels-photo-7109316.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Quality reporting graphs on a laptop" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"></figure>
+      <div class="assure-stats">
+        <div><b data-count="12400">0</b><span>contacts scored each week</span></div>
+        <div><b data-count="99.96" data-decimals="2" data-suffix="%">0</b><span>platform uptime</span></div>
+        <div><b data-count="42">0</b><span>QA analysts</span></div>
+        <div><b data-count="0">0</b><span>data breaches, ever</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8. COMPARISON ============ -->
+<section class="compare" id="compare">
+  <div class="wrap">
+    <div class="section-head section-head-center">
+      <span class="eyebrow">In-house or Stackly</span>
+      <h2 class="section-title">What changes when we run it.</h2>
+    </div>
+    <div class="cmp-wrap">
+      <table class="cmp">
+        <thead><tr><th>What you need</th><th>Building it in-house</th><th class="us">With Stackly</th></tr></thead>
+        <tbody>
+          <tr><td>Time to go live</td><td><span class="no"></span>3–6 months to hire and train</td><td class="us"><span class="yes"></span>About 6 weeks</td></tr>
+          <tr><td>Handling peaks</td><td><span class="no"></span>Overtime or long waits</td><td class="us"><span class="yes"></span>Surge team trained in advance</td></tr>
+          <tr><td>Out-of-hours cover</td><td><span class="no"></span>Night shifts to staff</td><td class="us"><span class="yes"></span>Follow-the-sun across 4 sites</td></tr>
+          <tr><td>Quality assurance</td><td><span class="mid"></span>When managers find the time</td><td class="us"><span class="yes"></span>Weekly, by dedicated analysts</td></tr>
+          <tr><td>Reporting</td><td><span class="mid"></span>Monthly spreadsheets</td><td class="us"><span class="yes"></span>Live dashboard, any hour</td></tr>
+          <tr><td>Cost</td><td><span class="no"></span>Salaries, seats, tools and churn</td><td class="us"><span class="yes"></span>One predictable monthly bill</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9. FAQ ============ -->
+<section class="faq" id="faq">
+  <div class="wrap faq-grid">
+    <div class="faq-side">
+      <span class="eyebrow">Questions</span>
+      <h2 class="section-title">Before you ask.</h2>
+      <p class="section-lede">Can't see yours? Call us on 07123712345 or send a note from the contact page.</p>
+      <a href="contact.html" class="text-link">Ask a question <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+    <div class="faq-list" id="faqList">
+      <div class="qa is-open"><button class="qa-q" aria-expanded="true">What is the smallest team you'll run?<span class="qa-ico"></span></button><div class="qa-a"><p>On the shared model there's no minimum — you pay per contact. Dedicated teams start at five seats in business hours, or ten for round-the-clock cover.</p></div></div>
+      <div class="qa"><button class="qa-q" aria-expanded="false">Can your agents use our systems?<span class="qa-ico"></span></button><div class="qa-a"><p>Yes. Most clients give us access to their CRM, helpdesk and telephony. If you'd rather not, we can run a full stack for you and send the data back each day.</p></div></div>
+      <div class="qa"><button class="qa-q" aria-expanded="false">How do you keep our customer data safe?<span class="qa-ico"></span></button><div class="qa-a"><p>Agents work on managed devices with no local storage, only see the accounts they're assigned to, and every access is logged and reviewed nightly.</p></div></div>
+      <div class="qa"><button class="qa-q" aria-expanded="false">Will customers know they're talking to an outsourcer?<span class="qa-ico"></span></button><div class="qa-a"><p>Not unless you want them to. Agents use your name, your tone of voice and your processes, and are trained on your product before they take a single live contact.</p></div></div>
+      <div class="qa"><button class="qa-q" aria-expanded="false">How quickly can we scale up or down?<span class="qa-ico"></span></button><div class="qa-a"><p>Shared teams flex immediately. Dedicated teams can grow with around four weeks' notice, and we plan seasonal peaks with you months ahead.</p></div></div>
+      <div class="qa"><button class="qa-q" aria-expanded="false">What happens if targets are missed?<span class="qa-ico"></span></button><div class="qa-a"><p>We agree service credits in the contract. In practice, the weekly review catches problems early and we share a written recovery plan within 48 hours.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10. CTA ============ -->
+<section class="cta" id="cta">
+  <div class="cta-media" aria-hidden="true">
+    <img src="https://images.pexels.com/photos/35074089/pexels-photo-35074089.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')">
+    <span class="cta-veil"></span>
+  </div>
+  <div class="wrap cta-inner">
+    <div class="cta-card">
+      <span class="eyebrow">Get a tailored plan</span>
+      <h2>Tell us which service you need.<br>We'll show you how we'd run it.</h2>
+      <ol class="cta-steps">
+        <li><b>Within a day</b><span>A call back from an operations lead, not a salesperson.</span></li>
+        <li><b>A free listen</b><span>We review 50 of your real contacts and share what we hear.</span></li>
+        <li><b>A written plan</b><span>Seats, timeline and the model we'd recommend, in writing.</span></li>
+      </ol>
+      <div class="cta-actions">
+        <a href="contact.html" class="btn btn-primary" data-magnetic>Book a discovery call
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="404.html" class="btn btn-outline">Call us · 0712 371 2345</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="footer-glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="footer-cta">
+      <h3>Not sure which service fits?</h3>
+      <a href="contact.html" class="btn btn-primary" data-magnetic>Talk to our team
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <img class="logo-placeholder logo-placeholder-footer" src="../assets/Logo.webp" alt="Stackly" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'">
+          <span class="logo-word" style="display:none">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 4.5-9 4.5-9-4.5Z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/></svg>
+            STACKLY
+          </span>
+        </a>
+        <p>Customer support, back-office processing and collections — run by people who treat your customers like their own.</p>
+        <div class="footer-social">
+          <a href="404.html" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+          </a>
+          <a href="404.html" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 21v-7h2.5l.5-3H14V9.2c0-.9.3-1.7 1.7-1.7H17V5c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.2V11H8v3h2.6v7"/></svg>
+          </a>
+          <a href="404.html" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="9" width="4" height="10"/><circle cx="5" cy="5" r="1.6"/><path d="M11 19v-6.5a2.5 2.5 0 0 1 5 0V19M11 12.5V19"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="about.html">About</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <a href="404.html">Customer support</a>
+        <a href="404.html">Technical support</a>
+        <a href="404.html">Back-office processing</a>
+        <a href="404.html">Collections</a>
+        <a href="404.html">Healthcare admin</a>
+      </div>
+      <div class="footer-col">
+        <h4>Get In Touch</h4>
+        <ul class="footer-contact">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></svg>
+            <a href="404.html" target="_blank" rel="noopener">MMR Complex, Periyakollappatty,<br>Chinna Thirupathi, Salem, Tamil<br>Nadu 636008</a>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5c0 8.8 6.2 15 15 15l2-3.5-5-2-1.5 2C11.5 15 9 12.5 8.5 9.5l2-1.5-2-5z"/></svg>
+            <a href="404.html">0712 371 2345</a>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+            <a href="404.html">hello@stackly.com</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 STACKLY SOLUTIONS</span>
+      <span class="status-dot">All delivery centres operational</span>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" id="toTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+</button>
+
+<script>
+/* =========================================================
+   FAILSAFE — if the GSAP CDN can't be reached, a tiny stand-in
+   applies every end state straight away so the page, menus,
+   sliders and accordions still work without animation.
+   ========================================================= */
+if(typeof window.gsap === 'undefined'){
+  (function(){
+    function each(t, fn){
+      if(!t) return;
+      if(typeof t === 'string'){ Array.prototype.forEach.call(document.querySelectorAll(t), fn); return; }
+      if(t.nodeType){ fn(t); return; }
+      if(t.length !== undefined){ Array.prototype.forEach.call(t, function(x){ each(x, fn); }); return; }
+      fn(t);
+    }
+    function apply(el, v){
+      if(!v) return;
+      if(!el || !el.style){ for(var k in v){ if(typeof el[k] === 'number' && typeof v[k] === 'number') el[k] = v[k]; } return; }
+      ['opacity','width','height','clipPath','strokeDashoffset'].forEach(function(p){ if(v[p] !== undefined) el.style[p] = (typeof v[p] === 'number' && p !== 'opacity' && p !== 'strokeDashoffset') ? v[p] + 'px' : v[p]; });
+      if(v.x !== undefined || v.y !== undefined) el.style.transform = 'translate(' + (v.x || 0) + 'px,' + (v.y || 0) + 'px)';
+      if(v.clearProps) el.removeAttribute('style');
+    }
+    function run(t, v){ each(t, function(el){ apply(el, v); }); if(v && v.onUpdate) v.onUpdate(); if(v && v.onComplete) v.onComplete(); }
+    var tl = function(){ var o = { to:function(t,v){ run(t,v); return o; }, from:function(){ return o; }, fromTo:function(t,f,v){ run(t,v); return o; }, set:function(t,v){ run(t,v); return o; } }; return o; };
+    window.gsap = {
+      registerPlugin:function(){}, set:run, to:function(t,v){ run(t,v); }, from:function(){}, fromTo:function(t,f,v){ run(t,v); },
+      timeline:tl, killTweensOf:function(){}, quickTo:function(){ return function(){}; },
+      getProperty:function(el, p){ var m = /translate\(([-\d.]+)px/.exec(el.style.transform || ''); return p === 'x' && m ? parseFloat(m[1]) : 0; },
+      utils:{ toArray:function(s){ return Array.prototype.slice.call(typeof s === 'string' ? document.querySelectorAll(s) : s); } }
+    };
+    window.ScrollTrigger = {
+      create:function(o){ if(o.onEnter) o.onEnter(); if(o.onToggle) o.onToggle({ isActive:false }); return {}; },
+      refresh:function(){}
+    };
+  })();
+}
+
+gsap.registerPlugin(ScrollTrigger);
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const HOVERABLE = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+/* =========================================================
+   PRELOADER
+   ========================================================= */
+const stacklyPreloader = (function(){
+  const el = document.getElementById('preloader');
+  const fill = document.getElementById('preloaderFill');
+  if(!el) return { show:function(){}, hide:function(){} };
+
+  function fillBar(d){
+    gsap.killTweensOf(fill);
+    gsap.fromTo(fill, { width:'0%' }, { width:'100%', duration:d, ease:'power1.inOut' });
+  }
+  function show(){ el.classList.remove('hide'); fillBar(0.6); }
+  function hide(){ el.classList.add('hide'); }
+
+  const MIN_VISIBLE_MS = 900;
+  const startedAt = Date.now();
+  fillBar(1.2);
+  function finish(){
+    const elapsed = Date.now() - startedAt;
+    setTimeout(function(){ hide(); heroIntro(); }, Math.max(0, MIN_VISIBLE_MS - elapsed));
+  }
+  if(document.readyState === 'complete'){ finish(); }
+  else { window.addEventListener('load', finish); }
+  setTimeout(function(){ hide(); heroIntro(); }, 3800);
+  return { show:show, hide:hide };
+})();
+
+/* ---- always open at the top ---- */
+window.scrollTo(0,0);
+window.addEventListener('load', function(){
+  window.scrollTo(0,0);
+  ScrollTrigger.refresh();
+});
+
+/* =========================================================
+   HAMBURGER / MOBILE MENU — slides in from the right
+   ========================================================= */
+(function(){
+  const hamburger = document.getElementById('hamburger');
+  const menu = document.getElementById('mobileMenu');
+  const scrim = document.getElementById('menuScrim');
+  const closeBtn = document.getElementById('mobileMenuClose');
+
+  function open(){
+    menu.classList.add('open');
+    scrim.classList.add('show');
+    hamburger.classList.add('active');
+    document.body.classList.add('menu-open');
+    hamburger.setAttribute('aria-expanded','true');
+    hamburger.setAttribute('aria-label','Close menu');
+    menu.setAttribute('aria-hidden','false');
+    if(!REDUCED){
+      gsap.fromTo('.mobile-menu-links a', { opacity:0, x:30 },
+        { opacity:1, x:0, duration:.5, stagger:.06, ease:'power3.out', delay:.15 });
+      gsap.fromTo('.mobile-menu-actions > *, .mobile-menu-note', { opacity:0, y:14 },
+        { opacity:1, y:0, duration:.45, stagger:.06, ease:'power3.out', delay:.45 });
+    }
+  }
+  function close(){
+    menu.classList.remove('open');
+    scrim.classList.remove('show');
+    hamburger.classList.remove('active');
+    document.body.classList.remove('menu-open');
+    hamburger.setAttribute('aria-expanded','false');
+    hamburger.setAttribute('aria-label','Open menu');
+    menu.setAttribute('aria-hidden','true');
+  }
+  hamburger.addEventListener('click', function(){ menu.classList.contains('open') ? close() : open(); });
+  closeBtn.addEventListener('click', close);
+  scrim.addEventListener('click', close);
+  document.querySelectorAll('.mobile-menu a').forEach(function(a){ a.addEventListener('click', close); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && menu.classList.contains('open')) close(); });
+  window.addEventListener('resize', function(){ if(window.innerWidth > 980 && menu.classList.contains('open')) close(); });
+})();
+
+/* ---- desktop nav: a glider slides under the hovered link ----
+   The links shift whenever the header changes size (it shrinks into
+   the pill on scroll), so the glider is re-measured every time the
+   link row resizes or the header finishes its transition. */
+(function(){
+  const wrap = document.getElementById('navLinks');
+  const glider = document.getElementById('navGlider');
+  if(!wrap || !glider) return;
+  const links = wrap.querySelectorAll('a');
+  let hovered = null;
+  function moveTo(a, instant){
+    if(!a) return;
+    if(instant) glider.style.transition = 'none';
+    glider.style.width = a.offsetWidth + 'px';
+    glider.style.transform = 'translateX(' + a.offsetLeft + 'px)';
+    if(instant){ void glider.offsetWidth; glider.style.transition = ''; }
+  }
+  function current(){ return hovered || wrap.querySelector('a.active') || links[0]; }
+  function sync(){ moveTo(current(), true); }
+  links.forEach(function(a){
+    a.addEventListener('mouseenter', function(){ hovered = a; moveTo(a); });
+    a.addEventListener('focus', function(){ hovered = a; moveTo(a); });
+  });
+  wrap.addEventListener('mouseleave', function(){ hovered = null; moveTo(current()); });
+  wrap.addEventListener('focusout', function(){ hovered = null; moveTo(current()); });
+
+  if('ResizeObserver' in window){ new ResizeObserver(sync).observe(wrap); }
+  const nav = document.querySelector('#siteHeader .nav');
+  nav.addEventListener('transitionend', sync);
+  new MutationObserver(sync).observe(document.getElementById('siteHeader'), { attributes:true, attributeFilter:['class'] });
+  window.addEventListener('resize', sync);
+  window.addEventListener('load', sync);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
+  sync();
+})();
+
+/* ---- scroll progress + header contraction ---- */
+gsap.to('#scrollProgress', { width:'100%', ease:'none', scrollTrigger:{ scrub:.3 } });
+ScrollTrigger.create({ start:'top -60', end:99999, toggleClass:{ targets:'#siteHeader', className:'is-pinned' } });
+(function(){
+  // fallback for the pill header when ScrollTrigger is the stand-in
+  const h = document.getElementById('siteHeader');
+  const bar = document.getElementById('scrollProgress');
+  window.addEventListener('scroll', function(){
+    h.classList.toggle('is-pinned', window.scrollY > 60);
+    if(!window.ScrollTrigger.getAll){
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (max > 0 ? window.scrollY / max * 100 : 0) + '%';
+    }
+  }, { passive:true });
+})();
+
+/* =========================================================
+   COUNTERS — shared helper
+   ========================================================= */
+function runCounters(nodes){
+  nodes.forEach(function(el){
+    const target = parseFloat(el.dataset.count || '0');
+    const suffix = el.dataset.suffix || '';
+    const dec = parseInt(el.dataset.decimals || '0', 10);
+    const fmt = function(v){ return (dec ? v.toFixed(dec) : Math.round(v).toLocaleString()) + suffix; };
+    if(REDUCED){ el.textContent = fmt(target); return; }
+    const c = { v:0 };
+    gsap.to(c, { v:target, duration:2, ease:'power1.out', onUpdate:function(){ el.textContent = fmt(c.v); } });
+    el.textContent = fmt(c.v);
+  });
+}
+gsap.utils.toArray('[data-count]').forEach(function(el){
+  if(el.closest('.hero-stats')) return;
+  ScrollTrigger.create({ trigger:el, start:'top 90%', once:true, onEnter:function(){ runCounters([el]); } });
+});
+
+/* ---- service cards: tilt toward the pointer + spotlight ---- */
+if(HOVERABLE && !REDUCED){
+  document.querySelectorAll('[data-tilt]').forEach(function(card){
+    card.addEventListener('mousemove', function(e){
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+      card.style.setProperty('--mx', (x * 100) + '%');
+      card.style.setProperty('--my', (y * 100) + '%');
+      gsap.to(card, { rotateY:(x - .5) * 8, rotateX:(.5 - y) * 8, duration:.4, ease:'power2.out', transformPerspective:800 });
+    });
+    card.addEventListener('mouseleave', function(){ gsap.to(card, { rotateY:0, rotateX:0, duration:.6, ease:'power3.out' }); });
+  });
+}
+
+/* =========================================================
+   MAGNETIC BUTTONS
+   ========================================================= */
+if(HOVERABLE && !REDUCED){
+  document.querySelectorAll('[data-magnetic]').forEach(function(el){
+    el.addEventListener('mousemove', function(e){
+      const r = el.getBoundingClientRect();
+      gsap.to(el, { x:(e.clientX - r.left - r.width / 2) * .22, y:(e.clientY - r.top - r.height / 2) * .3, duration:.4, ease:'power2.out' });
+    });
+    el.addEventListener('mouseleave', function(){ gsap.to(el, { x:0, y:0, duration:.5, ease:'elastic.out(1,.5)' }); });
+  });
+}
+
+/* =========================================================
+   PAGE HERO — one orchestrated entrance
+   (named heroIntro so the shared preloader can call it)
+   ========================================================= */
+let heroPlayed = false;
+function heroIntro(){
+  if(heroPlayed) return;
+  heroPlayed = true;
+  const tl = gsap.timeline({ defaults:{ ease:'power3.out' } });
+  tl.from('.crumbs', { opacity:0, y:-10, duration:.45 })
+    .from('.page-hero .eyebrow', { opacity:0, y:-10, duration:.45 }, '-=.25')
+    .from('.ph-title .line-in', { yPercent:120, rotate:2.5, duration:1, stagger:.1, ease:'expo.out' }, '-=.2')
+    .from('.ph-sub', { opacity:0, y:18, duration:.6 }, '-=.55')
+    .from('.ph-actions > *', { opacity:0, y:14, duration:.5, stagger:.08 }, '-=.4')
+    .from('.ph-facts > div', { opacity:0, y:16, duration:.5, stagger:.07 }, '-=.3')
+    .from('.scroll-cue', { opacity:0, duration:.5 }, '-=.2')
+    .from('.svc-bar', { opacity:0, y:12, duration:.5 }, '-=.3');
+  runCounters(document.querySelectorAll('.ph-facts [data-count]'));
+}
+// scroll-linked effects only with the real ScrollTrigger (the stand-in would jump straight to the end state)
+if(!REDUCED && ScrollTrigger.getAll){
+  gsap.fromTo('.ph-media img', { scale:1.12, yPercent:0 }, { scale:1.02, yPercent:10, ease:'none',
+    scrollTrigger:{ trigger:'.page-hero', start:'top top', end:'bottom top', scrub:true } });
+  gsap.to('.ph-inner', { yPercent:-12, opacity:.2, ease:'none',
+    scrollTrigger:{ trigger:'.page-hero', start:'top top', end:'bottom top', scrub:true } });
+  gsap.to('.ph-glow.g1', { xPercent:12, yPercent:-8, duration:9, repeat:-1, yoyo:true, ease:'sine.inOut' });
+  gsap.to('.ph-glow.g2', { xPercent:-10, yPercent:10, duration:11, repeat:-1, yoyo:true, ease:'sine.inOut' });
+}
+
+/* =========================================================
+   SCROLL REVEALS
+   ========================================================= */
+(function(){
+  document.querySelectorAll('.section-title').forEach(function(t){
+    t.innerHTML = t.innerHTML.split(/(<br\s*\/?>)/).map(function(part){
+      if(/^<br/.test(part)) return part;
+      return part.split(/(\s+)/).map(function(w){ return /^\s+$/.test(w) || !w ? w : '<span class="w"><span class="w-in">' + w + '</span></span>'; }).join('');
+    }).join('');
+    gsap.from(t.querySelectorAll('.w-in'), { yPercent:110, duration:.9, stagger:.04, ease:'expo.out',
+      scrollTrigger:{ trigger:t, start:'top 88%', once:true } });
+  });
+  const singles = ['.section-head .eyebrow', '.section-lede', '.toggle', '.journey-side .eyebrow', '.journey-photo',
+    '.assure-copy .eyebrow', '.faq-side .eyebrow', '.faq-side .text-link', '.hub-core', '.cmp-wrap', '.cta-card'];
+  singles.forEach(function(sel){
+    document.querySelectorAll(sel).forEach(function(el){
+      gsap.from(el, { opacity:0, y:24, duration:.7, ease:'power2.out', scrollTrigger:{ trigger:el, start:'top 90%', once:true } });
+    });
+  });
+  const groups = ['.ov-card', '.model', '.tool', '.assure-list li', '.assure-stats > div', '.qa', '.cmp tbody tr'];
+  groups.forEach(function(sel){
+    const items = gsap.utils.toArray(sel);
+    if(!items.length) return;
+    gsap.from(items, { opacity:0, y:34, duration:.7, ease:'power3.out', stagger:.07,
+      scrollTrigger:{ trigger:items[0], start:'top 88%', once:true } });
+  });
+})();
+
+/* =========================================================
+   SERVICE DETAILS — photo wipes in, copy follows, chip pops
+   ========================================================= */
+(function(){
+  document.querySelectorAll('.detail').forEach(function(d){
+    const flip = d.classList.contains('flip');
+    const tl = gsap.timeline({ scrollTrigger:{ trigger:d, start:'top 75%', once:true } });
+    tl.fromTo(d.querySelector('.detail-media figure'),
+        { clipPath: flip ? 'inset(0% 0% 0% 100%)' : 'inset(0% 100% 0% 0%)' },
+        { clipPath:'inset(0% 0% 0% 0%)', duration:1.1, ease:'expo.out' })
+      .from(d.querySelector('.detail-chip'), { opacity:0, y:20, scale:.9, duration:.6, ease:'back.out(1.8)' }, '-=.5')
+      .from(d.querySelectorAll('.detail-num, .detail-copy h3, .detail-copy > p'), { opacity:0, y:22, duration:.6, stagger:.08 }, '-=.9')
+      .from(d.querySelectorAll('.incl li'), { opacity:0, x:-12, duration:.4, stagger:.04 }, '-=.4')
+      .from(d.querySelectorAll('.detail-kpis > div'), { opacity:0, y:14, duration:.45, stagger:.07 }, '-=.2');
+    if(!REDUCED){
+      gsap.fromTo(d.querySelector('.detail-media img'), { yPercent:-7 }, { yPercent:7, ease:'none',
+        scrollTrigger:{ trigger:d, start:'top bottom', end:'bottom top', scrub:true } });
+    }
+  });
+})();
+
+/* =========================================================
+   STICKY SERVICE BAR — highlights the service in view
+   ========================================================= */
+(function(){
+  const bar = document.getElementById('svcBar');
+  const track = document.getElementById('svcBarTrack');
+  const ink = document.getElementById('svcBarInk');
+  if(!bar || !track) return;
+  const links = Array.from(track.querySelectorAll('a'));
+  const sections = links.map(function(a){ return document.getElementById(a.dataset.spy); });
+  let current = null;
+
+  function place(a){
+    if(!a){ ink.style.opacity = 0; return; }
+    ink.style.opacity = 1;
+    ink.style.width = a.offsetWidth + 'px';
+    ink.style.transform = 'translateX(' + a.offsetLeft + 'px)';
+    // keep the active tab visible when the bar scrolls sideways on phones
+    const left = a.offsetLeft - track.clientWidth / 2 + a.offsetWidth / 2;
+    track.scrollTo({ left:left, behavior: REDUCED ? 'auto' : 'smooth' });
+  }
+  function update(){
+    const line = bar.getBoundingClientRect().bottom + 40;
+    let active = null;
+    sections.forEach(function(sec, i){ if(sec.getBoundingClientRect().top <= line) active = links[i]; });
+    const last = sections[sections.length - 1].getBoundingClientRect();
+    if(last.bottom < line) active = null;
+    if(active !== current){
+      links.forEach(function(a){ a.classList.toggle('on', a === active); });
+      current = active;
+      place(active);
+    }
+    bar.classList.toggle('is-stuck', bar.getBoundingClientRect().top <= parseFloat(getComputedStyle(bar).top) + 1);
+  }
+  window.addEventListener('scroll', update, { passive:true });
+  window.addEventListener('resize', function(){ current = null; update(); });
+  update();
+})();
+
+/* =========================================================
+   ENGAGEMENT MODELS — business hours / 24/7 switch
+   ========================================================= */
+(function(){
+  const btns = document.querySelectorAll('.toggle-btn');
+  const ind = document.getElementById('toggleInd');
+  if(!btns.length) return;
+  function place(btn){ ind.style.width = btn.offsetWidth + 'px'; ind.style.transform = 'translateX(' + btn.offsetLeft + 'px)'; }
+  btns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      btns.forEach(function(b){ b.classList.toggle('on', b === btn); b.setAttribute('aria-selected', String(b === btn)); });
+      place(btn);
+      const key = btn.dataset.cover;
+      document.querySelectorAll('.model-line span').forEach(function(sp){
+        gsap.to(sp, { opacity:0, y:-6, duration:.2, onComplete:function(){
+          sp.textContent = sp.dataset[key === '247' ? '247' : 'std'];
+          gsap.fromTo(sp, { opacity:0, y:6 }, { opacity:1, y:0, duration:.3 });
+        } });
+      });
+    });
+  });
+  const sync = function(){ place(document.querySelector('.toggle-btn.on')); };
+  window.addEventListener('resize', sync);
+  window.addEventListener('load', sync);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
+  sync();
+})();
+
+/* =========================================================
+   JOURNEY — the line draws as you scroll, stages light up
+   ========================================================= */
+(function(){
+  const list = document.getElementById('timeline');
+  const fill = document.getElementById('tlFill');
+  if(!list) return;
+  const items = list.querySelectorAll('.tl-item');
+  function update(){
+    const r = list.getBoundingClientRect();
+    const mid = window.innerHeight * .6;
+    const p = Math.max(0, Math.min(1, (mid - r.top) / r.height));
+    fill.style.height = (p * 100) + '%';
+    items.forEach(function(it){ it.classList.toggle('on', it.getBoundingClientRect().top + 14 < mid); });
+  }
+  window.addEventListener('scroll', update, { passive:true });
+  window.addEventListener('resize', update);
+  update();
+  gsap.from(items, { opacity:0, x:30, duration:.7, stagger:.1, ease:'power3.out',
+    scrollTrigger:{ trigger:list, start:'top 85%', once:true } });
+})();
+
+/* =========================================================
+   TOOLS — tiles light up in sequence around the hub
+   ========================================================= */
+(function(){
+  const tiles = document.querySelectorAll('.tool');
+  if(!tiles.length || REDUCED) return;
+  let i = 0;
+  ScrollTrigger.create({ trigger:'.tool-hub', start:'top 75%', once:true, onEnter:function(){
+    setInterval(function(){
+      tiles.forEach(function(t, n){ t.classList.toggle('pulse', n === i); });
+      i = (i + 1) % tiles.length;
+    }, 1100);
+  } });
+})();
+
+/* =========================================================
+   FAQ — one answer open at a time
+   ========================================================= */
+(function(){
+  const items = document.querySelectorAll('#faqList .qa');
+  items.forEach(function(item){
+    const a = item.querySelector('.qa-a');
+    const q = item.querySelector('.qa-q');
+    a.style.height = item.classList.contains('is-open') ? 'auto' : '0px';
+    q.addEventListener('click', function(){
+      const open = item.classList.contains('is-open');
+      items.forEach(function(o){
+        if(o === item || !o.classList.contains('is-open')) return;
+        o.classList.remove('is-open');
+        o.querySelector('.qa-q').setAttribute('aria-expanded','false');
+        gsap.to(o.querySelector('.qa-a'), { height:0, duration:.4, ease:'power2.inOut' });
+      });
+      item.classList.toggle('is-open', !open);
+      q.setAttribute('aria-expanded', String(!open));
+      gsap.to(a, { height: open ? 0 : 'auto', duration: open ? .4 : .5, ease: open ? 'power2.inOut' : 'power2.out',
+        onComplete:function(){ ScrollTrigger.refresh(); } });
+    });
+  });
+})();
+
+/* ---- CTA parallax ---- */
+if(!REDUCED){
+  gsap.fromTo('.cta-media img', { yPercent:-8, scale:1.08 }, { yPercent:8, ease:'none',
+    scrollTrigger:{ trigger:'.cta', start:'top bottom', end:'bottom top', scrub:true } });
+  gsap.fromTo('.journey-photo img', { yPercent:-6 }, { yPercent:6, ease:'none',
+    scrollTrigger:{ trigger:'.journey', start:'top bottom', end:'bottom top', scrub:true } });
+  gsap.fromTo('.assure-panel img', { yPercent:-6 }, { yPercent:6, ease:'none',
+    scrollTrigger:{ trigger:'.assure', start:'top bottom', end:'bottom top', scrub:true } });
+}
+
+/* =========================================================
+   SMOOTH ANCHORS & BACK TO TOP
+   The sticky service bar is counted in the offset, so a
+   service lands just below it rather than underneath.
+   ========================================================= */
+(function(){
+  function offset(target){
+    let h = document.getElementById('siteHeader').offsetHeight;
+    if(target.closest('.details')) h += document.getElementById('svcBar').offsetHeight;
+    return h + 16;
+  }
+  function scrollToEl(target){
+    const destY = target.getBoundingClientRect().top + window.scrollY - offset(target);
+    if(REDUCED){ window.scrollTo(0, destY); return; }
+    const obj = { y:window.scrollY };
+    gsap.to(obj, { y:destY, duration:.9, ease:'power2.inOut', onUpdate:function(){ window.scrollTo(0, obj.y); } });
+  }
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      const id = a.getAttribute('href');
+      if(id.length > 1 && document.querySelector(id)){ e.preventDefault(); scrollToEl(document.querySelector(id)); }
+    });
+  });
+  const toTop = document.getElementById('toTop');
+  window.addEventListener('scroll', function(){ toTop.classList.toggle('show', window.scrollY > 600); }, { passive:true });
+  toTop.addEventListener('click', function(){
+    if(REDUCED){ window.scrollTo(0, 0); return; }
+    const obj = { y:window.scrollY };
+    gsap.to(obj, { y:0, duration:.8, ease:'power2.inOut', onUpdate:function(){ window.scrollTo(0, obj.y); } });
+  });
+})();
+</script>
+</body>
+</html>

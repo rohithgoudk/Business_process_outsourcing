@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Stackly customer operations</title>
+<meta name="description" content="About Stackly: fifteen years of running customer operations, 1,000+ people across Manila, Pune, Kraków and London, and the values we work by.">
+<script>
+  if('scrollRestoration' in history){ history.scrollRestoration = 'manual'; }
+  if(window.location.hash){
+    try{ history.replaceState(null, '', window.location.pathname + window.location.search); }catch(e){}
+  }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.pexels.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<link rel="stylesheet" href="../css/about.css">
+</head>
+<body>
+
+<!-- ============ PRELOADER ============ -->
+<div class="preloader" id="preloader">
+  <div class="preloader-inner">
+    <svg class="preloader-crest" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <circle class="pc-ring" cx="60" cy="60" r="52" stroke-width="1.2"/>
+      <g stroke-width="2">
+        <path d="M36 66v-6a24 24 0 0 1 48 0v6"/>
+        <rect x="31" y="62" width="11" height="18" rx="4"/>
+        <rect x="78" y="62" width="11" height="18" rx="4"/>
+        <path d="M84 80c0 6-6 9-14 9"/>
+      </g>
+    </svg>
+    <div class="preloader-word">STACKLY</div>
+    <div class="preloader-bar"><div class="preloader-bar-fill" id="preloaderFill"></div></div>
+  </div>
+</div>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- ============ HEADER — contracts into a floating pill on scroll ============ -->
+<header id="siteHeader">
+  <nav class="nav">
+    <a href="index.html" class="logo">
+      <img class="logo-placeholder" src="../assets/Logo.webp" alt="Stackly" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'">
+      <span class="logo-word" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 4.5-9 4.5-9-4.5Z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/></svg>
+        STACKLY
+      </span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html"><span>Home</span></a>
+      <a href="services.html"><span>Services</span></a>
+      <a href="about.html" class="active" aria-current="page"><span>About</span></a>
+      <a href="blog.html"><span>Blog</span></a>
+      <a href="contact.html"><span>Contact</span></a>
+      <span class="nav-glider" id="navGlider" aria-hidden="true"></span>
+    </div>
+    <div class="nav-right">
+      <a href="login.html" class="nav-login">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c1.5-4 5-6 7.5-6s6 2 7.5 6"/></svg>
+        Login
+      </a>
+      <a href="signup.html" class="btn-glow nav-signup" data-magnetic>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="8" r="3.5"/><path d="M3.5 20c1.2-3.4 4.2-5 6.5-5s5.3 1.6 6.5 5"/><path d="M19 8v6M22 11h-6"/></svg>
+        Sign Up
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span class="hb-line l1"></span><span class="hb-line l2"></span><span class="hb-line l3"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<!-- ============ MOBILE MENU — slides in from the right ============ -->
+<div class="menu-scrim" id="menuScrim"></div>
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <div class="mobile-menu-top">
+    <a href="index.html" class="logo">
+      <img class="logo-placeholder" src="../assets/Logo.webp" alt="Stackly" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'">
+      <span class="logo-word" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 4.5-9 4.5-9-4.5Z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/></svg>
+        STACKLY
+      </span>
+    </a>
+    <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="mobile-menu-links">
+    <a href="index.html"><em>01</em>Home</a>
+    <a href="services.html"><em>02</em>Services</a>
+    <a href="about.html" class="active" aria-current="page"><em>03</em>About</a>
+    <a href="blog.html"><em>04</em>Blog</a>
+    <a href="contact.html"><em>05</em>Contact</a>
+  </div>
+  <div class="mobile-menu-actions">
+    <a href="login.html" class="nav-login">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c1.5-4 5-6 7.5-6s6 2 7.5 6"/></svg>
+      Login
+    </a>
+    <a href="signup.html" class="btn-glow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="8" r="3.5"/><path d="M3.5 20c1.2-3.4 4.2-5 6.5-5s5.3 1.6 6.5 5"/><path d="M19 8v6M22 11h-6"/></svg>
+      Sign Up
+    </a>
+  </div>
+  <p class="mobile-menu-note"><span class="live-dot"></span>All four delivery centres live · 24/7</p>
+</div>
+
+<main>
+
+<!-- ============ 1. HERO ============ -->
+<section class="about-hero" id="top">
+  <div class="ah-bg" aria-hidden="true">
+    <span class="ah-grid"></span>
+    <span class="ah-glow g1"></span>
+    <span class="ah-glow g2"></span>
+  </div>
+  <div class="wrap ah-inner">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><i>/</i><span>About</span></nav>
+    <span class="eyebrow"><span class="live-dot"></span>About Stackly</span>
+    <h1 class="ah-title">
+      <span class="line"><span class="line-in">People who pick up</span></span>
+      <span class="line"><span class="line-in">when <em>your customers call.</em></span></span>
+    </h1>
+    <p class="ah-sub">We started in 2011 with twelve agents and one client. Today more than a thousand of us run customer operations for companies across telecom, retail, health, banking and energy — and we still answer the phone the same way.</p>
+  </div>
+  <div class="ah-strip" aria-hidden="true">
+    <figure class="as-1"><img src="https://images.pexels.com/photos/8867267/pexels-photo-8867267.jpeg?auto=compress&cs=tinysrgb&w=900" alt="" onerror="this.classList.add('is-broken')"></figure>
+    <figure class="as-2"><img src="https://images.pexels.com/photos/32082430/pexels-photo-32082430.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="" onerror="this.classList.add('is-broken')"></figure>
+    <figure class="as-3"><img src="https://images.pexels.com/photos/7682340/pexels-photo-7682340.jpeg?auto=compress&cs=tinysrgb&w=900" alt="" onerror="this.classList.add('is-broken')"></figure>
+    <div class="ah-badge"><b data-count="15">0</b><span>years answering<br>other people's customers</span></div>
+  </div>
+</section>
+
+<!-- ============ 2. MISSION ============ -->
+<section class="mission" id="mission">
+  <div class="wrap mission-grid">
+    <div class="mission-copy">
+      <span class="eyebrow">Why we exist</span>
+      <h2 class="section-title">Outsourcing shouldn't feel outsourced.</h2>
+    </div>
+    <div class="mission-text">
+      <p class="mission-lead">Most customers can tell within a minute when they've reached a call centre that doesn't really know the product. We built Stackly to close that gap.</p>
+      <p>Every account gets its own named team, trained on the client's product before they take a single contact. Quality analysts listen to real conversations every week. Managers on both sides see the same live numbers. And when something goes wrong, the person who runs your account is the one who calls you about it.</p>
+      <div class="mission-sign">
+        <span class="ms-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 4.5-9 4.5-9-4.5Z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/></svg></span>
+        <span><b>The Stackly leadership team</b>London · Manila · Pune · Kraków</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. STORY TIMELINE ============ -->
+<section class="story" id="story">
+  <div class="wrap">
+    <div class="section-head section-head-row">
+      <div>
+        <span class="eyebrow">Our story</span>
+        <h2 class="section-title">Fifteen years, one floor at a time.</h2>
+      </div>
+      <div class="slider-ctrl">
+        <button class="arrow" id="stPrev" aria-label="Earlier"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <button class="arrow" id="stNext" aria-label="Later"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <div class="st-viewport" id="stViewport">
+    <div class="st-track" id="stTrack">
+      <article class="year"><span class="year-num">2011</span><span class="year-dot"></span><h3>Twelve agents, one client</h3><p>Stackly opens in a London office above a bakery, answering billing calls for a regional telecom.</p></article>
+      <article class="year"><span class="year-num">2014</span><span class="year-dot"></span><h3>Manila opens</h3><p>Our first delivery centre outside the UK brings round-the-clock voice and chat cover.</p></article>
+      <article class="year"><span class="year-num">2016</span><span class="year-dot"></span><h3>Quality team formed</h3><p>A dedicated QA team starts scoring real contacts every week — still the heart of how we work.</p></article>
+      <article class="year"><span class="year-num">2018</span><span class="year-dot"></span><h3>Back office launches</h3><p>Claims and KYC case work join customer support, with two-step review on every file.</p></article>
+      <article class="year"><span class="year-num">2019</span><span class="year-dot"></span><h3>Pune opens</h3><p>A second 24/7 centre adds capacity for back office and technical support.</p></article>
+      <article class="year"><span class="year-num">2021</span><span class="year-dot"></span><h3>Kraków opens</h3><p>EU-based delivery for clients who need their customer data kept in Europe.</p></article>
+      <article class="year"><span class="year-num">2024</span><span class="year-dot"></span><h3>1,000 people</h3><p>Our team passes a thousand agents, analysts, trainers and engineers across four sites.</p></article>
+      <article class="year now"><span class="year-num">2026</span><span class="year-dot"></span><h3>Live for every client</h3><p>Every account now has a live operations dashboard its managers can open at any hour.</p></article>
+    </div>
+  </div>
+  <div class="wrap"><div class="st-bar"><span class="st-bar-fill" id="stBarFill"></span></div></div>
+</section>
+
+<!-- ============ 4. VALUES ============ -->
+<section class="values" id="values">
+  <div class="wrap">
+    <div class="section-head section-head-center">
+      <span class="eyebrow">What we hold to</span>
+      <h2 class="section-title">Four values, used every shift.</h2>
+      <p class="section-lede">Not posters on a wall — these are the questions our team leads ask when a call goes wrong.</p>
+    </div>
+    <div class="value-grid">
+      <article class="value" data-tilt>
+        <span class="value-num">01</span>
+        <span class="value-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10z"/></svg></span>
+        <h3>Treat them as ours</h3>
+        <p>Every customer is handled as if they were our own — with the patience that takes.</p>
+      </article>
+      <article class="value" data-tilt>
+        <span class="value-num">02</span>
+        <span class="value-ico sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M7 16v-5M12 16V7M17 16v-8"/></svg></span>
+        <h3>Show the numbers</h3>
+        <p>Clients see what we see, live. Good weeks and bad weeks are both on the dashboard.</p>
+      </article>
+      <article class="value" data-tilt>
+        <span class="value-num">03</span>
+        <span class="value-ico amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3zM9 12l2 2 4-4"/></svg></span>
+        <h3>Guard what's trusted</h3>
+        <p>Customer data is borrowed, never ours. We lock it down as if it were our own bank details.</p>
+      </article>
+      <article class="value" data-tilt>
+        <span class="value-num">04</span>
+        <span class="value-ico violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></svg></span>
+        <h3>Grow our people</h3>
+        <p>Most of our team leads started as agents. We train, promote and keep good people.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. BY THE NUMBERS ============ -->
+<section class="numbers" id="numbers">
+  <div class="wrap">
+    <div class="num-band">
+      <div><b data-count="1072">0</b><span>people across four sites</span></div>
+      <div><b data-count="68" data-suffix="%">0</b><span>of team leads promoted from agent</span></div>
+      <div><b data-count="9">0</b><span>languages spoken on the floor</span></div>
+      <div><b data-count="96" data-suffix="%">0</b><span>of clients renew with us</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. HOW WE'RE ORGANISED ============ -->
+<section class="org" id="org">
+  <div class="wrap">
+    <div class="section-head section-head-row">
+      <div>
+        <span class="eyebrow">How we're organised</span>
+        <h2 class="section-title">Six teams behind every conversation.</h2>
+      </div>
+      <p class="section-lede">Your customers talk to one team. Five more make sure that team is ready, measured and supported.</p>
+    </div>
+    <div class="org-grid">
+      <article class="org-card big">
+        <figure><img src="https://images.pexels.com/photos/7709139/pexels-photo-7709139.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Customer care agents working at their desks" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"></figure>
+        <div class="org-body"><span class="org-tag">860 people</span><h3>Customer care</h3><p>The agents your customers talk to, grouped by client so they know the product inside out.</p></div>
+      </article>
+      <article class="org-card">
+        <figure><img src="https://images.pexels.com/photos/7109316/pexels-photo-7109316.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Quality reports on a laptop" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"></figure>
+        <div class="org-body"><span class="org-tag">42 people</span><h3>Quality &amp; insight</h3><p>Weekly scoring of real contacts, turned into coaching.</p></div>
+      </article>
+      <article class="org-card">
+        <figure><img src="https://images.pexels.com/photos/6476254/pexels-photo-6476254.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Planning team in a meeting" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"></figure>
+        <div class="org-body"><span class="org-tag">24 people</span><h3>Workforce planning</h3><p>The right number of people on shift, every half-hour.</p></div>
+      </article>
+      <article class="org-card">
+        <figure><img src="https://images.pexels.com/photos/7988208/pexels-photo-7988208.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Trainer teaching new starters" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"></figure>
+        <div class="org-body"><span class="org-tag">30 people</span><h3>Training academy</h3><p>From day one to confident on live contacts.</p></div>
+      </article>
+      <article class="org-card">
+        <figure><img src="https://images.pexels.com/photos/17489163/pexels-photo-17489163.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Servers in a data centre" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"></figure>
+        <div class="org-body"><span class="org-tag">36 people</span><h3>IT &amp; security</h3><p>Telephony, access and client data kept locked down.</p></div>
+      </article>
+      <article class="org-card">
+        <figure><img src="https://images.pexels.com/photos/7651804/pexels-photo-7651804.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Account leaders in a meeting" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"></figure>
+        <div class="org-body"><span class="org-tag">80 people</span><h3>Account leadership</h3><p>Operations leads who own your results.</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. LIFE AT STACKLY ============ -->
+<section class="life" id="life">
+  <div class="wrap life-grid">
+    <div class="life-copy">
+      <span class="eyebrow">Life at Stackly</span>
+      <h2 class="section-title">A good place to answer the phone.</h2>
+      <p class="section-lede">Great service comes from people who are looked after. So we pay above market, train properly and promote from the floor.</p>
+      <ul class="perks">
+        <li><span class="perk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h9a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM17 7h2v13"/></svg></span><div><b>Four weeks of paid training</b><span>Before anyone takes a live contact.</span></div></li>
+        <li><span class="perk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M7 16v-5M12 16V7M17 16v-8"/></svg></span><div><b>A clear path up</b><span>Agent, senior, team lead, operations lead.</span></div></li>
+        <li><span class="perk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10z"/></svg></span><div><b>Wellbeing built into rosters</b><span>Protected breaks and a quiet room on every floor.</span></div></li>
+      </ul>
+      <a href="404.html" class="text-link">See open roles <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+    <div class="mosaic">
+      <figure class="mz-a"><img src="https://images.pexels.com/photos/5439474/pexels-photo-5439474.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Colleagues talking together" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"><figcaption>Monday stand-ups</figcaption></figure>
+      <figure class="mz-b"><img src="https://images.pexels.com/photos/8866761/pexels-photo-8866761.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Agents working at the office" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"><figcaption>On the floor</figcaption></figure>
+      <figure class="mz-c"><img src="https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Colleagues working at a computer together" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"><figcaption>Coaching sessions</figcaption></figure>
+      <figure class="mz-d"><img src="https://images.pexels.com/photos/8866720/pexels-photo-8866720.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Headsets on a desk" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')"><figcaption>Ready for shift</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8. WHERE WE WORK ============ -->
+<section class="places" id="places">
+  <div class="wrap">
+    <div class="section-head section-head-center">
+      <span class="eyebrow">Where we work</span>
+      <h2 class="section-title">Four centres, one way of working.</h2>
+      <p class="section-lede">Every site runs the same training, QA and security standards, so clients get the same service whichever centre picks up.</p>
+    </div>
+    <div class="place-grid">
+      <article class="place"><span class="place-time" data-tz="Asia/Manila">--:--</span><h3>Manila</h3><span class="place-country">Philippines · since 2014</span><div class="place-meta"><span><b>420</b> seats</span><span><b>24/7</b> cover</span></div><p>Voice and chat for telecom, retail and health clients.</p></article>
+      <article class="place"><span class="place-time" data-tz="Asia/Kolkata">--:--</span><h3>Pune</h3><span class="place-country">India · since 2019</span><div class="place-meta"><span><b>360</b> seats</span><span><b>24/7</b> cover</span></div><p>Back office, technical support and overnight voice.</p></article>
+      <article class="place"><span class="place-time" data-tz="Europe/Warsaw">--:--</span><h3>Kraków</h3><span class="place-country">Poland · since 2021</span><div class="place-meta"><span><b>180</b> seats</span><span><b>07–23</b> cover</span></div><p>EU-resident delivery in six European languages.</p></article>
+      <article class="place hq"><span class="place-time" data-tz="Europe/London">--:--</span><h3>London</h3><span class="place-country">UK · head office since 2011</span><div class="place-meta"><span><b>60</b> seats</span><span><b>08–18</b> hours</span></div><p>Account leadership, QA calibration and client reviews.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9. COMMITMENTS ============ -->
+<section class="commit" id="commit">
+  <div class="wrap">
+    <div class="section-head section-head-row">
+      <div>
+        <span class="eyebrow">Our commitments</span>
+        <h2 class="section-title">Responsible by design.</h2>
+      </div>
+      <p class="section-lede">What we promise our people, our clients' customers and the places we work.</p>
+    </div>
+    <div class="commit-grid">
+      <article class="commit-card">
+        <span class="commit-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c1-3 3.5-5 6-5s5 2 6 5M17 11a3 3 0 1 0 0-6M21 20c-.4-2-1.4-3.6-2.8-4.6"/></svg></span>
+        <h3>Our people</h3>
+        <ul><li>Living wage or above at every site</li><li>Equal pay reviewed every year</li><li>Mental-health first aiders on each floor</li></ul>
+      </article>
+      <article class="commit-card">
+        <span class="commit-ico sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3zM9 12l2 2 4-4"/></svg></span>
+        <h3>Your customers</h3>
+        <ul><li>Vulnerable customers flagged and supported</li><li>No sales pressure in service calls</li><li>Data used only for the job it was shared for</li></ul>
+      </article>
+      <article class="commit-card">
+        <span class="commit-ico amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-4-3-7-6.5-7-10.5A7 7 0 0 1 12 3.5a7 7 0 0 1 7 7c0 4-3 7.5-7 10.5z"/><path d="M12 21V11M12 14c2-1 3.5-2.5 4-4.5M12 16c-1.6-.8-2.8-2-3.3-3.6"/></svg></span>
+        <h3>Our planet</h3>
+        <ul><li>Renewable electricity at two of four sites</li><li>Paperless back-office processing</li><li>Hybrid rosters to cut commuting</li></ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10. CTA — two doors ============ -->
+<section class="doors" id="doors">
+  <div class="wrap door-grid">
+    <a href="contact.html" class="door">
+      <img src="https://images.pexels.com/photos/35074089/pexels-photo-35074089.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')">
+      <span class="door-veil"></span>
+      <div class="door-body">
+        <span class="eyebrow">For companies</span>
+        <h3>Hand us your customer operations.</h3>
+        <p>A free review of 50 real contacts and a written plan within two weeks.</p>
+        <span class="btn btn-primary">Book a discovery call <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+    </a>
+    <a href="404.html" class="door">
+      <img src="https://images.pexels.com/photos/7988208/pexels-photo-7988208.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="" loading="lazy" decoding="async" onerror="this.classList.add('is-broken')">
+      <span class="door-veil"></span>
+      <div class="door-body">
+        <span class="eyebrow">For people</span>
+        <h3>Build a career on the floor.</h3>
+        <p>Paid training, a clear path to team lead and a team that has your back.</p>
+        <span class="btn btn-outline">See open roles <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+    </a>
+  </div>
+</section>
+
+</main>
+
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="footer-glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="footer-cta">
+      <h3>Want to meet the team?</h3>
+      <a href="contact.html" class="btn btn-primary" data-magnetic>Talk to our team
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <img class="logo-placeholder logo-placeholder-footer" src="../assets/Logo.webp" alt="Stackly" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'">
+          <span class="logo-word" style="display:none">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 4.5-9 4.5-9-4.5Z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/></svg>
+            STACKLY
+          </span>
+        </a>
+        <p>Customer support, back-office processing and collections — run by people who treat your customers like their own.</p>
+        <div class="footer-social">
+          <a href="404.html" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+          </a>
+          <a href="404.html" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 21v-7h2.5l.5-3H14V9.2c0-.9.3-1.7 1.7-1.7H17V5c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.2V11H8v3h2.6v7"/></svg>
+          </a>
+          <a href="404.html" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="9" width="4" height="10"/><circle cx="5" cy="5" r="1.6"/><path d="M11 19v-6.5a2.5 2.5 0 0 1 5 0V19M11 12.5V19"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="about.html">About</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <a href="404.html">Customer support</a>
+        <a href="404.html">Technical support</a>
+        <a href="404.html">Back-office processing</a>
+        <a href="404.html">Collections</a>
+        <a href="404.html">Healthcare admin</a>
+      </div>
+      <div class="footer-col">
+        <h4>Get In Touch</h4>
+        <ul class="footer-contact">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></svg>
+            <a href="404.html" target="_blank" rel="noopener">MMR Complex, Periyakollappatty,<br>Chinna Thirupathi, Salem, Tamil<br>Nadu 636008</a>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5c0 8.8 6.2 15 15 15l2-3.5-5-2-1.5 2C11.5 15 9 12.5 8.5 9.5l2-1.5-2-5z"/></svg>
+            <a href="404.html">0712 371 2345</a>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+            <a href="404.html">hello@stackly.com</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 STACKLY SOLUTIONS</span>
+      <span class="status-dot">All delivery centres operational</span>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" id="toTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+</button>
+
+<script>
+/* =========================================================
+   FAILSAFE — if the GSAP CDN can't be reached, a tiny stand-in
+   applies every end state straight away so the page, menus,
+   sliders and accordions still work without animation.
+   ========================================================= */
+if(typeof window.gsap === 'undefined'){
+  (function(){
+    function each(t, fn){
+      if(!t) return;
+      if(typeof t === 'string'){ Array.prototype.forEach.call(document.querySelectorAll(t), fn); return; }
+      if(t.nodeType){ fn(t); return; }
+      if(t.length !== undefined){ Array.prototype.forEach.call(t, function(x){ each(x, fn); }); return; }
+      fn(t);
+    }
+    function apply(el, v){
+      if(!v) return;
+      if(!el || !el.style){ for(var k in v){ if(typeof el[k] === 'number' && typeof v[k] === 'number') el[k] = v[k]; } return; }
+      ['opacity','width','height','clipPath','strokeDashoffset'].forEach(function(p){ if(v[p] !== undefined) el.style[p] = (typeof v[p] === 'number' && p !== 'opacity' && p !== 'strokeDashoffset') ? v[p] + 'px' : v[p]; });
+      if(v.x !== undefined || v.y !== undefined) el.style.transform = 'translate(' + (v.x || 0) + 'px,' + (v.y || 0) + 'px)';
+      if(v.clearProps) el.removeAttribute('style');
+    }
+    function run(t, v){ each(t, function(el){ apply(el, v); }); if(v && v.onUpdate) v.onUpdate(); if(v && v.onComplete) v.onComplete(); }
+    var tl = function(){ var o = { to:function(t,v){ run(t,v); return o; }, from:function(){ return o; }, fromTo:function(t,f,v){ run(t,v); return o; }, set:function(t,v){ run(t,v); return o; } }; return o; };
+    window.gsap = {
+      registerPlugin:function(){}, set:run, to:function(t,v){ run(t,v); }, from:function(){}, fromTo:function(t,f,v){ run(t,v); },
+      timeline:tl, killTweensOf:function(){}, quickTo:function(){ return function(){}; },
+      getProperty:function(el, p){ var m = /translate\(([-\d.]+)px/.exec(el.style.transform || ''); return p === 'x' && m ? parseFloat(m[1]) : 0; },
+      utils:{ toArray:function(s){ return Array.prototype.slice.call(typeof s === 'string' ? document.querySelectorAll(s) : s); } }
+    };
+    window.ScrollTrigger = {
+      create:function(o){ if(o.onEnter) o.onEnter(); if(o.onToggle) o.onToggle({ isActive:false }); return {}; },
+      refresh:function(){}
+    };
+  })();
+}
+
+gsap.registerPlugin(ScrollTrigger);
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const HOVERABLE = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+/* =========================================================
+   PRELOADER
+   ========================================================= */
+const stacklyPreloader = (function(){
+  const el = document.getElementById('preloader');
+  const fill = document.getElementById('preloaderFill');
+  if(!el) return { show:function(){}, hide:function(){} };
+
+  function fillBar(d){
+    gsap.killTweensOf(fill);
+    gsap.fromTo(fill, { width:'0%' }, { width:'100%', duration:d, ease:'power1.inOut' });
+  }
+  function show(){ el.classList.remove('hide'); fillBar(0.6); }
+  function hide(){ el.classList.add('hide'); }
+
+  const MIN_VISIBLE_MS = 900;
+  const startedAt = Date.now();
+  fillBar(1.2);
+  function finish(){
+    const elapsed = Date.now() - startedAt;
+    setTimeout(function(){ hide(); heroIntro(); }, Math.max(0, MIN_VISIBLE_MS - elapsed));
+  }
+  if(document.readyState === 'complete'){ finish(); }
+  else { window.addEventListener('load', finish); }
+  setTimeout(function(){ hide(); heroIntro(); }, 3800);
+  return { show:show, hide:hide };
+})();
+
+/* ---- always open at the top ---- */
+window.scrollTo(0,0);
+window.addEventListener('load', function(){
+  window.scrollTo(0,0);
+  ScrollTrigger.refresh();
+});
+
+/* =========================================================
+   HAMBURGER / MOBILE MENU — slides in from the right
+   ========================================================= */
+(function(){
+  const hamburger = document.getElementById('hamburger');
+  const menu = document.getElementById('mobileMenu');
+  const scrim = document.getElementById('menuScrim');
+  const closeBtn = document.getElementById('mobileMenuClose');
+
+  function open(){
+    menu.classList.add('open');
+    scrim.classList.add('show');
+    hamburger.classList.add('active');
+    document.body.classList.add('menu-open');
+    hamburger.setAttribute('aria-expanded','true');
+    hamburger.setAttribute('aria-label','Close menu');
+    menu.setAttribute('aria-hidden','false');
+    if(!REDUCED){
+      gsap.fromTo('.mobile-menu-links a', { opacity:0, x:30 },
+        { opacity:1, x:0, duration:.5, stagger:.06, ease:'power3.out', delay:.15 });
+      gsap.fromTo('.mobile-menu-actions > *, .mobile-menu-note', { opacity:0, y:14 },
+        { opacity:1, y:0, duration:.45, stagger:.06, ease:'power3.out', delay:.45 });
+    }
+  }
+  function close(){
+    menu.classList.remove('open');
+    scrim.classList.remove('show');
+    hamburger.classList.remove('active');
+    document.body.classList.remove('menu-open');
+    hamburger.setAttribute('aria-expanded','false');
+    hamburger.setAttribute('aria-label','Open menu');
+    menu.setAttribute('aria-hidden','true');
+  }
+  hamburger.addEventListener('click', function(){ menu.classList.contains('open') ? close() : open(); });
+  closeBtn.addEventListener('click', close);
+  scrim.addEventListener('click', close);
+  document.querySelectorAll('.mobile-menu a').forEach(function(a){ a.addEventListener('click', close); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && menu.classList.contains('open')) close(); });
+  window.addEventListener('resize', function(){ if(window.innerWidth > 980 && menu.classList.contains('open')) close(); });
+})();
+
+/* ---- desktop nav: a glider slides under the hovered link ----
+   The links shift whenever the header changes size (it shrinks into
+   the pill on scroll), so the glider is re-measured every time the
+   link row resizes or the header finishes its transition. */
+(function(){
+  const wrap = document.getElementById('navLinks');
+  const glider = document.getElementById('navGlider');
+  if(!wrap || !glider) return;
+  const links = wrap.querySelectorAll('a');
+  let hovered = null;
+  function moveTo(a, instant){
+    if(!a) return;
+    if(instant) glider.style.transition = 'none';
+    glider.style.width = a.offsetWidth + 'px';
+    glider.style.transform = 'translateX(' + a.offsetLeft + 'px)';
+    if(instant){ void glider.offsetWidth; glider.style.transition = ''; }
+  }
+  function current(){ return hovered || wrap.querySelector('a.active') || links[0]; }
+  function sync(){ moveTo(current(), true); }
+  links.forEach(function(a){
+    a.addEventListener('mouseenter', function(){ hovered = a; moveTo(a); });
+    a.addEventListener('focus', function(){ hovered = a; moveTo(a); });
+  });
+  wrap.addEventListener('mouseleave', function(){ hovered = null; moveTo(current()); });
+  wrap.addEventListener('focusout', function(){ hovered = null; moveTo(current()); });
+
+  if('ResizeObserver' in window){ new ResizeObserver(sync).observe(wrap); }
+  const nav = document.querySelector('#siteHeader .nav');
+  nav.addEventListener('transitionend', sync);
+  new MutationObserver(sync).observe(document.getElementById('siteHeader'), { attributes:true, attributeFilter:['class'] });
+  window.addEventListener('resize', sync);
+  window.addEventListener('load', sync);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
+  sync();
+})();
+
+/* ---- scroll progress + header contraction ---- */
+gsap.to('#scrollProgress', { width:'100%', ease:'none', scrollTrigger:{ scrub:.3 } });
+ScrollTrigger.create({ start:'top -60', end:99999, toggleClass:{ targets:'#siteHeader', className:'is-pinned' } });
+(function(){
+  // fallback for the pill header when ScrollTrigger is the stand-in
+  const h = document.getElementById('siteHeader');
+  const bar = document.getElementById('scrollProgress');
+  window.addEventListener('scroll', function(){
+    h.classList.toggle('is-pinned', window.scrollY > 60);
+    if(!window.ScrollTrigger.getAll){
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (max > 0 ? window.scrollY / max * 100 : 0) + '%';
+    }
+  }, { passive:true });
+})();
+
+/* =========================================================
+   COUNTERS — shared helper
+   ========================================================= */
+function runCounters(nodes){
+  nodes.forEach(function(el){
+    const target = parseFloat(el.dataset.count || '0');
+    const suffix = el.dataset.suffix || '';
+    const dec = parseInt(el.dataset.decimals || '0', 10);
+    const fmt = function(v){ return (dec ? v.toFixed(dec) : Math.round(v).toLocaleString()) + suffix; };
+    if(REDUCED){ el.textContent = fmt(target); return; }
+    const c = { v:0 };
+    gsap.to(c, { v:target, duration:2, ease:'power1.out', onUpdate:function(){ el.textContent = fmt(c.v); } });
+    el.textContent = fmt(c.v);
+  });
+}
+gsap.utils.toArray('[data-count]').forEach(function(el){
+  if(el.closest('.hero-stats')) return;
+  ScrollTrigger.create({ trigger:el, start:'top 90%', once:true, onEnter:function(){ runCounters([el]); } });
+});
+
+/* ---- service cards: tilt toward the pointer + spotlight ---- */
+if(HOVERABLE && !REDUCED){
+  document.querySelectorAll('[data-tilt]').forEach(function(card){
+    card.addEventListener('mousemove', function(e){
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+      card.style.setProperty('--mx', (x * 100) + '%');
+      card.style.setProperty('--my', (y * 100) + '%');
+      gsap.to(card, { rotateY:(x - .5) * 8, rotateX:(.5 - y) * 8, duration:.4, ease:'power2.out', transformPerspective:800 });
+    });
+    card.addEventListener('mouseleave', function(){ gsap.to(card, { rotateY:0, rotateX:0, duration:.6, ease:'power3.out' }); });
+  });
+}
+
+/* =========================================================
+   MAGNETIC BUTTONS
+   ========================================================= */
+if(HOVERABLE && !REDUCED){
+  document.querySelectorAll('[data-magnetic]').forEach(function(el){
+    el.addEventListener('mousemove', function(e){
+      const r = el.getBoundingClientRect();
+      gsap.to(el, { x:(e.clientX - r.left - r.width / 2) * .22, y:(e.clientY - r.top - r.height / 2) * .3, duration:.4, ease:'power2.out' });
+    });
+    el.addEventListener('mouseleave', function(){ gsap.to(el, { x:0, y:0, duration:.5, ease:'elastic.out(1,.5)' }); });
+  });
+}
+
+/* =========================================================
+   HERO — one orchestrated entrance
+   (named heroIntro so the shared preloader can call it)
+   ========================================================= */
+let heroPlayed = false;
+function heroIntro(){
+  if(heroPlayed) return;
+  heroPlayed = true;
+  const tl = gsap.timeline({ defaults:{ ease:'power3.out' } });
+  tl.from('.crumbs', { opacity:0, y:-10, duration:.45 })
+    .from('.about-hero .eyebrow', { opacity:0, y:-10, duration:.45 }, '-=.25')
+    .from('.ah-title .line-in', { yPercent:120, rotate:2.5, duration:1, stagger:.1, ease:'expo.out' }, '-=.2')
+    .from('.ah-sub', { opacity:0, y:18, duration:.6 }, '-=.55')
+    .fromTo('.ah-strip figure', { clipPath:'inset(100% 0% 0% 0%)', y:40 },
+      { clipPath:'inset(0% 0% 0% 0%)', y:0, duration:1.1, stagger:.12, ease:'expo.out' }, '-=.5')
+    .from('.ah-badge', { opacity:0, scale:.8, duration:.6, ease:'back.out(1.8)' }, '-=.5');
+  runCounters(document.querySelectorAll('.ah-badge [data-count]'));
+}
+// scroll-linked effects only with the real ScrollTrigger (the stand-in would jump to the end state)
+if(!REDUCED && ScrollTrigger.getAll){
+  gsap.to('.as-1', { yPercent:-10, rotation:-4, ease:'none', scrollTrigger:{ trigger:'.about-hero', start:'top top', end:'bottom top', scrub:true } });
+  gsap.to('.as-3', { yPercent:-10, rotation:4, ease:'none', scrollTrigger:{ trigger:'.about-hero', start:'top top', end:'bottom top', scrub:true } });
+  gsap.to('.as-2', { yPercent:6, scale:1.04, ease:'none', scrollTrigger:{ trigger:'.about-hero', start:'top top', end:'bottom top', scrub:true } });
+  gsap.to('.ah-glow.g1', { xPercent:12, yPercent:-8, duration:9, repeat:-1, yoyo:true, ease:'sine.inOut' });
+  gsap.to('.ah-glow.g2', { xPercent:-10, yPercent:10, duration:11, repeat:-1, yoyo:true, ease:'sine.inOut' });
+  gsap.utils.toArray('.org-card img, .mosaic img, .door img').forEach(function(img){
+    gsap.fromTo(img, { yPercent:-5 }, { yPercent:5, ease:'none',
+      scrollTrigger:{ trigger:img.closest('figure, .door') || img, start:'top bottom', end:'bottom top', scrub:true } });
+  });
+}
+
+/* =========================================================
+   SCROLL REVEALS
+   ========================================================= */
+(function(){
+  document.querySelectorAll('.section-title').forEach(function(t){
+    t.innerHTML = t.innerHTML.split(/(<br\s*\/?>)/).map(function(part){
+      if(/^<br/.test(part)) return part;
+      return part.split(/(\s+)/).map(function(w){ return /^\s+$/.test(w) || !w ? w : '<span class="w"><span class="w-in">' + w + '</span></span>'; }).join('');
+    }).join('');
+    gsap.from(t.querySelectorAll('.w-in'), { yPercent:110, duration:.9, stagger:.04, ease:'expo.out',
+      scrollTrigger:{ trigger:t, start:'top 88%', once:true } });
+  });
+  const singles = ['.section-head .eyebrow', '.section-lede', '.mission-copy .eyebrow', '.mission-lead', '.mission-text > p:not(.mission-lead)',
+    '.mission-sign', '.life-copy .eyebrow', '.life-copy .text-link', '.slider-ctrl'];
+  singles.forEach(function(sel){
+    document.querySelectorAll(sel).forEach(function(el){
+      gsap.from(el, { opacity:0, y:24, duration:.7, ease:'power2.out', scrollTrigger:{ trigger:el, start:'top 90%', once:true } });
+    });
+  });
+  const groups = ['.value', '.num-band > div', '.org-card', '.perks li', '.place', '.commit-card', '.door'];
+  groups.forEach(function(sel){
+    const items = gsap.utils.toArray(sel);
+    if(!items.length) return;
+    gsap.from(items, { opacity:0, y:34, duration:.7, ease:'power3.out', stagger:.08,
+      scrollTrigger:{ trigger:items[0], start:'top 88%', once:true } });
+  });
+  // mosaic tiles wipe in from alternating sides
+  gsap.utils.toArray('.mosaic figure').forEach(function(f, i){
+    gsap.fromTo(f, { clipPath: i % 2 ? 'inset(0% 0% 0% 100%)' : 'inset(0% 100% 0% 0%)' },
+      { clipPath:'inset(0% 0% 0% 0%)', duration:1, delay:i * .1, ease:'expo.out', scrollTrigger:{ trigger:'.mosaic', start:'top 78%', once:true } });
+  });
+})();
+
+/* =========================================================
+   STORY — year rail with arrows, drag and keyboard
+   ========================================================= */
+(function(){
+  const viewport = document.getElementById('stViewport');
+  const track = document.getElementById('stTrack');
+  const prev = document.getElementById('stPrev');
+  const next = document.getElementById('stNext');
+  const barFill = document.getElementById('stBarFill');
+  if(!viewport || !track) return;
+  const cards = Array.from(track.children);
+  let index = 0, step = 0, maxIndex = 0, limit = 0, offset = 0, dragging = false, startX = 0, startOffset = 0, moved = 0;
+
+  function measureLimit(){
+    const padR = parseFloat(getComputedStyle(viewport).paddingRight) || 0;
+    const edge = viewport.getBoundingClientRect().right - padR;
+    const x = parseFloat(gsap.getProperty(track, 'x')) || 0;
+    const last = cards[cards.length - 1].getBoundingClientRect().right - x;
+    return Math.max(0, Math.round(last - edge));
+  }
+  function measure(){
+    const gap = parseFloat(getComputedStyle(track).columnGap || '0') || 0;
+    step = cards[0].getBoundingClientRect().width + gap;
+    limit = measureLimit();
+    maxIndex = step > 0 ? Math.max(0, Math.ceil(limit / step)) : 0;
+    index = Math.min(index, maxIndex);
+    goTo(index, false);
+  }
+  function goTo(i, animate){
+    index = Math.max(0, Math.min(i, maxIndex));
+    offset = -Math.min(index * step, limit);
+    gsap.to(track, { x:offset, duration:(animate === false || REDUCED) ? 0 : .7, ease:'power3.out' });
+    prev.disabled = index === 0;
+    next.disabled = index === maxIndex;
+    gsap.to(barFill, { width:(maxIndex === 0 ? 100 : (index / maxIndex) * 80 + 20) + '%', duration:.5, ease:'power2.out' });
+    cards.forEach(function(c, n){ c.classList.toggle('seen', n <= index + 2); });
+  }
+  prev.addEventListener('click', function(){ goTo(index - 1, true); });
+  next.addEventListener('click', function(){ goTo(index + 1, true); });
+  viewport.setAttribute('tabindex','0');
+  viewport.addEventListener('keydown', function(e){
+    if(e.key === 'ArrowRight'){ e.preventDefault(); goTo(index + 1, true); }
+    if(e.key === 'ArrowLeft'){ e.preventDefault(); goTo(index - 1, true); }
+  });
+  viewport.addEventListener('pointerdown', function(e){
+    dragging = true; moved = 0; startX = e.clientX; startOffset = offset;
+    viewport.classList.add('is-dragging');
+    viewport.setPointerCapture(e.pointerId);
+  });
+  viewport.addEventListener('pointermove', function(e){
+    if(!dragging) return;
+    const dx = e.clientX - startX; moved = Math.abs(dx);
+    gsap.set(track, { x:startOffset + dx });
+  });
+  function endDrag(e){
+    if(!dragging) return;
+    dragging = false;
+    viewport.classList.remove('is-dragging');
+    const dx = e.clientX - startX;
+    if(Math.abs(dx) > step * .2){ goTo(index + (dx < 0 ? 1 : -1), true); } else { goTo(index, true); }
+  }
+  viewport.addEventListener('pointerup', endDrag);
+  viewport.addEventListener('pointercancel', endDrag);
+  let t = null;
+  window.addEventListener('resize', function(){ clearTimeout(t); t = setTimeout(measure, 150); });
+  window.addEventListener('load', measure);
+  measure();
+  gsap.from(cards, { opacity:0, y:40, duration:.7, stagger:.07, ease:'power3.out',
+    scrollTrigger:{ trigger:viewport, start:'top 85%', once:true } });
+})();
+
+/* ---- numbers band counts up when it arrives ---- */
+ScrollTrigger.create({ trigger:'.num-band', start:'top 85%', once:true, onEnter:function(){
+  runCounters(document.querySelectorAll('.num-band [data-count]'));
+} });
+
+/* ---- local time at each centre, updated every minute ---- */
+(function(){
+  const clocks = document.querySelectorAll('.place-time');
+  function tick(){
+    clocks.forEach(function(el){
+      try{
+        const t = new Date().toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', timeZone:el.dataset.tz });
+        el.textContent = t + ' local';
+      }catch(e){ el.textContent = ''; }
+    });
+  }
+  tick(); setInterval(tick, 30000);
+})();
+
+/* =========================================================
+   SMOOTH ANCHORS & BACK TO TOP
+   ========================================================= */
+(function(){
+  function scrollToEl(target){
+    const destY = target.getBoundingClientRect().top + window.scrollY - document.getElementById('siteHeader').offsetHeight - 16;
+    if(REDUCED){ window.scrollTo(0, destY); return; }
+    const obj = { y:window.scrollY };
+    gsap.to(obj, { y:destY, duration:.9, ease:'power2.inOut', onUpdate:function(){ window.scrollTo(0, obj.y); } });
+  }
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      const id = a.getAttribute('href');
+      if(id.length > 1 && document.querySelector(id)){ e.preventDefault(); scrollToEl(document.querySelector(id)); }
+    });
+  });
+  const toTop = document.getElementById('toTop');
+  window.addEventListener('scroll', function(){ toTop.classList.toggle('show', window.scrollY > 600); }, { passive:true });
+  toTop.addEventListener('click', function(){
+    if(REDUCED){ window.scrollTo(0, 0); return; }
+    const obj = { y:window.scrollY };
+    gsap.to(obj, { y:0, duration:.8, ease:'power2.inOut', onUpdate:function(){ window.scrollTo(0, obj.y); } });
+  });
+})();
+</script>
+</body>
+</html>

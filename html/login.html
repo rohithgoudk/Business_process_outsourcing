@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stackly — Client Portal Sign In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<link rel="stylesheet" href="../css/login.css">
+<script>
+  /* hide the animated parts before first paint; released by the load timeline */
+  document.documentElement.classList.add('pre');
+  setTimeout(function(){
+    if(typeof gsap === 'undefined'){ document.documentElement.classList.remove('pre'); }
+  }, 1500);
+</script>
+</head>
+<body>
+
+<!-- ============ PORTAL (single centred column) ============ -->
+<main class="portal">
+
+  <!-- background layers -->
+  <div class="chamber" aria-hidden="true">
+    <div class="chamber-glow"></div>
+    <div class="chamber-rows"></div>
+    <svg class="chamber-net" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+      <g class="net-links">
+        <path d="M80 720 C300 600 420 760 640 640"/>
+        <path d="M640 640 C820 540 900 300 1120 260"/>
+        <path d="M1120 260 C1250 230 1330 120 1440 90"/>
+        <path d="M0 260 C180 220 260 360 460 300"/>
+        <path d="M460 300 C620 250 700 120 900 110"/>
+        <path d="M900 110 C1040 100 1100 180 1300 150"/>
+        <path d="M640 640 C820 760 900 840 1040 820"/>
+        <path d="M1040 820 C1180 790 1260 700 1440 640"/>
+      </g>
+      <g class="net-pulses">
+        <path pathLength="100" d="M80 720 C300 600 420 760 640 640" style="animation-delay:-1s"/>
+        <path pathLength="100" d="M640 640 C820 540 900 300 1120 260" style="animation-delay:-3s;animation-duration:9s"/>
+        <path pathLength="100" class="alt" d="M0 260 C180 220 260 360 460 300" style="animation-delay:-5s"/>
+        <path pathLength="100" d="M460 300 C620 250 700 120 900 110" style="animation-delay:-2s;animation-duration:10s"/>
+        <path pathLength="100" class="alt" d="M1040 820 C1180 790 1260 700 1440 640" style="animation-delay:-6s"/>
+        <path pathLength="100" d="M900 110 C1040 100 1100 180 1300 150" style="animation-delay:-4s"/>
+      </g>
+      <g class="net-nodes">
+        <circle cx="80" cy="720" r="3.5"/><circle cx="640" cy="640" r="3.5"/><circle cx="1120" cy="260" r="3.5"/>
+        <circle cx="460" cy="300" r="3.5"/><circle cx="900" cy="110" r="3.5"/><circle cx="1300" cy="150" r="3.5"/>
+        <circle cx="1040" cy="820" r="3.5"/>
+      </g>
+    </svg>
+    <div class="chamber-vignette"></div>
+  </div>
+
+  <!-- document frame rules -->
+  <div class="rule rule-t" id="ruleT" aria-hidden="true"></div>
+  <div class="rule rule-b" id="ruleB" aria-hidden="true"></div>
+  <div class="rule rule-l" id="ruleL" aria-hidden="true"></div>
+  <div class="rule rule-r" id="ruleR" aria-hidden="true"></div>
+
+  <!-- back to home -->
+  <a href="index.html" class="back-home" id="backHome">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M11 18l-6-6 6-6"/></svg>
+    <span>Back to home</span>
+  </a>
+
+  <div class="portal-col">
+
+    <!-- brand, above the document -->
+    <a href="index.html#hero" class="portal-logo" id="portalLogo">
+      <img src="../assets/Logo.webp" alt="Stackly" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'">
+      <span class="portal-word" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 4.5-9 4.5-9-4.5Z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/></svg>
+        STACKLY
+      </span>
+    </a>
+
+    <div class="deed-shell">
+
+      <div class="deed" id="deed">
+
+        <p class="kicker" id="kicker">Client portal</p>
+
+        <h1 class="deed-head" id="deedHead">
+          <span class="l"><i>Sign in to your</i></span>
+          <span class="l l-hl"><i>Stackly operations desk.</i></span>
+        </h1>
+
+        <p class="deed-sub" id="deedSub">Tickets, SLA reports and team performance stay in one place. No account yet? <a href="signup.html">Create an account</a>.</p>
+
+        <div class="role-toggle" id="roleToggle" data-role="user">
+          <span class="role-ind" id="roleInd"></span>
+          <button type="button" class="role-btn active" data-role-value="user">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c1.5-4 5-6 7.5-6s6 2 7.5 6"/></svg>
+            User
+          </button>
+          <button type="button" class="role-btn" data-role-value="admin">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/></svg>
+            Admin
+          </button>
+        </div>
+
+        <form class="deed-form" id="loginPageForm" novalidate>
+
+          <div class="field">
+            <label class="field-label" for="li-work-email">Work email</label>
+            <div class="field-input-wrap" id="li-email-wrap">
+              <input type="email" id="li-work-email" placeholder="name@company.com" autocomplete="email" required>
+              <span class="field-rule"></span>
+            </div>
+            <span class="field-error" id="li-email-error">Enter a valid work email address.</span>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="li-work-password">Password</label>
+            <div class="field-input-wrap" id="li-password-wrap">
+              <input type="password" id="li-work-password" placeholder="Enter your password" autocomplete="current-password" required>
+              <button type="button" class="field-toggle" id="liPwToggle" aria-label="Show password">
+                <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="eye-off" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0112 19c-7 0-11-7-11-7a21.6 21.6 0 015.06-6.06M9.9 4.24A10.94 10.94 0 0112 4c7 0 11 7 11 7a21.6 21.6 0 01-2.66 3.79"/><path d="M14.12 14.12a3 3 0 11-4.24-4.24"/><path d="M1 1l22 22"/></svg>
+              </button>
+              <span class="field-rule"></span>
+            </div>
+            <span class="field-error" id="li-password-error">Enter your password.</span>
+          </div>
+
+          <div class="field-row">
+            <label class="tick">
+              <input type="checkbox" id="li-remember" checked>
+              <span class="tick-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+              <span>Keep me signed in</span>
+            </label>
+            <a href="404.html" class="forgot-link">Forgot password?</a>
+          </div>
+
+          <div class="field accept-field">
+            <label class="tick tick-accept">
+              <input type="checkbox" id="li-accept">
+              <span class="tick-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+              <span>I accept the <a href="404.html">terms of service</a> and the <a href="404.html">privacy policy</a>.</span>
+            </label>
+            <span class="field-error" id="li-accept-error">Accept the terms before signing in.</span>
+          </div>
+
+          <button type="submit" class="btn btn-primary login-submit" id="loginSubmitBtn">
+            <span class="submit-wipe" id="submitWipe"></span>
+            <span class="login-submit-label" id="loginSubmitLabel">Sign in as User</span>
+            <svg class="login-submit-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5M15 12H3"/></svg>
+          </button>
+        </form>
+
+        <p class="deed-foot" id="deedFoot">Encrypted and confidential. Every session is logged against your client account.</p>
+
+      </div><!-- /.deed -->
+    </div><!-- /.deed-shell -->
+
+    <a href="index.html" class="deed-back">Return to the main site</a>
+  </div><!-- /.portal-col -->
+</main>
+
+<script>
+  var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* =========================================================
+     FAILSAFE — if the GSAP CDN is unreachable, stand in a tiny
+     shim that applies end states straight away, so the form,
+     the role toggle and validation all still work.
+     ========================================================= */
+  if(typeof gsap === 'undefined'){
+    (function(){
+      function each(t, fn){
+        if(!t) return;
+        if(typeof t === 'string'){ Array.prototype.forEach.call(document.querySelectorAll(t), fn); return; }
+        if(t.nodeType){ fn(t); return; }
+        if(t.length !== undefined){ Array.prototype.forEach.call(t, function(x){ each(x, fn); }); }
+      }
+      function apply(el, v){
+        if(!el || !el.style) return;
+        if(v.opacity   !== undefined) el.style.opacity = v.opacity;
+        if(v.width     !== undefined) el.style.width = v.width + 'px';
+        if(v.clipPath  !== undefined) el.style.clipPath = v.clipPath;
+        if(v.filter    !== undefined) el.style.filter = v.filter;
+        var tf = '';
+        if(v.x !== undefined || v.y !== undefined){ tf += ' translate(' + (v.x || 0) + 'px,' + (v.y || 0) + 'px)'; }
+        if(v.scaleX !== undefined){ tf += ' scaleX(' + v.scaleX + ')'; }
+        if(v.scaleY !== undefined){ tf += ' scaleY(' + v.scaleY + ')'; }
+        if(v.scale  !== undefined){ tf += ' scale('  + v.scale  + ')'; }
+        if(tf){ el.style.transform = tf.trim(); }
+      }
+      var stub = {
+        set:    function(t, v){ each(t, function(el){ apply(el, v); }); return stub; },
+        to:     function(t, v){ each(t, function(el){ apply(el, v); }); return { kill: function(){} }; },
+        fromTo: function(t, f, v){ each(t, function(el){ apply(el, v); }); return { kill: function(){} }; },
+        quickTo: function(){ return function(){}; },
+        timeline: function(){
+          var o = {
+            to:     function(t, v){ stub.to(t, v); return o; },
+            fromTo: function(t, f, v){ stub.fromTo(t, f, v); return o; }
+          };
+          return o;
+        }
+      };
+      window.gsap = stub;
+    })();
+  }
+
+  /* =========================================================
+     THE ENTRANCE — one orchestrated sequence:
+     frame rules draw, the logo settles, the record unrolls,
+     then the headline is written line by line.
+     ========================================================= */
+  (function(){
+    document.documentElement.classList.remove('pre');
+    const d = REDUCED ? 0.01 : 1;
+
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    tl.fromTo(['#ruleT', '#ruleB'], { scaleX: 0 }, { scaleX: 1, duration: 1.1 * d, ease: 'expo.inOut' }, 0)
+      .fromTo(['#ruleL', '#ruleR'], { scaleY: 0 }, { scaleY: 1, duration: 1.1 * d, ease: 'expo.inOut' }, 0.1)
+      .fromTo('#backHome', { opacity: 0, x: -12 }, { opacity: 1, x: 0, duration: 0.7 * d }, 0.35)
+      .fromTo('#portalLogo', { opacity: 0, y: -14, filter: 'blur(6px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.8 * d }, 0.25)
+      .fromTo('#deed', { clipPath: 'inset(0% 0% 100% 0%)', y: -8 }, { clipPath: 'inset(0% 0% 0% 0%)', y: 0, duration: 1.05 * d, ease: 'expo.out' }, 0.45)
+      .fromTo('#kicker', { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.5 * d }, 0.9)
+      // headline is "written" left to right, one line at a time
+      .fromTo('.deed-head .l i', { clipPath: 'inset(0% 100% 0% 0%)' },
+                                 { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.85 * d, stagger: 0.16, ease: 'power2.inOut' }, 0.95)
+      .fromTo('#deedSub', { opacity: 0 }, { opacity: 1, duration: 0.6 * d }, 1.45)
+      .fromTo('#roleToggle', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.55 * d }, 1.55)
+      .fromTo('.deed-form .field, .field-row, #loginSubmitBtn',
+              { opacity: 0, y: 14, filter: 'blur(6px)' },
+              { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.6 * d, stagger: 0.07 }, 1.65)
+      .fromTo(['#deedFoot', '.deed-back'], { opacity: 0 }, { opacity: 1, duration: 0.5 * d, stagger: 0.06 }, 2.05);
+  })();
+
+  /* =========================================================
+     ROLE TOGGLE — User / Admin
+     The teal marker slides across to whichever side you picked.
+     ========================================================= */
+  window.selectedRole = 'user';
+  window.stacklySelectedRole = 'user';   /* kept so existing pages still read it */
+  (function(){
+    const toggle = document.getElementById('roleToggle');
+    const ind = document.getElementById('roleInd');
+    const submitLabel = document.getElementById('loginSubmitLabel');
+    if(!toggle) return;
+    const buttons = toggle.querySelectorAll('.role-btn');
+
+    function placeMarker(btn, animate){
+      gsap.to(ind, {
+        x: btn.offsetLeft,
+        width: btn.offsetWidth,
+        duration: animate ? 0.5 : 0,
+        ease: 'power3.out'
+      });
+    }
+    placeMarker(toggle.querySelector('.role-btn.active'), false);
+    window.addEventListener('resize', function(){
+      placeMarker(toggle.querySelector('.role-btn.active'), false);
+    });
+
+    buttons.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        if(btn.classList.contains('active')) return;
+        const role = btn.dataset.roleValue;
+        window.selectedRole = role;
+        window.stacklySelectedRole = role;
+        toggle.setAttribute('data-role', role);
+        buttons.forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        placeMarker(btn, !REDUCED);
+        submitLabel.textContent = role === 'admin' ? 'Sign in as Admin' : 'Sign in as User';
+        if(!REDUCED){
+          gsap.fromTo(submitLabel, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.35 });
+        }
+      });
+    });
+  })();
+
+  /* =========================================================
+     FIELD FOCUS — the rule under the field draws out from
+     the left while it holds focus
+     ========================================================= */
+  (function(){
+    document.querySelectorAll('.field-input-wrap input').forEach(function(input){
+      const rule = input.parentElement.querySelector('.field-rule');
+      if(!rule) return;
+      input.addEventListener('focus', function(){ gsap.to(rule, { scaleX: 1, duration: 0.45, ease: 'power3.out' }); });
+      input.addEventListener('blur', function(){ gsap.to(rule, { scaleX: 0, duration: 0.3, ease: 'power2.in' }); });
+    });
+  })();
+
+  /* =========================================================
+     PASSWORD SHOW/HIDE
+     ========================================================= */
+  (function(){
+    const toggle = document.getElementById('liPwToggle');
+    const input = document.getElementById('li-work-password');
+    if(!toggle || !input) return;
+    const eye = toggle.querySelector('.eye');
+    const eyeOff = toggle.querySelector('.eye-off');
+    toggle.addEventListener('click', function(){
+      const showing = input.type === 'password';
+      input.type = showing ? 'text' : 'password';
+      eye.style.display = showing ? 'none' : 'block';
+      eyeOff.style.display = showing ? 'block' : 'none';
+      toggle.setAttribute('aria-label', showing ? 'Hide password' : 'Show password');
+      gsap.fromTo(toggle, { scale: 0.82 }, { scale: 1, duration: 0.35, ease: 'back.out(2.6)' });
+    });
+  })();
+
+  /* =========================================================
+     SUBMIT BUTTON — presses in under the pointer
+     ========================================================= */
+  (function(){
+    const btn = document.getElementById('loginSubmitBtn');
+    if(!btn || REDUCED) return;
+    btn.addEventListener('pointerdown', function(){ gsap.to(btn, { scale: 0.978, duration: 0.12 }); });
+    ['pointerup','pointerleave'].forEach(function(ev){
+      btn.addEventListener(ev, function(){ gsap.to(btn, { scale: 1, duration: 0.45, ease: 'elastic.out(1,0.6)' }); });
+    });
+  })();
+
+  /* =========================================================
+     VALIDATION + DEMO SUBMIT SEQUENCE
+     Same flow as before: validate, store a demo session,
+     then route to the right dashboard. The terms box must be
+     accepted before anything is stored.
+     ========================================================= */
+  (function(){
+    const form = document.getElementById('loginPageForm');
+    const emailWrap = document.getElementById('li-email-wrap');
+    const passwordWrap = document.getElementById('li-password-wrap');
+    const emailInput = document.getElementById('li-work-email');
+    const passwordInput = document.getElementById('li-work-password');
+    const acceptInput = document.getElementById('li-accept');
+    const acceptField = document.querySelector('.accept-field');
+    const emailError = document.getElementById('li-email-error');
+    const passwordError = document.getElementById('li-password-error');
+    const acceptError = document.getElementById('li-accept-error');
+    const submitBtn = document.getElementById('loginSubmitBtn');
+    const submitLabel = document.getElementById('loginSubmitLabel');
+    const wipe = document.getElementById('submitWipe');
+    if(!form) return;
+
+    function isValidEmail(v){
+      v = v.trim();
+      if(!v || /\s/.test(v)) return false;
+      return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/.test(v);
+    }
+    function flag(el, errorEl, show){
+      el.classList.toggle('has-error', show);
+      errorEl.classList.toggle('is-visible', show);
+      if(show){
+        gsap.fromTo(el, { x: -4 }, { x: 0, duration: 0.5, ease: 'elastic.out(1,0.35)' });
+        gsap.fromTo(errorEl, { opacity: 0, y: -4 }, { opacity: 1, y: 0, duration: 0.3 });
+      }
+    }
+
+    emailInput.addEventListener('input', function(){ flag(emailWrap, emailError, false); });
+    passwordInput.addEventListener('input', function(){ flag(passwordWrap, passwordError, false); });
+    acceptInput.addEventListener('change', function(){ flag(acceptField, acceptError, false); });
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      let valid = true;
+      if(!isValidEmail(emailInput.value)){ flag(emailWrap, emailError, true); valid = false; }
+      if(!passwordInput.value){ flag(passwordWrap, passwordError, true); valid = false; }
+      if(!acceptInput.checked){ flag(acceptField, acceptError, true); valid = false; }
+      if(!valid) return;
+
+      submitBtn.classList.add('loading');
+      submitBtn.setAttribute('disabled', 'true');
+      submitLabel.textContent = 'Verifying credentials…';
+      gsap.fromTo(wipe, { scaleX: 0 }, { scaleX: 1, duration: 1.0, ease: 'power1.inOut' });
+
+      setTimeout(function(){
+        const role = window.selectedRole || 'user';
+
+        // Demo-only session: no real backend, but this lets the
+        // dashboard pages read who "signed in" and which role.
+        try{
+          localStorage.setItem('user', JSON.stringify({ email: emailInput.value.trim(), role: role }));
+          localStorage.setItem('isAuthenticated', 'true');
+        }catch(err){}
+
+        submitLabel.textContent = 'Opening your operations desk…';
+        window.location.href = role === 'admin' ? 'admindashboard.html' : 'dashboard.html';
+      }, 1100);
+    });
+  })();
+
+</script>
+</body>
+</html>
