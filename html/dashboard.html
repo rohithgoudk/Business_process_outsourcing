@@ -11,11 +11,11 @@
 </head>
 <body>
 
-<!-- ============ HEADER (bar + tab strip) ============ -->
+<!-- ============ HEADER (bar only — navigation lives in the fixed sidebar) ============ -->
 <header class="head" id="topbar">
   <div class="head-bar">
     <div class="head-left">
-      <!-- hamburger: only below 1100px, opens the side drawer -->
+      <!-- hamburger: tablet & phone only — on desktop the sidebar is always shown -->
       <button class="burger" id="hamburger-btn" aria-label="Open menu" aria-expanded="false" aria-controls="sidebar">
         <span class="burger-box">
           <span class="burger-line l1"></span>
@@ -65,9 +65,6 @@
       </div>
     </div>
   </div>
-
-  <!-- tab strip: desktop navigation -->
-  <nav class="tabs" id="nav-tabs" aria-label="Sections"></nav>
 </header>
 
 <!-- ============ SIDE DRAWER (tablet & phone) ============ -->
@@ -933,17 +930,12 @@ function badgeHtml(item) {
   return n ? `<span class="nav-badge">${n}</span>` : '';
 }
 function renderNav() {
-  document.getElementById("nav-tabs").innerHTML = allNav().map(function (i) {
-    return `<button class="tab ${state.activeNav === i.id ? 'on' : ''}" data-nav="${i.id}">${ico(i.icon, 'tab-ico')}<span>${i.label}</span>${badgeHtml(i)}</button>`;
-  }).join("");
   document.getElementById("nav-drawer").innerHTML = Object.keys(navGroups).map(function (g) {
     return `<p class="dock-label">${groupLabels[g]}</p>
       <nav class="dock-nav">${navGroups[g].map(function (i) {
         return `<button class="dock-item ${state.activeNav === i.id ? 'on' : ''}" data-nav="${i.id}">${ico(i.icon, 'dock-ico')}<span class="dock-text">${i.label}</span>${badgeHtml(i)}</button>`;
       }).join("")}</nav>`;
   }).join("");
-  const on = document.querySelector('.tab.on');
-  if (on && on.scrollIntoView) on.scrollIntoView({ block: 'nearest', inline: 'nearest' });
 }
 
 function renderPage() {
@@ -972,7 +964,7 @@ function navigateTo(id) {
   renderPage();
 }
 
-/* ---- hamburger: opens the side drawer below 1100px ---- */
+/* ---- sidebar: fixed on desktop, hamburger drawer at 1100px and below ---- */
 const MENU_BREAK = 1100;
 const burger = document.getElementById("hamburger-btn");
 let savedScrollY = 0;
@@ -1017,6 +1009,13 @@ burger.addEventListener("click", function () {
   }
 });
 document.getElementById("brand-home-btn").addEventListener("click", function () { navigateTo("dashboard"); });
+function syncDock() {
+  const fixed = window.innerWidth > MENU_BREAK;
+  if (fixed) closeDrawer();
+  document.getElementById("sidebar").setAttribute("aria-hidden", fixed || document.getElementById("sidebar").classList.contains("open") ? "false" : "true");
+}
+window.addEventListener("resize", syncDock);
+syncDock();
 document.getElementById("sidebar-overlay").addEventListener("click", closeDrawer);
 document.getElementById("notif-btn").addEventListener("click", go404);
 document.getElementById("logout-btn").addEventListener("click", logout);
@@ -1031,7 +1030,6 @@ document.addEventListener("keydown", function (e) {
   const typing = e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName);
   if (e.key === "/" && !typing) { e.preventDefault(); openFinder(); }
 });
-window.addEventListener("resize", function () { if (window.innerWidth > MENU_BREAK) closeDrawer(); });
 
 /* ---- topbar search: on phones the magnifier opens the field first ---- */
 const finder = document.getElementById("topbar-search");
@@ -1108,7 +1106,6 @@ document.addEventListener("change", function (e) {
 paintUserChrome();
 if (typeof gsap !== 'undefined') {
   gsap.from('.head-bar', { y: -14, opacity: 0, duration: 0.5, ease: 'power2.out' });
-  gsap.from('.tabs', { opacity: 0, duration: 0.5, delay: 0.1, ease: 'power2.out' });
 }
 renderPage();
 </script>

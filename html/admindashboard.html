@@ -11,11 +11,11 @@
 </head>
 <body>
 
-<!-- ============ HEADER (two tiers: bar + tab strip) ============ -->
+<!-- ============ HEADER (bar only — navigation lives in the fixed sidebar) ============ -->
 <header class="head" id="topbar">
   <div class="head-bar">
     <div class="head-left">
-      <!-- hamburger: only below 1100px, opens the full-screen menu -->
+      <!-- hamburger: tablet & phone only — on desktop the sidebar is always shown -->
       <button class="burger" id="hamburger-btn" aria-label="Open menu" aria-expanded="false" aria-controls="menu-sheet">
         <span class="burger-box">
           <span class="burger-line l1"></span>
@@ -68,12 +68,9 @@
       </div>
     </div>
   </div>
-
-  <!-- tab strip: desktop navigation -->
-  <nav class="tabs" id="nav-tabs" aria-label="Admin sections"></nav>
 </header>
 
-<!-- ============ SIDE DRAWER (tablet & phone) ============ -->
+<!-- ============ SIDEBAR (fixed on desktop, drawer on tablet & phone) ============ -->
 <div class="dock-scrim" id="sidebar-overlay"></div>
 <aside class="dock" id="menu-sheet" aria-label="Admin menu" aria-hidden="true">
   <div class="dock-head">
@@ -916,17 +913,12 @@ function badgeFor(id) {
   return "";
 }
 function renderNav() {
-  document.getElementById("nav-tabs").innerHTML = allNav().map(function (i) {
-    return `<button class="tab ${state.activeNav === i.id ? 'on' : ''}" data-nav="${i.id}">${ico(i.icon, 'tab-ico')}<span>${i.label}</span>${badgeFor(i.id)}</button>`;
-  }).join("");
   document.getElementById("nav-sheet").innerHTML = navGroups.map(function (g) {
     return `<p class="dock-label">${g.label}</p>
       <nav class="dock-nav">${g.items.map(function (i) {
         return `<button class="dock-item ${state.activeNav === i.id ? 'on' : ''}" data-nav="${i.id}">${ico(i.icon, 'dock-ico')}<span class="dock-text">${i.label}</span>${badgeFor(i.id)}</button>`;
       }).join("")}</nav>`;
   }).join("");
-  const on = document.querySelector('.tab.on');
-  if (on && on.scrollIntoView) on.scrollIntoView({ block: 'nearest', inline: 'nearest' });
 }
 
 function renderPage() {
@@ -983,7 +975,7 @@ function resolveRequest(id, approved) {
   }
 }
 
-/* ---- full-screen menu with page-scroll lock ---- */
+/* ---- sidebar: fixed on desktop, hamburger drawer at 1100px and below ---- */
 const MENU_BREAK = 1100;
 let savedScrollY = 0;
 function lockScroll() {
@@ -1036,10 +1028,17 @@ document.getElementById("topbar-user-btn").addEventListener("click", function (e
 });
 document.addEventListener("click", closeWhoami);
 document.addEventListener("keydown", function (e) { if (e.key === "Escape") { closeMenu(); closeWhoami(); } });
+function syncDock() {
+  const sheet = document.getElementById("menu-sheet");
+  const fixed = window.innerWidth > MENU_BREAK;
+  if (fixed) closeMenu();
+  sheet.setAttribute("aria-hidden", fixed || sheet.classList.contains("open") ? "false" : "true");
+}
 window.addEventListener("resize", function () {
-  if (window.innerWidth > MENU_BREAK) closeMenu();
+  syncDock();
   syncTopbarHeight();
 });
+syncDock();
 window.addEventListener("orientationchange", syncTopbarHeight);
 window.addEventListener("load", syncTopbarHeight);
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncTopbarHeight);
@@ -1097,7 +1096,6 @@ document.addEventListener("change", function (e) {
 paintUserChrome();
 if (typeof gsap !== 'undefined') {
   gsap.from('.head-bar', { y: -14, opacity: 0, duration: 0.5, ease: 'power2.out' });
-  gsap.from('.tabs', { opacity: 0, duration: 0.5, delay: 0.1, ease: 'power2.out' });
 }
 renderPage();
 syncTopbarHeight();
