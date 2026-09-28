@@ -921,7 +921,7 @@ if(HOVERABLE){
 })();
 
 /* =========================================================
-   NEWSLETTER — validation + envelope seal (demo, nothing is sent)
+   NEWSLETTER — validation, envelope seal, then redirect to 404.html
    ========================================================= */
 (function(){
   const form = document.getElementById('letterForm');
@@ -946,26 +946,18 @@ if(HOVERABLE){
     }
     form.classList.remove('has-error');
     if(bob) bob.kill();
-    function finish(){
-      form.hidden = true;
-      done.hidden = false;
-      gsap.from(done, { opacity:0, y:16, duration:.5, ease:'power3.out' });
-      gsap.from('.done-ico', { scale:0, rotation:-90, duration:.6, ease:'back.out(2)', delay:.1 });
-    }
-    if(REDUCED || !ScrollTrigger.getAll){
-      flap.style.transform = 'rotateX(0deg)'; flap.style.zIndex = 4; paper.style.transform = 'translateY(0)';
-      finish(); return;
-    }
-    gsap.timeline()
-      .to(form, { opacity:0, y:-10, duration:.3 })
-      .to(paper, { y:0, duration:.55, ease:'power2.in' }, 0)
+    // valid email → the envelope seals and flies off, then on to the next page
+    function go(){ window.location.href = '404.html'; }
+    const btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'Subscribing…';
+    if(REDUCED || !ScrollTrigger.getAll){ go(); return; }
+    gsap.timeline({ onComplete:go })
+      .to(paper, { y:0, duration:.45, ease:'power2.in' }, 0)
       .set(flap, { zIndex:4 })
-      .to(flap, { rotationX:0, duration:.5, ease:'power2.out' })
-      .to(env, { y:-18, rotation:-4, duration:.25, ease:'power1.out' })
-      .to(env, { x:260, y:-140, rotation:18, opacity:0, duration:.6, ease:'power2.in' })
-      .add(finish)
-      .set(env, { x:-60, y:30, rotation:-6 })
-      .to(env, { x:0, y:0, rotation:0, opacity:1, duration:.8, ease:'expo.out' }, '+=.2');
+      .to(flap, { rotationX:0, duration:.4, ease:'power2.out' })
+      .to(env, { y:-18, rotation:-4, duration:.2, ease:'power1.out' })
+      .to(env, { x:260, y:-140, rotation:18, opacity:0, duration:.5, ease:'power2.in' });
   });
 })();
 

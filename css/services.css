@@ -387,7 +387,7 @@
   .hub-logo{display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:16px;color:#04121a;background:linear-gradient(135deg,var(--teal),var(--sky))}
   .hub-logo svg{width:28px;height:28px}
   .hub-core b{margin-top:6px;font:700 18px var(--f-head)}
-  .hub-core span{font:400 12px var(--f-mono);color:var(--muted)}
+  .hub-core > span:not(.hub-logo){font:400 12px var(--f-mono);color:var(--muted)}
   .tool-grid{position:relative;width:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
   .tool-grid::before{content:'';position:absolute;left:12%;right:12%;top:-26px;height:26px;border:1px dashed rgba(46,230,200,.35);border-bottom:0;border-radius:14px 14px 0 0}
   .tool{display:flex;flex-direction:column;gap:6px;padding:22px 20px;border-radius:18px;border:1px solid var(--line);background:var(--panel);transition:border-color .35s,transform .35s var(--ease),box-shadow .35s}
@@ -395,7 +395,7 @@
   .tool-ico{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;margin-bottom:8px;border-radius:12px;color:var(--teal);background:rgba(46,230,200,.1)}
   .tool-ico svg{width:21px;height:21px}
   .tool b{font:600 16px var(--f-head)}
-  .tool span{font-size:13.5px;color:var(--muted)}
+  .tool > span:not(.tool-ico){font-size:13.5px;color:var(--muted)}
   
   /* =========================================================
      7. QUALITY & SECURITY
@@ -405,8 +405,9 @@
   .assure-list li{display:flex;gap:16px}
   .as-ico{flex:none;display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:14px;color:var(--teal);background:rgba(46,230,200,.1);border:1px solid rgba(46,230,200,.25)}
   .as-ico svg{width:22px;height:22px}
-  .assure-list b{display:block;font:600 17px var(--f-head)}
-  .assure-list span{display:block;margin-top:4px;font-size:15px;color:var(--ink-2)}
+  .assure-list li > div{flex:1;min-width:0;padding-top:2px}
+  .assure-list li > div b{display:block;font:600 17px/1.35 var(--f-head)}
+  .assure-list li > div span{display:block;margin-top:4px;font-size:15px;color:var(--ink-2)}
   .assure-panel{position:relative}
   .assure-panel figure{height:460px;overflow:hidden;border-radius:24px;border:1px solid var(--line-2);background:var(--panel-solid)}
   .assure-panel img{width:100%;height:114%;margin-top:-7%;object-fit:cover;opacity:.9}
@@ -608,7 +609,7 @@
     .tool-grid::before{display:none}
     .tool{padding:16px 14px}
     .tool b{font-size:14.5px}
-    .tool span{font-size:12px}
+    .tool > span:not(.tool-ico){font-size:12px}
     .tool-ico{width:36px;height:36px;margin-bottom:4px}
     .hub-core{padding:20px 24px}
   
