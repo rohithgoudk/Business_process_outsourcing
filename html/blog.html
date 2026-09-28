@@ -297,14 +297,13 @@
       <p class="section-lede">Ranked by reads across the blog in the last 30 days.</p>
     </div>
     <ol class="rank" id="rankList">
-      <li><a href="404.html" data-preview="../assets/B11.webp"><span class="rank-n">01</span><span class="rank-body"><b>Why average handle time is the wrong target</b><em>Operations · 6 min</em></span><span class="rank-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a></li>
-      <li><a href="404.html" data-preview="../assets/B12.webp"><span class="rank-n">02</span><span class="rank-body"><b>Forecasting a peak you've never seen</b><em>Workforce · 8 min</em></span><span class="rank-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a></li>
-      <li><a href="404.html" data-preview="../assets/B13.webp"><span class="rank-n">03</span><span class="rank-body"><b>Five questions to ask before you outsource</b><em>Outsourcing · 5 min</em></span><span class="rank-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a></li>
-      <li><a href="404.html" data-preview="../assets/B14.webp"><span class="rank-n">04</span><span class="rank-body"><b>What a good QA scorecard actually measures</b><em>Quality · 7 min</em></span><span class="rank-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a></li>
-      <li><a href="404.html" data-preview="../assets/B15.webp"><span class="rank-n">05</span><span class="rank-body"><b>Keeping card numbers out of call recordings</b><em>Security · 5 min</em></span><span class="rank-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a></li>
+      <li><a href="404.html"><span class="rank-n">01</span><span class="rank-body"><b>Why average handle time is the wrong target</b><em>Operations · 6 min</em></span><span class="rank-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a></li>
+      <li><a href="404.html"><span class="rank-n">02</span><span class="rank-body"><b>Forecasting a peak you've never seen</b><em>Workforce · 8 min</em></span><span class="rank-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a></li>
+      <li><a href="404.html"><span class="rank-n">03</span><span class="rank-body"><b>Five questions to ask before you outsource</b><em>Outsourcing · 5 min</em></span><span class="rank-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a></li>
+      <li><a href="404.html"><span class="rank-n">04</span><span class="rank-body"><b>What a good QA scorecard actually measures</b><em>Quality · 7 min</em></span><span class="rank-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a></li>
+      <li><a href="404.html"><span class="rank-n">05</span><span class="rank-body"><b>Keeping card numbers out of call recordings</b><em>Security · 5 min</em></span><span class="rank-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a></li>
     </ol>
   </div>
-  <div class="rank-preview" id="rankPreview" aria-hidden="true"><img alt=""></div>
 </section>
 
 <!-- ============ 7. GUIDES — flip to see inside ============ -->
@@ -881,44 +880,6 @@ if(HOVERABLE){
     });
   });
 }
-
-/* =========================================================
-   MOST READ — a preview image follows the pointer
-   ========================================================= */
-(function(){
-  const list = document.getElementById('rankList');
-  const box = document.getElementById('rankPreview');
-  if(!list || !box || !HOVERABLE) return;
-  const img = box.querySelector('img');
-  const xTo = gsap.quickTo ? gsap.quickTo(box, 'x', { duration:.5, ease:'power3.out' }) : null;
-  const yTo = gsap.quickTo ? gsap.quickTo(box, 'y', { duration:.5, ease:'power3.out' }) : null;
-  let visible = false;
-  function place(e){
-    const x = Math.min(e.clientX + 28, window.innerWidth - 260);
-    const y = e.clientY - 80;
-    if(xTo && ScrollTrigger.getAll){ xTo(x); yTo(y); } else { box.style.transform = 'translate(' + x + 'px,' + y + 'px)'; }
-  }
-  list.querySelectorAll('a[data-preview]').forEach(function(a){
-    a.addEventListener('mouseenter', function(e){
-      if(window.innerWidth <= 760) return;
-      img.src = a.dataset.preview;
-      if(!visible){
-        gsap.set(box, { x:Math.min(e.clientX + 28, window.innerWidth - 260), y:e.clientY - 80 });
-        gsap.fromTo(box, { autoAlpha:0, scale:.7, rotation:-8 }, { autoAlpha:1, scale:1, rotation:-3, duration:.45, ease:'back.out(1.7)' });
-        box.style.opacity = 1; box.style.visibility = 'visible';
-        visible = true;
-      } else {
-        gsap.fromTo(img, { scale:1.15 }, { scale:1, duration:.5, ease:'power2.out' });
-      }
-    });
-  });
-  list.addEventListener('mousemove', place);
-  list.addEventListener('mouseleave', function(){
-    visible = false;
-    gsap.to(box, { autoAlpha:0, scale:.7, duration:.3, ease:'power2.in', onComplete:function(){ box.style.opacity = 0; box.style.visibility = 'hidden'; } });
-  });
-  window.addEventListener('scroll', function(){ if(visible){ visible = false; gsap.to(box, { autoAlpha:0, duration:.2 }); box.style.visibility = 'hidden'; } }, { passive:true });
-})();
 
 /* =========================================================
    NEWSLETTER — validation, envelope seal, then redirect to 404.html
